@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { BaseEntity } from '../../config/base.entity';
 import { ROLES } from '../../config/constants/roles';
-import { IUser } from '../../types/user.interface';
+import { IUser } from '../../types/interfaces/user.interface';
 import { Column, Entity, OneToMany } from 'typeorm';
 import { ProgressStacksEntity } from './progressStacks.entity';
 import { NOTIFICATIONFREQUENCY } from '../../config/constants/notification_frequency';
@@ -14,7 +14,7 @@ export class UsersEntity extends BaseEntity implements IUser {
   email: string;
   @Column({ nullable: false })
   password: string;
-  @Column({ nullable: true}) // cambie esto para poder hacer pruebas
+  @Column({ nullable: true }) // cambie esto para poder hacer pruebas
   tokenPass: string;
   @Column({ type: 'enum', enum: ROLES, default: ROLES.BASIC })
   role: ROLES;
