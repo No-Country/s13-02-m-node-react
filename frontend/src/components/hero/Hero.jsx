@@ -1,7 +1,7 @@
 "use client";
 import Logo from "@/components/logo/Logo";
 import { Button } from "@mui/material";
-import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
+//import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Subtitle from "./Subtitle";
@@ -18,13 +18,13 @@ const Hero = () => {
         <Logo />
         <Subtitle />
       </div>
-      <Button
+      {/* <Button
         variant="outlined"
         size={isDesktop ? "large" : "medium"}
         endIcon={<KeyboardArrowRightRoundedIcon />}
       >
         Comenzar Ahora
-      </Button>
+      </Button> */}
     </section>
   );
 };

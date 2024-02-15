@@ -18,6 +18,8 @@ const pageHome = () => {
   
     <h1>Home</h1>
     <CardHome />
+    <CardHome 
+    secondary={true} />
   </Container>
   </>
 }
