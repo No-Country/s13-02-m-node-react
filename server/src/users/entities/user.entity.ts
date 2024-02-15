@@ -14,7 +14,7 @@ export class UsersEntity extends BaseEntity implements IUser {
   email: string;
   @Column({ nullable: false })
   password: string;
-  @Column({ nullable: true}) // cambie esto para poder hacer pruebas
+  @Column({ nullable: true }) // cambie esto para poder hacer pruebas
   tokenPass: string;
   @Column({ type: 'enum', enum: ROLES, default: ROLES.BASIC })
   role: ROLES;
