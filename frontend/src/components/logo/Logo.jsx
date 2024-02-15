@@ -1,66 +1,68 @@
-"use client";
-import React from "react";
-import { useState, useEffect, useRef } from "react";
+'use client'
+import React from 'react'
+import { useState, useEffect, useRef } from 'react'
 
-const Logo = ({ size = "text-4xl  md:text-8xl" }) => {
-  const [displayedText, setDisplayedText] = useState("NEKODE");
-  const [hovered, setHovered] = useState(false);
+const Logo = (size) => {
+  const [displayedText, setDisplayedText] = useState('NEKODE')
+  const [hovered, setHovered] = useState(false)
 
   const handleMouseOver = () => {
-    setHovered(true);
-  };
+    setHovered(true)
+  }
 
   const handleMouseLeave = () => {
-    setHovered(false);
-    setDisplayedText("NEKODE");
-  };
+    setHovered(false)
+    setDisplayedText('NEKODE')
+  }
 
   useEffect(() => {
     if (hovered) {
-      const letters = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-      let iteration = 0;
+      const letters = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+      let iteration = 0
       const interval = setInterval(() => {
         const newText = displayedText
-          .split("")
+          .split('')
           .map((letter, index) => {
-            if (letter === " ") {
-              return " ";
+            if (letter === ' ') {
+              return ' '
             }
-            return letters[Math.floor(Math.random() * letters.length)];
+            return letters[Math.floor(Math.random() * letters.length)]
           })
-          .join("");
+          .join('')
 
-        setDisplayedText(newText);
+        setDisplayedText(newText)
 
         if (iteration >= displayedText.length) {
-          clearInterval(interval);
+          clearInterval(interval)
         }
 
-        iteration += 1 / 3;
-      }, 30);
+        iteration += 1 / 3
+      }, 30)
 
-      return () => clearInterval(interval);
+      return () => clearInterval(interval)
     }
-  }, [hovered, displayedText]);
+  }, [hovered, displayedText])
 
   return (
     <div
       onMouseOver={handleMouseOver}
       onMouseLeave={handleMouseLeave}
-      className="flex items-center justify-center gap-x-2.5 lg:gap-x-5 text-white"
+      className='flex items-center justify-center gap-x-2.5 lg:gap-x-5 text-white'
     >
-      {displayedText.split("").map((letter, index) => (
+      {displayedText.split('').map((letter, index) => (
         <div
           key={index}
-          className={`${size} p-2 pt-4 flex justify-center items-center border-gray-500 ${
-            letter === " " ? "none" : "border"
+          className={`${
+            size.size
+          } p-2 pt-4 flex justify-center items-center border-gray-500 ${
+            letter === ' ' ? 'none' : 'border'
           }`}
         >
-          {letter === " " ? (
+          {letter === ' ' ? (
             <span>&nbsp;</span>
           ) : (
             <span
-              className={`${hovered === true ? "text-gray-500" : "text-white"}`}
+              className={`${hovered === true ? 'text-gray-500' : 'text-white'}`}
             >
               {letter}
             </span>
@@ -68,7 +70,7 @@ const Logo = ({ size = "text-4xl  md:text-8xl" }) => {
         </div>
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default Logo;
+export default Logo
