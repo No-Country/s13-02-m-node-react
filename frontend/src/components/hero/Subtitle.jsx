@@ -4,7 +4,7 @@ const Subtitle = () => {
   return (
     <div className="flex items-center justify-center gap-2.5 md:gap-10">
       <svg
-        className="fill-blue-500 h-5 md:h-9"
+        className="fill-indigo-500 h-5 md:h-9"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 256 512"
       >
@@ -16,7 +16,7 @@ const Subtitle = () => {
       </h1>
 
       <svg
-        className="fill-blue-500 h-5 md:h-9"
+        className="fill-indigo-500 h-5 md:h-9"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 256 512"
       >
