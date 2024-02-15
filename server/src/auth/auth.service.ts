@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+
 import { Injectable } from '@nestjs/common';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { RegisterAuthDto } from './dto/register-auth.dto';

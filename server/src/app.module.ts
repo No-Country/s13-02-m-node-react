@@ -1,6 +1,5 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 
 import { ConfigModule } from '@nestjs/config';
 import { DataSourceConfig } from './config/data.source';
@@ -13,7 +12,7 @@ import { UsersModule } from './users/users.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: `.${process.env.NODE_ENV}.env`,
+      envFilePath: `.${process.env.NODE_ENV}`,
       isGlobal: true,
     }),
     TypeOrmModule.forRoot(DataSourceConfig),
@@ -22,7 +21,7 @@ import { UsersModule } from './users/users.module';
     ThemesModule,
     StacksModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
