@@ -1,6 +1,7 @@
+"use client";
 import React, { useState, useEffect } from "react";
 
-const Logo = ({ size }) => {
+const Logo = ({ size, space }) => {
   const text = "NEKODE";
   const [displayedText, setDisplayedText] = useState("");
   const [hovered, setHovered] = useState(false);
@@ -90,20 +91,20 @@ const Logo = ({ size }) => {
     <div
       onMouseOver={handleMouseOver}
       onMouseLeave={handleMouseLeave}
-      className="flex items-center justify-center gap-x-2.5 lg:gap-x-5 text-white"
+      className={`flex items-center justify-center text-white ${space}`}
     >
       {text.split("").map((border, index) => (
         <div
           key={index}
-          className={`p-5 w-7 h-8 flex justify-center items-center border-gray-500 ${
+          className={`flex justify-center items-center border-gray-500 ${
             border === " " ? "none" : "border"
           } ${size}`}
         >
           <span
             className={`${
               hovered === true
-                ? "animate-entry text-gray-500"
-                : "animate-entry text-white"
+                ? "transition ease-in-out text-gray-500"
+                : "transition ease-in-out text-white"
             }`}
           >
             {displayedText[index] || "\u00A0"}
