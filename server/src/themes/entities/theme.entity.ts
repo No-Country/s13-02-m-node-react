@@ -1,6 +1,6 @@
 import { BaseEntity } from '../../config/base.entity';
 import { StacksEntity } from '../../stacks/entities/stack.entity';
-import { ITheme } from '../../types/theme.interface';
+import { ITheme } from '../../types/interfaces/theme.interface';
 import { LEVELS } from '../../config/constants/levels';
 import { Column, Entity, ManyToOne } from 'typeorm';
 

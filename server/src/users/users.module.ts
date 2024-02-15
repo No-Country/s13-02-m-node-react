@@ -9,5 +9,6 @@ import { ProgressStacksEntity } from './entities/progressStacks.entity';
   imports: [TypeOrmModule.forFeature([UsersEntity, ProgressStacksEntity])],
   controllers: [UsersController],
   providers: [UsersService],
+  exports: [UsersService, TypeOrmModule],
 })
 export class UsersModule {}

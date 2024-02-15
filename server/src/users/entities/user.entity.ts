@@ -1,6 +1,6 @@
 import { BaseEntity } from '../../config/base.entity';
 import { ROLES } from '../../config/constants/roles';
-import { IUser } from '../../types/user.interface';
+import { IUser } from '../../types/interfaces/user.interface';
 import { Column, Entity, OneToMany } from 'typeorm';
 import { ProgressStacksEntity } from './progressStacks.entity';
 import { NOTIFICATIONFREQUENCY } from '../../config/constants/notification_frequency';
