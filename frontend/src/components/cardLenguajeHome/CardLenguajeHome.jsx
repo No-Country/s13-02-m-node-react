@@ -3,7 +3,7 @@ import { Card, CardContent, Typography } from '@mui/material';
 
 const CardLenguajeHome = () => {
   return (
-    <Card sx={{ maxWidth: 631, height: 146, backgroundColor: '#333333', color: 'white',borderRadius: ["19px"],
+    <Card sx={{ maxWidth: 500, height: 146, backgroundColor: '#333333', color: 'white',borderRadius: ["19px"],
     boxShadow: "0px 0px 8px 0px rgba( 31, 38, 135, 1 )", }}>
     <CardContent>
       <Typography variant="h5" component="h2" className='mb-1' >
