@@ -16,7 +16,7 @@ const Login = () => {
   }
   return (
     <section className='flex flex-col gap-5 items-center justify-center w-full h-screen'>
-      <h1>Iniciar sesión</h1>
+      <h1>Iniciar sesión.</h1>
       <form
         action=''
         onSubmit={loginHandler}
