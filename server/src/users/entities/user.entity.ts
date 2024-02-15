@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { BaseEntity } from '../../config/base.entity';
 import { ROLES } from '../../config/constants/roles';
 import { IUser } from '../../types/user.interface';
@@ -13,7 +14,7 @@ export class UsersEntity extends BaseEntity implements IUser {
   email: string;
   @Column({ nullable: false })
   password: string;
-  @Column()
+  @Column({ nullable: true}) // cambie esto para poder hacer pruebas
   tokenPass: string;
   @Column({ type: 'enum', enum: ROLES, default: ROLES.BASIC })
   role: ROLES;
