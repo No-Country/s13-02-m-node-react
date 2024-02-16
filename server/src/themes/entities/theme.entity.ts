@@ -12,6 +12,8 @@ export class ThemesEntity extends BaseEntity implements ITheme {
   level: LEVELS;
   @Column({ default: 100 })
   points: number;
+  @Column({ nullable: false })
+  order: string;
   @ManyToOne(() => StacksEntity, (stack) => stack.themes)
   stack: string;
 }
