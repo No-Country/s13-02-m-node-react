@@ -5,7 +5,7 @@ const pageHome = () => {
   return (
     <>
       <Hero />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };
