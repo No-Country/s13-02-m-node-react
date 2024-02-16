@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from "@mui/material/Button";
 
-const ButtonsEtapas = () => {
+const Roadmap = () => {
 
   const temas = ["Variables y Tipos de Datos", "Funciones y Alcance", "Estructuras de Control", "Manipulación del DOM", "Eventos", "AJAX y APIs", "Programación orientada a Objetos", "Trabajo con Arrays y Objetos","ES6+ y Sintaxis Moderna", "Frameworks y Bibliotecas","Eventos","Eventos","Eventos","Eventos"]
 
@@ -53,4 +53,4 @@ const ButtonsEtapas = () => {
 
 }
 
-export default ButtonsEtapas;
+export default Roadmap;
