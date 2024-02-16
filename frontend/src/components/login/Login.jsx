@@ -20,7 +20,10 @@ const Login = () => {
       onSubmit={loginHandler}
       className='flex flex-col gap-16 items-center justify-center w-full h-screen min-h-screen p-5  md:px-24 md:py-16 bg-rich-black-500 text-white'
     >
-      <Logo size='text-xl  md:text-xl' />
+      <Logo
+        size='w-[35px] h-[56px] p-5  text-xl md:text-xl'
+        space='space-x-2'
+      />
       <label className='p-5 md:p-10 border-1 border-picton-blue-800 rounded-md max-w-[552px] h-auto w-full shadow-shadowAuth'>
         <div className=' gap-5 flex flex-col min-h-[230px]'>
           <h1 className='text-3xl'>Sign in</h1>
