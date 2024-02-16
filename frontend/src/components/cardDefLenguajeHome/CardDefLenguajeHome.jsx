@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, Typography } from '@mui/material';
 
-const CardLenguajeHome = () => {
+const CardDefLenguajeHome = () => {
   return (
     <Card sx={{ maxWidth: 500, height: 146, backgroundColor: '#333333', color: 'white',borderRadius: ["19px"],
     boxShadow: "0px 0px 8px 0px rgba( 31, 38, 135, 1 )", }}>
@@ -17,4 +17,4 @@ const CardLenguajeHome = () => {
   );
 };
 
-export default CardLenguajeHome;
+export default CardDefLenguajeHome;
