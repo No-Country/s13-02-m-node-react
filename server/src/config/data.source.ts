@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
@@ -10,11 +12,12 @@ const configService = new ConfigService();
 console.log(__dirname);
 export const DataSourceConfig: DataSourceOptions = {
   type: 'postgres',
-  host: configService.get('POSTGRES_HOST'),
-  port: configService.get('POSTGERS_PORT'),
-  username: configService.get('POSTGRES_USER'),
-  password: configService.get('POSTGRES_PASSWORD'),
-  database: configService.get('POSTGRES_DB'),
+  url: configService.get('POSTGRES_URL'),
+  // host: configService.get('POSTGRES_HOST'),
+  // port: configService.get('POSTGERS_PORT'),
+  // username: configService.get('POSTGRES_USER'),
+  // password: configService.get('POSTGRES_PASSWORD'),
+  // database: configService.get('POSTGRES_DB'),
   entities: [__dirname + '../../**/*.entity{.ts,.js}'],
   migrations: ['./migrations/**/*{.ts,.js}'],
   migrationsRun: false,
