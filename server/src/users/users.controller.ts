@@ -17,6 +17,7 @@ import { PublicAccess } from 'src/auth/decorators/public.decorator';
 
 @ApiTags('users')
 @UseGuards(AuthGuard)
+@Controller() // preguntar no se usaba controller decorator 
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
