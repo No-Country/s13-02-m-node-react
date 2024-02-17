@@ -8,6 +8,8 @@ import { AuthModule } from './auth/auth.module';
 import { ThemesModule } from './themes/themes.module';
 import { StacksModule } from './stacks/stacks.module';
 import { UsersModule } from './users/users.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -21,7 +23,7 @@ import { UsersModule } from './users/users.module';
     ThemesModule,
     StacksModule,
   ],
-  controllers: [],
-  providers: [],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

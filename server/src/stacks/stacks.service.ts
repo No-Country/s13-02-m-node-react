@@ -1,15 +1,25 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateStackDto } from './dto/create-stack.dto';
 import { UpdateStackDto } from './dto/update-stack.dto';
+import { StacksEntity } from './entities/stack.entity';
+
+
 
 @Injectable()
 export class StacksService {
+  constructor(
+    @InjectRepository(StacksEntity)
+    private stackRepository: Repository<StacksEntity>,
+  ) {}
+
   create(createStackDto: CreateStackDto) {
     return 'This action adds a new stack';
   }
 
-  findAll() {
-    return `This action returns all stacks`;
+  async findAll() {
+    return await this.stackRepository.find();
   }
 
   findOne(id: number) {
