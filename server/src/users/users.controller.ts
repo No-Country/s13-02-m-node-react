@@ -6,12 +6,17 @@ import {
   Param,
   Delete,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ProgressStackDto } from './dto/progress-stack.dto';
+import { ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from 'src/auth/guards/auth.guards';
+import { PublicAccess } from 'src/auth/decorators/public.decorator';
 
-@Controller('users')
+@ApiTags('users')
+@UseGuards(AuthGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -21,13 +26,14 @@ export class UsersController {
   }
 
   @Get()
+  @PublicAccess()
   findAll() {
     return this.usersService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id);
+    return this.usersService.findUserById(id);
   }
 
   @Get(':userid/stack/all')

@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { UserDto } from './dto/user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
@@ -7,6 +6,8 @@ import { UsersEntity } from './entities/user.entity';
 import { ErrorManager } from '../utils/error.manager';
 import { ProgressStackDto } from './dto/progress-stack.dto';
 import { ProgressStacksEntity } from './entities/progressStacks.entity';
+import { RegisterAuthDto } from '../auth/dto/register-auth.dto';
+import { TSearchConditions } from '../types/types/searchConditions';
 
 @Injectable()
 export class UsersService {
@@ -17,11 +18,30 @@ export class UsersService {
     private readonly progressStacksEntity: Repository<ProgressStacksEntity>,
   ) {}
 
-  public async create(userDto: UserDto): Promise<UsersEntity> {
+  public async create(user: RegisterAuthDto): Promise<UsersEntity> {
     try {
-      return await this.userRepository.save(userDto);
+      const newUser: UsersEntity = await this.userRepository.save(user);
+      return newUser;
     } catch (error) {
-      throw new ErrorManager.createSignatureError(error.message);
+      throw ErrorManager.createSignatureError(error.message);
+    }
+  }
+
+  public async findUserBy(options: TSearchConditions) {
+    try {
+      const user: UsersEntity = await this.userRepository
+        .createQueryBuilder('user')
+        .addSelect('user.password')
+        .where({ [options.field]: options.value })
+        .getOne();
+
+      if (!user) {
+        return undefined;
+      }
+      return user;
+    } catch (error) {
+      console.log(error);
+      throw ErrorManager.createSignatureError(error.message);
     }
   }
 
@@ -40,11 +60,14 @@ export class UsersService {
     }
   }
 
-  public async findOne(id: string): Promise<UsersEntity> {
+  public async findUserById(id: string): Promise<UsersEntity> {
     try {
       const user: UsersEntity = await this.userRepository
         .createQueryBuilder('user')
         .where({ id })
+        .leftJoinAndSelect('user.stacks', 'stacks')
+        .leftJoinAndSelect('stacks.stack', 'stack')
+        .leftJoinAndSelect('stack.themes', 'themes')
         .getOne();
       if (!user) {
         throw new ErrorManager({
