@@ -1,14 +1,12 @@
-
 #SERVER
 PORT=3000
 
 #DB
-POSTGRES_DB=nokode
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=a\$1C
-POSTGRES_HOST=localhost
-POSTGERS_PORT=5432
+POSTGRES_URL="postgres://default:izs0n3TDXLPr@ep-old-cloud-a4lk8g7d-pooler.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require"
 
 #AUTH
-JWTAUTH_SECRET='mysecret'
-JWTAUTH_EXPIRESIN=24
+JWTAUTH_SECRET=
+JWTAUTH_EXPIRESIN=
+
+#OPENAI
+OPENAI_API_KEY=
