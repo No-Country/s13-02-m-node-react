@@ -89,7 +89,7 @@ Necesitas una key de google console para el servicio de mail con Nodemailer.
 
   - Instalar dependencias con ```npm i```
 
-  - Crear un archivo .env con las siguientes variables:
+  - Crear un archivo .development.env o .production.env con las siguientes variables:
 
   ```
 #SERVER
@@ -110,9 +110,13 @@ JWTAUTH_EXPIRESIN=
 OPENAI_API_KEY=
   ```
   
+  - Generar la migracion para la base de datos TypeOrm: npm run m:gen ./migrations/init
+  - 
+  - Correr la migración: npm run m:run
+  - 
   - Correr el servidor con ```npm run start:dev``` o ```npm start```
 
-  - La api correrá en el puesto especificado en el archivo .development.env
+  - La api correrá en el puerto especificado en el archivo .development.env o .production.env
 <br/>
 <br/>
 
@@ -136,39 +140,39 @@ Puedes encontrar nuestra API en el siguiente link: [https://link](link)
 
 ### Project Manager
 
-#### $\;\;\;\;\;\;$ Agregar - [Linkedin]() | [GitHub]()
+####  Agregar - [Linkedin]() | [GitHub]()
 
 ### UI-UX
 
-#### $\;\;\;\;\;\;$ Agregar - [Linkedin]() | [GitHub]()
+####  Agregar - [Linkedin]() | [GitHub]()
 
 ### Frontend
 
-#### $\;\;\;\;\;\;$ Agregar - [Linkedin]() | [GitHub]()
+####  Agregar - [Linkedin]() | [GitHub]()
 
-#### $\;\;\;\;\;\;$ Agregar - [Linkedin]() | [GitHub]()
+####  Agregar - [Linkedin]() | [GitHub]()
 
-#### $\;\;\;\;\;\;$ Agregar - [Linkedin]() | [GitHub]()
+####  Agregar - [Linkedin]() | [GitHub]()
 
-#### $\;\;\;\;\;\;$  Agregar - [Linkedin]() | [GitHub]()
+####   Agregar - [Linkedin]() | [GitHub]()
 
-#### $\;\;\;\;\;\;$ Agregar - [Linkedin]() | [GitHub]()
+####  Agregar - [Linkedin]() | [GitHub]()
 
 
 ### Backend
 
-#### $\;\;\;\;\;\;$ Maria Villen - [Linkedin](https://www.linkedin.com/in/maria-villen/) | [GitHub](https://github.com/MariaVillen)
+####  Maria Villen - [Linkedin](https://www.linkedin.com/in/maria-villen/) | [GitHub](https://github.com/MariaVillen)
 
-#### $\;\;\;\;\;\;$ Agregar - [Linkedin]() | [GitHub]()
+####  Agregar - [Linkedin]() | [GitHub]()
 
-#### $\;\;\;\;\;\;$ Agregar - [Linkedin]() | [GitHub]()
+####  Agregar - [Linkedin]() | [GitHub]()
 
-#### $\;\;\;\;\;\;$ Agregar - [Linkedin]() | [GitHub]()
+####  Agregar - [Linkedin]() | [GitHub]()
 
-#### $\;\;\;\;\;\;$ Agregar - [Linkedin]() | [GitHub]()
+####  Agregar - [Linkedin]() | [GitHub]()
 
 ###QA Tester
 
-#### $\;\;\;\;\;\;$ Agregar - [Linkedin]() | [GitHub]()
+####  Agregar - [Linkedin]() | [GitHub]()
 
-#### $\;\;\;\;\;\;$ Agregar - [Linkedin]() | [GitHub]()
+####  Agregar - [Linkedin]() | [GitHub]()

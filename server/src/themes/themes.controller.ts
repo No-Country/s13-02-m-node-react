@@ -11,10 +11,11 @@ import {
 import { ThemesService } from './themes.service';
 import { CreateThemeDto } from './dto/create-theme.dto';
 import { UpdateThemeDto } from './dto/update-theme.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/guards/auth.guards';
 import { PublicAccess } from 'src/auth/decorators/public.decorator';
 @ApiTags('themes')
+@ApiBearerAuth()
 @UseGuards(AuthGuard)
 @Controller('themes')
 export class ThemesController {
