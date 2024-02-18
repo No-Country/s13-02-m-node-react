@@ -6,11 +6,17 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { ThemesService } from './themes.service';
 import { CreateThemeDto } from './dto/create-theme.dto';
 import { UpdateThemeDto } from './dto/update-theme.dto';
-
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from 'src/auth/guards/auth.guards';
+import { PublicAccess } from 'src/auth/decorators/public.decorator';
+@ApiTags('themes')
+@ApiBearerAuth()
+@UseGuards(AuthGuard)
 @Controller('themes')
 export class ThemesController {
   constructor(private readonly themesService: ThemesService) {}
@@ -20,11 +26,13 @@ export class ThemesController {
     return this.themesService.create(createThemeDto);
   }
 
+  @PublicAccess()
   @Get()
   findAll() {
     return this.themesService.findAll();
   }
 
+  @PublicAccess()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.themesService.findOne(+id);

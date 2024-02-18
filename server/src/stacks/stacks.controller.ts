@@ -6,11 +6,18 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { StacksService } from './stacks.service';
 import { CreateStackDto } from './dto/create-stack.dto';
 import { UpdateStackDto } from './dto/update-stack.dto';
+import { PublicAccess } from '../auth/decorators/public.decorator';
+import { AuthGuard } from '../auth/guards/auth.guards';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('stacks')
+@ApiBearerAuth()
+@UseGuards(AuthGuard)
 @Controller('stacks')
 export class StacksController {
   constructor(private readonly stacksService: StacksService) {}
@@ -20,11 +27,13 @@ export class StacksController {
     return this.stacksService.create(createStackDto);
   }
 
+  @PublicAccess()
   @Get()
   findAll() {
     return this.stacksService.findAll();
   }
 
+  @PublicAccess()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.stacksService.findOne(+id);

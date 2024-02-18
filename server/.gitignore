@@ -2,10 +2,7 @@
 /dist
 /node_modules
 /build
-<<<<<<< HEAD
-=======
 /migrations
->>>>>>> 79c326d9141f676725c59827acd798e8a4864275
 
 # Logs
 logs
