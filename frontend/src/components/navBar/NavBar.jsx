@@ -5,7 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
-import AdbIcon from '@mui/icons-material/Adb';
+import Logo from '../logo/Logo';
 
 
 function NavBar() {
@@ -16,24 +16,7 @@ function NavBar() {
         <Toolbar disableGutters className='flex content-center place-content-arround'>
           
           {/* Logo - Agregar el logo original */}
-          <AdbIcon sx={{ display: { md: 'flex' }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: {md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            LOGO
-          </Typography>
+        <Logo />
 
              {/* AVATAR - agregar link a perfil*/}
           <IconButton  sx={{ p: 0 }} className='absolute inset-y-0 right-0 my-5'>
