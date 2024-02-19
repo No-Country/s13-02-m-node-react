@@ -6,9 +6,9 @@ import {
 } from '@nestjs/common';
 import { UsersService } from '../../users/users.service';
 import { Reflector } from '@nestjs/core';
-import { PUBLIC_KEY } from '../config/constants/key-decorators';
-import { IUseToken } from '../types/interfaces/auth.interface';
-import { useToken } from '../utils/useToken';
+import { PUBLIC_KEY } from '../../config/constants/key-decorators';
+import { IUseToken } from '../../types/interfaces/auth.interface';
+import { useToken } from '../../utils/useToken';
 import { Request } from 'express';
 
 @Injectable()
@@ -27,7 +27,13 @@ export class AuthGuard implements CanActivate {
     }
 
     const req = context.switchToHttp().getRequest<Request>();
-    const token = req.headers.authorization;
+    const authHeader = req.headers.authorization;
+    // If header not on right format
+    if (!authHeader?.startsWith('Bearer ')) {
+      throw new UnauthorizedException('No authotization header');
+    }
+    const token = authHeader.split(' ')[1];
+
     if (!token || Array.isArray(token)) {
       throw new UnauthorizedException('Invalid Token');
     }
