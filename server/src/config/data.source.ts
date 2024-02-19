@@ -8,7 +8,7 @@ ConfigModule.forRoot({
 });
 
 const configService = new ConfigService();
-
+// console.log(__dirname);
 export const DataSourceConfig: DataSourceOptions = {
   type: 'postgres',
   host: configService.get('POSTGRES_HOST'),
@@ -23,5 +23,6 @@ export const DataSourceConfig: DataSourceOptions = {
   logging: true,
   namingStrategy: new SnakeNamingStrategy(),
 };
+
 
 export const AppDS = new DataSource(DataSourceConfig);
