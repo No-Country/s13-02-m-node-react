@@ -16,10 +16,8 @@ export const DataSourceConfig: DataSourceOptions = {
   username: configService.get('POSTGRES_USER'),
   password: configService.get('POSTGRES_PASSWORD'),
   database: configService.get('POSTGRES_DB'),
-  entities: [__dirname + '../../**/*.entity{.ts,.js}'],
-  // migrations: ['./migrations/**/*{.ts,.js}'],
-  migrationsRun: false,
-  migrations: ['migrations/*.js'],
+  entities: ['dist/**/*.entity.js'],
+  synchronize: true,
   logging: true,
   namingStrategy: new SnakeNamingStrategy(),
 };
