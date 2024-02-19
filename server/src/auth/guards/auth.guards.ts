@@ -6,9 +6,9 @@ import {
 } from '@nestjs/common';
 import { UsersService } from '../../users/users.service';
 import { Reflector } from '@nestjs/core';
-import { PUBLIC_KEY } from '../config/constants/key-decorators';
-import { IUseToken } from '../types/interfaces/auth.interface';
-import { useToken } from '../utils/useToken';
+import { PUBLIC_KEY } from '../../config/constants/key-decorators';
+import { IUseToken } from '../../types/interfaces/auth.interface';
+import { useToken } from '../../utils/useToken';
 import { Request } from 'express';
 
 @Injectable()

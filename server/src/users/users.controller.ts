@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Controller,
   Get,
@@ -17,6 +18,7 @@ import { PublicAccess } from 'src/auth/decorators/public.decorator';
 
 @ApiTags('users')
 @UseGuards(AuthGuard)
+@Controller()
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
