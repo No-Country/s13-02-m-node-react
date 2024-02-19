@@ -7,6 +7,8 @@ import { AuthModule } from './auth/auth.module';
 import { ThemesModule } from './themes/themes.module';
 import { StacksModule } from './stacks/stacks.module';
 import { UsersModule } from './users/users.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 import { OpenaiService } from './openai/openai.service';
 import { OpenaiController } from './openai/openai.controller';
 
@@ -22,7 +24,7 @@ import { OpenaiController } from './openai/openai.controller';
     ThemesModule,
     StacksModule,
   ],
-  controllers: [OpenaiController],
-  providers: [OpenaiService],
+  controllers: [OpenaiController,AppController],
+  providers: [OpenaiService,AppService],
 })
 export class AppModule {}
