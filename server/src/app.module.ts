@@ -9,8 +9,7 @@ import { StacksModule } from './stacks/stacks.module';
 import { UsersModule } from './users/users.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { OpenaiService } from './openai/openai.service';
-import { OpenaiController } from './openai/openai.controller';
+import { OpenaiModule } from './openai/openai.module';
 
 @Module({
   imports: [
@@ -23,8 +22,9 @@ import { OpenaiController } from './openai/openai.controller';
     AuthModule,
     ThemesModule,
     StacksModule,
+    OpenaiModule,
   ],
-  controllers: [OpenaiController,AppController],
-  providers: [OpenaiService,AppService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
