@@ -12,12 +12,15 @@ import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ProgressStackDto } from './dto/progress-stack.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from 'src/auth/guards/auth.guards';
-import { PublicAccess } from 'src/auth/decorators/public.decorator';
+import { AuthGuard } from '../auth/guards/auth.guards';
+import { PublicAccess } from '../auth/decorators/public.decorator';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { ROLES } from 'src/config/constants/roles';
+import { Roles } from 'src/auth/decorators/roles.decorator';
 
 @ApiTags('users')
 @ApiBearerAuth()
-@UseGuards(AuthGuard)
+@UseGuards(AuthGuard, RolesGuard)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -61,6 +64,7 @@ export class UsersController {
     return this.usersService.update(id, updateUserDto);
   }
 
+  @Roles(ROLES.ADMIN)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(id);
