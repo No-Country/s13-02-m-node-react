@@ -28,7 +28,6 @@ export const CardHome = ({ secondary }) => {
         >
           <Grid
             item
-            spacing={2}
             sx={{
               display: 'flex',
               padding: '10px',
@@ -87,7 +86,6 @@ export const CardHome = ({ secondary }) => {
         >
           <Grid
             item
-            spacing={2}
             sx={{
               display: 'flex',
               padding: '10px',
@@ -101,7 +99,6 @@ export const CardHome = ({ secondary }) => {
           </Grid>
           <Grid
             item
-            spacing={2}
             gap={2}
             sx={{
               display: 'flex',

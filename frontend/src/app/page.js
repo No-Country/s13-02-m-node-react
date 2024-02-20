@@ -1,4 +1,5 @@
 import { CardHome } from '@/components/CardHome'
+import Languages from '@/components/buttons/Languages'
 import CardDefLenguajeHome from '@/components/cardDefLenguajeHome/CardDefLenguajeHome'
 import Footer from '@/components/footer/Footer'
 import NavBar from '@/components/navBar/NavBar'
@@ -21,6 +22,7 @@ export default function Home() {
             <CardHome secondary={true} />
           </aside>
           <section className='w-full flex flex-col items-center justify-around'>
+            {/* <Languages /> */}
             <CardDefLenguajeHome />
             <Roadmap />
           </section>
