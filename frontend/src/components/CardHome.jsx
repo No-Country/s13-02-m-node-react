@@ -8,31 +8,24 @@ import Typography from '@mui/material/Typography'
 
 export const CardHome = ({ secondary }) => {
   return (
-    <article className='hidden md:flex'>
+    <>
       {secondary ? (
         <Grid
           sx={{
             //card whit glassmorphism
-
             //  height: '350px',
             // width: '300px',
             backgroundColor: '#333333',
             borderRadius: '10px',
             margin: '10px',
-
             boxShadow: '0 8px 32px 0 rgba( 31, 38, 135, 0.37 )',
             backdropFilter: 'blur(4px)',
             WebkitBackdropFilter: 'blur(4px)',
             border: '1px solid rgba( 255, 255, 255, 0.18 )',
-
             borderRadius: '10px',
             position: 'sticky',
-            top: '350px',
-            
-    
-    
-    
-        }}
+            top: '350px'
+          }}
         >
           <Grid
             item
@@ -84,24 +77,15 @@ export const CardHome = ({ secondary }) => {
             backgroundColor: '#333333',
             borderRadius: '10px',
             margin: '10px',
-
             marginTop: '0px',
-
             boxShadow: '0 8px 32px 0 rgba( 31, 38, 135, 0.37 )',
             backdropFilter: 'blur(4px)',
             WebkitBackdropFilter: 'blur(4px)',
             border: '1px solid rgba( 255, 255, 255, 0.18 )',
-
             borderRadius: '10px',
             position: 'sticky',
-            top: "100px",
-         
-            
-    
-    
-    
-        }}
-
+            top: '100px'
+          }}
         >
           <Grid
             item
@@ -159,6 +143,6 @@ export const CardHome = ({ secondary }) => {
           </Grid>
         </Grid>
       )}
-    </article>
+    </>
   )
 }

@@ -27,7 +27,7 @@ const Languages = ({ onClick, data }) => {
   }, [selectedLanguage, onClick])
 
   return (
-    <div>
+    <div className='mb-3'>
       <Stack spacing={2} direction='row'>
         {data.map((res) => (
           <LanguageButton
