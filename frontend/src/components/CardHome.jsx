@@ -126,8 +126,8 @@ export const CardHome = ({secondary}) => {
     
             }}
             >
-                <h1>divison oro</h1>
-                <h1>Ver ligas</h1>
+                <h1>División Oro</h1>
+             
                 </Grid>
             <Grid item
             spacing={2}
@@ -144,35 +144,50 @@ export const CardHome = ({secondary}) => {
             >
             {/** importar imagen de public */}
     
-           <Image src={oro} alt="oro" width={50} height={50} />
+           <Image src={oro} alt="oro" width={80} height={80} />
     
-                <h1>Estás a 3 puestos de la zona de descenso.</h1>
+                <Typography
+                
+                sx={{
+                    color: 'white',
+                    fontSize: '14px',
+                    margin: '10px',
+                }}
+
+                >Estás a 3 puestos de la zona de descenso.</Typography>
                 </Grid>
                 <Grid item 
                 sx={{
                     display: 'flex',
-                    padding: '10px',
+                    
                     color: 'white',
                     justifyContent: 'center',
                   
-                    margin: '10px',
+                    margin: '0px',
                     
                 }}
                 >
                     <Button
                     variant='contained'
                     sx={{
+                        zIndex: '2',
+                        bottom: '5px',
                        
                         color: '#A87FFB',
                         borderRadius: '10px',
-                        padding: '5px',
-                        margin: '5px',
+                       
+                      
                       
                         fontSize: '10px',
+                        ":hover": {
+                            backgroundColor: 'white',
+                            color: '#A87FFB',
+                            borderRadius: '10px',
+                        }
                         
                     
                     }}
-                    >Jugar a las ligas</Button>
+                    >Ingresa a los rangos</Button>
                 </Grid>
     
     
