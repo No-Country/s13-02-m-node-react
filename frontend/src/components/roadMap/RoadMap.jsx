@@ -7,24 +7,25 @@ import image1 from "/public/amico.webp";
 import image2 from "/public/Group69.webp";
 import image3 from "/public/Group67.webp";
 import { useMediaQuery } from "@mui/material";
+import data from "@/utils/db/stackThemes"
 
 const Roadmap = () => {
-  const temas = [
-    "Variables y Tipos de Datos",
-    "Funciones y Alcance",
-    "Estructuras de Control",
-    "Manipulación del DOM",
-    "Eventos",
-    "AJAX y APIs",
-    "Programación orientada a Objetos",
-    "Trabajo con Arrays y Objetos",
-    "ES6+ y Sintaxis Moderna",
-    "Frameworks y Bibliotecas",
-    "Eventos",
-    "Eventos",
-    "Eventos",
-    "Eventos",
-  ];
+  // const temas = [
+  //   "Variables y Tipos de Datos",
+  //   "Funciones y Alcance",
+  //   "Estructuras de Control",
+  //   "Manipulación del DOM",
+  //   "Eventos",
+  //   "AJAX y APIs",
+  //   "Programación orientada a Objetos",
+  //   "Trabajo con Arrays y Objetos",
+  //   "ES6+ y Sintaxis Moderna",
+  //   "Frameworks y Bibliotecas",
+  //   "Eventos",
+  //   "Eventos",
+  //   "Eventos",
+  //   "Eventos",
+  // ];
 
   const getButtonMarginLeft = (index) => {
     if (index === 0) {
@@ -32,15 +33,17 @@ const Roadmap = () => {
     } else if (index < 5) {
       return `${index * 50 - 100}px`;
     } else if (index < 12) {
-      return `${(index - 6) * -50}px`;
+      return `${(index - 6) * -30}px`;
     } else if (index < 18) {
-      return `${(index - 12) * 50 - 100}px`;
+      return `${(index - 12) * 30 - 100}px`;
     } else {
-      return `${(index - 18) * 50}px`;
+      return `${(index - 18) * -30}px`;
     }
   };
 
   const isXsOrMd = useMediaQuery("(max-width:960px)");
+  const datajs=data.filter(item=>item.name==="Javascript") //prueba despues cambiar generico
+  const dataJavascript=datajs[0] //prueba despues cambiar generico
 
   return (
     <>
@@ -53,24 +56,24 @@ const Roadmap = () => {
             src={image1}
             width={400}
             height={400}
-            alt="Picture of the author"
-            // className="mt-[20%] hidden md:block"
+            alt="Principiante"
+            className=" mt-[220px] hidden md:block"
           />
           }
            {isXsOrMd? null:
              <Image
              src={image2}
              width={400}
-             height={400}
-             alt="Picture of the author"
-             className="mt-[50%] "
+            height={400}
+             alt="Avanzado"
+             className=" mt-[750px] pr-[50px] hidden md:block "
            />
           }
         
           
         </Container>
         <div className={`flex flex-col items-center justify-center `} >
-          {temas.map((tema, index) => {
+          {dataJavascript.themes.map((data, index) => {
             return (
               <Button
                 sx={{
@@ -97,7 +100,7 @@ const Roadmap = () => {
                 style={{  marginLeft: isXsOrMd ? "0px" : getButtonMarginLeft(index) }}
                 key={index}
               >
-                {tema}
+                {data.name + data.level  }
               </Button>
             );
           })}
@@ -108,8 +111,8 @@ const Roadmap = () => {
             src={image3}
             width={400}
             height={400}
-            alt="Picture of the author"
-            className="mt-[50%]"
+            alt="Intermedio"
+            className="mt-[660px] hidden md:block"
           />
           }
         

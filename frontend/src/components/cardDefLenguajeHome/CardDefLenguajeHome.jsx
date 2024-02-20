@@ -5,11 +5,12 @@ import { useMediaQuery } from "@mui/material";
 
 
 const CardDefLenguajeHome = () => {
-  const isXsOrMd = useMediaQuery("(max-width:960px)");
+
+  const isXsOrMd = useMediaQuery("(max-width:768px)");
 
   return (
     <Card
-      className="w-[%80] mb-4"
+      className=" mb-4 mx-10 w-auto"
       sx={{
         // width: 631,
         // height: 146,
@@ -17,6 +18,7 @@ const CardDefLenguajeHome = () => {
         color: "white",
         borderRadius: ["19px"],
         boxShadow: "0px 0px 8px 0px rgba( 31, 38, 135, 1 )",
+        textAlign: 'left'
       }}
     >
       <CardContent>
