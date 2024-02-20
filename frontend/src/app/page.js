@@ -35,7 +35,7 @@ export default function Home() {
           <section className={`w-full flex flex-col items-center justify-around mt-[100px]  ${isXsOrMd
              ? 'col-span-4' : 'col-span-3'} `}>
            <ProgressBar/>
-            <Languages/>
+            {/* <Languages/> */}
             <CardDefLenguajeHome />
             <Roadmap />
           </section>
