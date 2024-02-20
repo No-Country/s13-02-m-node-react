@@ -13,8 +13,9 @@ export const CardHome = ({ secondary }) => {
         <Grid
           sx={{
             //card whit glassmorphism
-            height: '300px',
-            width: '300px',
+
+            //  height: '350px',
+            // width: '300px',
             backgroundColor: '#333333',
             borderRadius: '10px',
             margin: '10px',
@@ -23,8 +24,15 @@ export const CardHome = ({ secondary }) => {
             backdropFilter: 'blur(4px)',
             WebkitBackdropFilter: 'blur(4px)',
             border: '1px solid rgba( 255, 255, 255, 0.18 )',
-            borderRadius: '10px'
-          }}
+
+            borderRadius: '10px',
+            position: 'sticky',
+            top: '350px',
+            
+    
+    
+    
+        }}
         >
           <Grid
             item
@@ -72,18 +80,29 @@ export const CardHome = ({ secondary }) => {
         <Grid
           sx={{
             //card whit glassmorphism
-            height: '180px',
-            width: '300px',
+            // height: '180px',
+            // width: '300px',
             backgroundColor: '#333333',
             borderRadius: '10px',
             margin: '10px',
+
+            marginTop: '0px',
 
             boxShadow: '0 8px 32px 0 rgba( 31, 38, 135, 0.37 )',
             backdropFilter: 'blur(4px)',
             WebkitBackdropFilter: 'blur(4px)',
             border: '1px solid rgba( 255, 255, 255, 0.18 )',
-            borderRadius: '10px'
-          }}
+
+            borderRadius: '10px',
+            position: 'sticky',
+            top: "100px",
+         
+            
+    
+    
+    
+        }}
+
         >
           <Grid
             item
