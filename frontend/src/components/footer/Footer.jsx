@@ -5,17 +5,20 @@ import Logo from "../logo/Logo";
 
 const Footer = () => {
   return (
-    <footer className="w-full bg-rich-black-500 text-white px-5 py-10 md:px-20 md:py-5 flex flex-col md:flex-row items-center justify-between gap-5">
-      <div className="w-full flex flex-col md:flex-row items-center gap-5">
-        <Pet className="w-20 md:w-14" />
-        <Logo size="text-2xl w-8 h-9 p-2" space="space-x-2" />
+    <footer className="w-full bg-rich-black-500 text-white sm:px-10 py-10 md:px-20 md:py-5 flex items-center justify-between gap-1 sm:gap-5">
+      <div className="lg:w-full flex flex-col md:flex-row items-center lg:gap-5">
+        <Pet className="w-6 sm:w-14" />
+        <div className="hidden lg:block">
+          <Logo size="text-2xl w-8 h-9 p-2" space="space-x-2" />
+        </div>
       </div>
-      <div className="w-full flex items-center justify-center font-light text-sm">
-        <CopyrightRoundedIcon className="text-lg mr-1" />
-        <p>Todos los derechos reservados</p>
+      <div className="w-full flex items-center justify-center font-light text-[9px] sm:text-xs md:text-sm">
+        <CopyrightRoundedIcon className="text-xs sm:text-sm md:text-lg mr-1" />
+        <p className="whitespace-nowrap">Todos los derechos reservados</p>
       </div>
-      <div className="w-full text-center md:text-end font-light text-sm">
-        <p>No country-s12-02-m-node-react</p>
+      <span className="lg:hidden text-xs sm:text-base">/</span>
+      <div className="w-full text-center md:text-end font-light text-[9px] sm:text-xs md:text-sm">
+        <p className="whitespace-nowrap">No country-s12-02-m-node-react</p>
       </div>
     </footer>
   );
