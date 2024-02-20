@@ -14,10 +14,19 @@ export class StacksService {
     private stackRepository: Repository<StacksEntity>,
   ) {}
 
-  create(createStackDto: CreateStackDto) {
-    return 'This action adds a new stack';
-  }
+   async create(createStackDto: CreateStackDto) {
+    createStackDto.name = createStackDto.name.toLocaleLowerCase();
 
+  try {
+    const stack = this.stackRepository.create(createStackDto);
+    await this.stackRepository.save(stack);
+    return stack;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Error creating stack');
+  }
+  }
+  
   async findAll() {
     return await this.stackRepository.find();
   }
