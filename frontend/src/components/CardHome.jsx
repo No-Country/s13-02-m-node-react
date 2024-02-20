@@ -111,57 +111,6 @@ export const CardHome = ({ secondary }) => {
             }}
           >
             {/** importar imagen de public */}
-<<<<<<< HEAD
-    
-           <Image src={oro} alt="oro" width={80} height={80} />
-    
-                <Typography
-                
-                sx={{
-                    color: 'white',
-                    fontSize: '14px',
-                    margin: '10px',
-                }}
-
-                >Estás a 3 puestos de la zona de descenso.</Typography>
-                </Grid>
-                <Grid item 
-                sx={{
-                    display: 'flex',
-                    
-                    color: 'white',
-                    justifyContent: 'center',
-                  
-                    margin: '0px',
-                    
-                }}
-                >
-                    <Button
-                    variant='contained'
-                    sx={{
-                        zIndex: '2',
-                        bottom: '5px',
-                       
-                        color: '#A87FFB',
-                        borderRadius: '10px',
-                       
-                      
-                      
-                        fontSize: '10px',
-                        ":hover": {
-                            backgroundColor: 'white',
-                            color: '#A87FFB',
-                            borderRadius: '10px',
-                        }
-                        
-                    
-                    }}
-                    >Ingresa a los rangos</Button>
-                </Grid>
-    
-    
-    
-=======
 
             <Image src={oro} alt='oro' width={50} height={50} />
 
@@ -192,7 +141,6 @@ export const CardHome = ({ secondary }) => {
               Jugar a las ligas
             </Button>
           </Grid>
->>>>>>> origin/dev-front
         </Grid>
       )}
     </article>
