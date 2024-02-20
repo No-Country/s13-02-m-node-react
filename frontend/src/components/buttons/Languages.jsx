@@ -1,8 +1,18 @@
+<<<<<<< HEAD
 'use client'
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { Button, styled } from '@mui/material'
 import Stack from '@mui/material/Stack'
+=======
+"use client";
+import React from "react";
+import { useState, useEffect } from "react";
+import { Button, styled } from "@mui/material";
+import Stack from "@mui/material/Stack";
+import { useMediaQuery } from "@mui/material";
+
+>>>>>>> 6ab444741a8d5af8ac86e8efba5ac0cf04245451
 
 const LanguageButton = styled(Button)({
   color: '#ffffff',

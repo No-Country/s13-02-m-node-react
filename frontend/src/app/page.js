@@ -1,11 +1,19 @@
+"use client"
 import { CardHome } from '@/components/CardHome'
 import Languages from '@/components/buttons/Languages'
 import CardDefLenguajeHome from '@/components/cardDefLenguajeHome/CardDefLenguajeHome'
 import Footer from '@/components/footer/Footer'
+import HeartCounter from '@/components/lives-counter/HeartCounter'
 import NavBar from '@/components/navBar/NavBar'
+import ProgressBar from '@/components/progressBar/ProgressBar'
 import Roadmap from '@/components/roadMap/RoadMap'
 import { Container } from '@mui/material'
+import { useMediaQuery } from "@mui/material";
+
+
+
 export default function Home() {
+  const isXsOrMd = useMediaQuery("(max-width:768px)");
   return (
     <>
       <Container
@@ -15,19 +23,33 @@ export default function Home() {
         }}
         className='flex flex-col justify-between'
       >
-        <NavBar />
+
+        {/* <NavBar /> */}
         <main className='flex'>
-          <aside>
+          <aside className={`hidden md:block`}>
             <CardHome />
             <CardHome secondary={true} />
           </aside>
+<<<<<<< HEAD
           <section className='w-full flex flex-col items-center justify-around'>
             {/* <Languages /> */}
+=======
+          <Container className='grid grid-cols-4'>
+
+          <section className={`w-full flex flex-col items-center justify-around mt-[100px]  ${isXsOrMd
+             ? 'col-span-4' : 'col-span-3'} `}>
+           <ProgressBar/>
+            <Languages/>
+>>>>>>> 6ab444741a8d5af8ac86e8efba5ac0cf04245451
             <CardDefLenguajeHome />
             <Roadmap />
           </section>
+          <section className={`hidden md:block`}>
+            <HeartCounter lives={2}/>
+          </section>
+          </Container>
         </main>
-        <Footer />
+        {/* <Footer /> */}
       </Container>
     </>
   )

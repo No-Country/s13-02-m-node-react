@@ -1,9 +1,15 @@
+
 import React from 'react'
 import { Card, CardContent, Typography } from '@mui/material'
 
+
 const CardDefLenguajeHome = () => {
+
+  const isXsOrMd = useMediaQuery("(max-width:768px)");
+
   return (
     <Card
+
       sx={{
         maxWidth: 500,
         height: 146,
@@ -24,7 +30,9 @@ const CardDefLenguajeHome = () => {
         </Typography>
       </CardContent>
     </Card>
+
   )
 }
 
 export default CardDefLenguajeHome
+
