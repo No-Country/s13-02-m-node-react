@@ -1,3 +1,4 @@
+
 "use client"
 import React from "react";
 import Button from "@mui/material/Button";
@@ -38,6 +39,7 @@ const Roadmap = () => {
       return `${(index - 12) * 30 - 100}px`;
     } else {
       return `${(index - 18) * -30}px`;
+
     }
   };
 

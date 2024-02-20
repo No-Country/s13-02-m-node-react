@@ -28,7 +28,9 @@ function NavBar() {
   }
 
   return (
+
     <AppBar position='fixed' className='flex bg-[#10151D]'>
+
       <Container maxWidth='xl' className='bg-[#10151D] h-20'>
         <Toolbar
           disableGutters
@@ -74,4 +76,6 @@ function NavBar() {
   )
 }
 
+
 export default NavBar
+

@@ -11,6 +11,7 @@ import { Container } from '@mui/material'
 import { useMediaQuery } from "@mui/material";
 
 
+
 export default function Home() {
   const isXsOrMd = useMediaQuery("(max-width:768px)");
   return (
@@ -22,6 +23,7 @@ export default function Home() {
         }}
         className='flex flex-col justify-between'
       >
+
         {/* <NavBar /> */}
         <main className='flex'>
           <aside className={`hidden md:block`}>
