@@ -11,11 +11,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { OpenaiModule } from './openai/openai.module';
 
-
+console.log(process.env.NODE_ENV)
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: `.${process.env.NODE_ENV}`,
+      envFilePath: `${process.env.NODE_ENV}`,
       isGlobal: true,
       
     }),
