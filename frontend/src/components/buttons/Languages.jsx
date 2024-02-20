@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { useState, useEffect } from "react";
 import { Button, styled } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { useMediaQuery } from "@mui/material";
@@ -14,20 +15,35 @@ const LanguageButton = styled(Button)({
   },
 });
 
+const Languages = ({ onClick, data }) => {
+  const [selectedLanguage, setSelectedLanguage] = useState(
+    Object.keys(data)[0]
+  );
 
+  const handleButtonClick = (language) => {
+    setSelectedLanguage(language);
+    onClick(language);
+  };
 
-const Languages = () => {
-  const isXsOrMd = useMediaQuery("(max-width:960px)");
+  useEffect(() => {
+    onClick(selectedLanguage);
+  }, [selectedLanguage, onClick]);
+
   return (
     <div>
-      <Stack spacing={1} direction="row"  justifyContent="center" className="my-6 mx-2 px-2" 
-      
-      >
-        <LanguageButton sx={{ fontSize: isXsOrMd? "10px": "x16px", textTransform: "none"}} variant="outlined">Css</LanguageButton>
-        <LanguageButton sx={{ fontSize: isXsOrMd? "10px": "x16px", textTransform: "none"}} variant="outlined">JavaScript</LanguageButton>
-        <LanguageButton sx={{ fontSize: isXsOrMd? "10px": "x16px", textTransform: "none"}} variant="outlined">Html</LanguageButton>
-        <LanguageButton sx={{ fontSize: isXsOrMd? "10px": "x16px", textTransform: "none"}} variant="outlined">React</LanguageButton>
-        <LanguageButton sx={{ fontSize: isXsOrMd? "10px": "x16px", textTransform: "none"}} variant="outlined">Node</LanguageButton>
+      <Stack spacing={2} direction="row">
+        {Object.keys(data).map((language, index) => (
+          <LanguageButton
+            key={index}
+            variant="outlined"
+            onClick={() => handleButtonClick(language)}
+            style={{
+              backgroundColor: selectedLanguage === language ? "#d946ef" : "",
+            }}
+          >
+            {language}
+          </LanguageButton>
+        ))}
       </Stack>
     </div>
   );
