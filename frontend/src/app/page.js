@@ -38,7 +38,7 @@ export default function Home() {
             <Roadmap />
           </section>
           <section className={`hidden md:block`}>
-            <HeartCounter/>
+            <HeartCounter lives={2}/>
           </section>
           </Container>
         </main>
