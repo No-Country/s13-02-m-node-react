@@ -1,18 +1,9 @@
-<<<<<<< HEAD
 'use client'
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { Button, styled } from '@mui/material'
 import Stack from '@mui/material/Stack'
-=======
-"use client";
-import React from "react";
-import { useState, useEffect } from "react";
-import { Button, styled } from "@mui/material";
-import Stack from "@mui/material/Stack";
-import { useMediaQuery } from "@mui/material";
-
->>>>>>> 6ab444741a8d5af8ac86e8efba5ac0cf04245451
+import { useMediaQuery } from '@mui/material'
 
 const LanguageButton = styled(Button)({
   color: '#ffffff',
@@ -24,30 +15,30 @@ const LanguageButton = styled(Button)({
 })
 
 const Languages = ({ onClick, data }) => {
-  const [selectedLanguage, setSelectedLanguage] = useState(Object.keys(data)[0])
+  const [selectedLanguage, setSelectedLanguage] = useState(Object.keys(data))
 
   const handleButtonClick = (language) => {
     setSelectedLanguage(language)
-    onClick(language)
+    // onClick(language)
   }
 
   useEffect(() => {
-    onClick(selectedLanguage)
+    // onClick(selectedLanguage)
   }, [selectedLanguage, onClick])
 
   return (
     <div>
       <Stack spacing={2} direction='row'>
-        {Object.keys(data).map((language, index) => (
+        {data.map((res) => (
           <LanguageButton
-            key={index}
+            key={res.name}
             variant='outlined'
-            onClick={() => handleButtonClick(language)}
+            onClick={() => handleButtonClick(res.name)}
             style={{
-              backgroundColor: selectedLanguage === language ? '#d946ef' : ''
+              backgroundColor: selectedLanguage === res.name ? '#d946ef' : ''
             }}
           >
-            {language}
+            {res.name}
           </LanguageButton>
         ))}
       </Stack>
