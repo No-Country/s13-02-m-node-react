@@ -17,7 +17,7 @@ const AnimatedHeart = styled(FavoriteRoundedIcon)`
   animation: ${pingAnimation} 1s cubic-bezier(0, 0, 0.2, 1);
 `
 
-const HeartCounter = ({ lives }) => {
+const HeartCounter = ({ lives, position }) => {
   const [currentHeartIndex, setCurrentHeartIndex] = useState(0)
 
   useEffect(() => {
@@ -75,7 +75,7 @@ const HeartCounter = ({ lives }) => {
     }
   }
 
-  return <div className='flex space-x-2 fixed'>{heartIcons}</div>
+  return <div className={`flex space-x-2 ${position}`}>{heartIcons}</div>
 }
 
 export default HeartCounter
