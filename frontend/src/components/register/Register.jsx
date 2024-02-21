@@ -10,9 +10,7 @@ const Register = () => {
     e.preventDefault()
     const userData = Object.fromEntries(new FormData(e.currentTarget))
     console.log(userData)
-    userData.userEmail && userData.userPassword
-      ? registerPost(userData, router)
-      : {}
+    userData.email && userData.password ? registerPost(userData, router) : {}
   }
   return (
     <form
@@ -32,11 +30,22 @@ const Register = () => {
               Iniciar sesión
             </Link>
           </small>
+
           <label className='flex flex-col gap-5 items-center w-full '>
             <label htmlFor='userEmail' className='flex flex-col  w-full'>
               <input
+                type='text'
+                name='username'
+                placeholder='User Name'
+                id=''
+                className='border-2 border-black bg-black h-[56px] pl-5 outline-none'
+                required
+              />
+            </label>
+            <label htmlFor='userEmail' className='flex flex-col  w-full'>
+              <input
                 type='email'
-                name='userEmail'
+                name='email'
                 placeholder='Email'
                 id=''
                 className='border-2 border-black bg-black h-[56px] pl-5 outline-none'
@@ -46,7 +55,7 @@ const Register = () => {
             <label htmlFor='userPassword' className='flex flex-col w-full'>
               <input
                 type='password'
-                name='userPassword'
+                name='password'
                 placeholder='Contraseña'
                 id=''
                 className='border-2 border-black bg-black h-[56px] pl-5 outline-none'
