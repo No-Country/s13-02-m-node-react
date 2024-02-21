@@ -18,7 +18,7 @@ export const CardHome = ({ secondary }) => {
           sx={{
             //card whit glassmorphism
            
-         width: '300px',
+            width: '300px',
             backgroundColor: '#333333',
             borderRadius: '10px',
             margin: '10px',
@@ -27,7 +27,8 @@ export const CardHome = ({ secondary }) => {
             WebkitBackdropFilter: 'blur(4px)',
             border: '1px solid rgba( 255, 255, 255, 0.18 )',
             borderRadius: '10px',
-            top: '250px'
+            position: 'sticky',
+            top: '290px',
           }}
         >
           <Grid
@@ -48,7 +49,7 @@ export const CardHome = ({ secondary }) => {
             sx={{
               display: 'flex',
 
-              padding: '10px',
+              paddingX: '10px',
               marginLeft: '10px',
               color: 'white'
             }}
@@ -59,7 +60,7 @@ export const CardHome = ({ secondary }) => {
             <Grid
               item
               sx={{
-                padding: '10px',
+                paddingX: '10px',
                 color: 'white',
                 justifyContent: 'center',
 
@@ -80,7 +81,7 @@ export const CardHome = ({ secondary }) => {
             sx={{
               display: 'flex',
 
-              padding: '10px',
+              paddingX: '10px',
               marginLeft: '10px',
               color: 'white'
             }}
@@ -91,7 +92,7 @@ export const CardHome = ({ secondary }) => {
             <Grid
               item
               sx={{
-                padding: '10px',
+                paddingX: '10px',
                 color: 'white',
                 justifyContent: 'center',
 
@@ -112,7 +113,7 @@ export const CardHome = ({ secondary }) => {
             sx={{
               display: 'flex',
 
-              padding: '10px',
+              paddingX: '10px',
               marginLeft: '10px',
               color: 'white'
             }}
@@ -123,7 +124,7 @@ export const CardHome = ({ secondary }) => {
             <Grid
               item
               sx={{
-                padding: '10px',
+                paddingX: '10px',
                 color: 'white',
                 justifyContent: 'center',
 
@@ -156,7 +157,7 @@ export const CardHome = ({ secondary }) => {
             WebkitBackdropFilter: 'blur(4px)',
             border: '1px solid rgba( 255, 255, 255, 0.18 )',
             borderRadius: '10px',
-          
+            position: 'sticky',
             top: '100px'
           }}
         >
@@ -216,6 +217,7 @@ export const CardHome = ({ secondary }) => {
           </Grid>
         </Grid>
       )}
+
     </>
   )
 }
