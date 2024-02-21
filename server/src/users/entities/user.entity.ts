@@ -5,6 +5,7 @@ import { IUser } from '../../types/interfaces/user.interface';
 import { Column, Entity, OneToMany } from 'typeorm';
 import { ProgressStacksEntity } from './progressStacks.entity';
 import { NOTIFICATIONFREQUENCY } from '../../config/constants/notification_frequency';
+import { Exclude } from 'class-transformer';
 
 @Entity({ name: 'users' })
 export class UsersEntity extends BaseEntity implements IUser {
@@ -12,9 +13,11 @@ export class UsersEntity extends BaseEntity implements IUser {
   username: string;
   @Column({ unique: true, nullable: false })
   email: string;
+  @Exclude()
   @Column({ nullable: false })
   password: string;
   @Column({ nullable: true }) // cambie esto para poder hacer pruebas
+  @Exclude()
   tokenPass: string;
   @Column({ type: 'enum', enum: ROLES, default: ROLES.BASIC })
   role: ROLES;
