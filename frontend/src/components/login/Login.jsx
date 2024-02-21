@@ -10,10 +10,7 @@ const Login = () => {
   const loginHandler = (e) => {
     e.preventDefault()
     const userData = Object.fromEntries(new FormData(e.currentTarget))
-    console.log(userData)
-    userData.userEmail && userData.userPassword
-      ? loginPost(userData, router)
-      : {}
+    userData.email && userData.password ? loginPost(userData, router) : {}
   }
   return (
     <form
@@ -37,19 +34,19 @@ const Login = () => {
             <label htmlFor='userEmail' className='flex flex-col  w-full'>
               <input
                 type='email'
-                name='userEmail'
+                name='email'
                 placeholder='Email'
-                id=''
+                id='userEmail'
                 className='border-2 border-black bg-black h-[56px] pl-5 outline-none'
                 required
               />
             </label>
-            <label htmlFor='userPassword' className='flex flex-col w-full'>
+            <label htmlFor='password' className='flex flex-col w-full'>
               <input
                 type='password'
-                name='userPassword'
+                name='password'
                 placeholder='Contraseña'
-                id=''
+                id='password'
                 className='border-2 border-black bg-black h-[56px] pl-5 outline-none'
                 required
               />
@@ -65,5 +62,4 @@ const Login = () => {
     </form>
   )
 }
-
 export default Login
