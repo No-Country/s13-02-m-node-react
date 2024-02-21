@@ -29,7 +29,7 @@ const Challenges = () => {
       <section className='w-full mt-10'>
         <form className='flex flex-col gap-5 w-full items-center'>
           <textarea
-            className='max-w-[1224px] min-h-[270px] w-full bg-jet-500 rounded-md text-white p-10 resize-none outline-none'
+            className='max-w-[1224px] min-h-[270px] w-full bg-jet-500 rounded-md text-white px-10 py-4 resize-none outline-none'
             defaultValue={
               'Ejercicio lógico de JavaScript: Calcular el promedio de dos números Escribe un programa en JavaScript que pida al usuario dos números y luego calcule e imprima el promedio de esos dos números.'
             }
@@ -37,7 +37,7 @@ const Challenges = () => {
           />
           <textarea
             placeholder='Escribe aquí tu respuesta'
-            className='max-w-[1224px] min-h-[170px] w-full bg-jet-500 rounded-md text-white p-10 resize-none focus:outline-none focus:ring focus:border-picton-blue-700'
+            className='max-w-[1224px] min-h-[170px] w-full bg-jet-500 rounded-md text-white px-10 py-4 resize-none focus:outline-none focus:ring focus:border-picton-blue-700'
           />
           <input
             type='submit'
