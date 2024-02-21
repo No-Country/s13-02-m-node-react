@@ -35,7 +35,7 @@ export class OpenaiService {
       if (!query.id_thread) {
         thread = await this.openai.beta.threads.create();
         await this.userRepository.update(query.id_user, {
-          identifierIA: thread.id,
+          identifier_ia: thread.id,
         });
       }
 
