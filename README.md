@@ -144,7 +144,7 @@ Puedes encontrar nuestra API en el siguiente link: [https://link](link)
 
 ### Frontend
 
-#### $\;\;\;\;\;\;$ Agregar - [Linkedin]() | [GitHub]()
+#### $\;\;\;\;\;\;$ Cristian Vásquez - [Linkedin](https://www.linkedin.com/in/cristianvasquezc/) | [GitHub](https://github.com/cristianvasquezc)
 
 #### $\;\;\;\;\;\;$ Agregar - [Linkedin]() | [GitHub]()
 
