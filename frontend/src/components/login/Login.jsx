@@ -4,16 +4,18 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import Logo from '../logo/Logo'
-
+const pass = 'nekode'
+const email = 'nekode@nekode.com'
 const Login = () => {
   const router = useRouter()
   const loginHandler = (e) => {
     e.preventDefault()
     const userData = Object.fromEntries(new FormData(e.currentTarget))
-    console.log(userData)
-    userData.userEmail && userData.userPassword
-      ? loginPost(userData, router)
-      : {}
+    console.log(pass)
+    userData.userEmail === email && userData.userPassword === pass
+      ? router.push('/')
+      : // loginPost(userData, router)
+        {}
   }
   return (
     <form
@@ -65,5 +67,4 @@ const Login = () => {
     </form>
   )
 }
-
 export default Login

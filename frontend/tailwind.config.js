@@ -70,7 +70,8 @@ module.exports = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))'
       },
       boxShadow: {
-        shadowAuth: ' 2px 2px 5px #0f425d'
+        shadowAuth: ' 2px 2px 5px #0f425d',
+        shadowProgressBar: ' 0px 0px 5px #1976d2'
       }
     }
   },
