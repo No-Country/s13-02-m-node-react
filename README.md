@@ -5,23 +5,29 @@
 
 
 ## PROJECT MANAGER 
-| <img  src="" width=50> |
+| <img  src="https://i.imgur.com/XQz5wqd.jpg" width=70> |
 |:-:|
 | **Raquel Sánchez** |
-| <a href=""><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a> <a href=""><img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a> |
+| <a href=""><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a> <a href=""><img src="https://img.shields.io/badge/LinkedIn-0A66C2.svg?style=for-the-badge&logo=LinkedIn&logoColor=white"/></a> |
 
 ### Tabajó con: 🛠️⚙
 ![Slack](https://img.shields.io/badge/Slack-4A154B.svg?style=for-the-badge&logo=Slack&logoColor=white)
 ![Discord](https://img.shields.io/badge/Discord-5865F2.svg?style=for-the-badge&logo=Discord&logoColor=white)
 ![Trello](https://img.shields.io/badge/Trello-0052CC.svg?style=for-the-badge&logo=Trello&logoColor=white)
+![Google](https://img.shields.io/badge/Google%20Docs-4285F4.svg?style=for-the-badge&logo=Google-Docs&logoColor=white)
+![Google](https://img.shields.io/badge/Google%20Calendar-4285F4.svg?style=for-the-badge&logo=Google-Calendar&logoColor=white)
+![Google](https://img.shields.io/badge/Google%20Meet-00897B.svg?style=for-the-badge&logo=Google-Meet&logoColor=white)
+
+
+
 
 
 ### Documentacion
 
-<br><br>
+<hr>
 
 ## UI-UX DESIGN
-| <img  src="" width=50> |
+| <img  src="https://i.imgur.com/g4FXShv.png" width=70> |
 |:-:|
 | **Sofía Dolcemáscolo** |
 | <a href=""><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a> <a href=""><img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a> |
@@ -32,23 +38,24 @@
 ### Documentacion
 ### Prototipo
 
-<br><br>
+<hr>
+
 ## QA Tester
-| <img  src="" width=50> |<img  src="" width=50> |
+| <img  src="https://i.imgur.com/o4QhzO8.jpg" width=70> |<img  src="https://i.imgur.com/DA0v86M.jpg" width=70> |
 |:-:|:-:|
-| **1** |**2** |
+| **Arelys Acevedo** |**Ruth Sánchez** |
 | <a href="1"><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a> <a href="1"><img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a> | <a href="2"><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a> <a href="2"><img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a> |
 
 ### Desarrollada con: 🛠️
 ### Documentacion
 
-<br><br>
+<hr>
 
 
 ## FRONTEND
-| <img src="" width=50> | <img src="" width=50> | <img src="" width=50> |<img src="" width=50> | <img src="" width=50> | 
+| <img src="https://i.imgur.com/Zugll9X.jpg" width=70> | <img src="https://i.imgur.com/GkROevX.jpg" width=70> | <img src="https://i.imgur.com/nkoku4o.png" width=70> |<img src="https://i.imgur.com/J9fHHwv.jpg" width=70> | <img src="https://i.imgur.com/xzHOBdA.jpg" width=70> | 
 |:-:|:-:|:-:|:-:|:-:|
-| **1** | **2** | **3** | **4** | **5** | 
+| **Cristian Vásquez** | **Joaquin Pedraza** | **Martina Lanzi** | **Snowing Torres** | **Vicky Gonzalez** | 
 | <a href="1"><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a> <a href="1"><img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a> | <a href="2"><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a> <a href="2"><img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a> | <a href="3"><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a> <a href="3"><img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a> | <a href="4"><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a> <a href="4"><img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a> | <a href="5"><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a> <a href="5"><img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a> |
 ### Desarrollada con: 🛠️
 ![Vercel](https://img.shields.io/badge/Vercel-000000.svg?style=for-the-badge&logo=Vercel&logoColor=white)
@@ -58,8 +65,6 @@
 ![Material UI](https://img.shields.io/badge/Material%20Design-757575.svg?style=for-the-badge&logo=Material-Design&logoColor=white)
 
 
-
-![]()
 ### Requerimientos 
 
 ### Documentacion
@@ -69,15 +74,16 @@
 
 
 ### Deploy 📋
+Puedes encontrar nuestra API en el siguiente link: [https://link](https://s13-02-m-node-react.vercel.app)
 
+![]()
 
-
-<br><br>
+<hr>
 
 ## BACKEND
-| <img src="" width=50> | <img src="" width=50> | <img src="" width=50> |<img src="" width=50> | <img src="" width=50> | 
+| <img src="https://i.imgur.com/jjsRe6Y.jpg" width=70> | <img src="https://i.imgur.com/t8pGPpP.jpg" width=70> | <img src="https://i.imgur.com/figyLvY.png" width=70> |<img src="" width=50> | <img src="https://i.imgur.com/YCOQckz.png" width=70> | 
 |:-:|:-:|:-:|:-:|:-:|
-| **1** | **2** | **3** | **4** | **5** | 
+| **German Mendoza** | **Maria Villen** | **Marvin Ramos** | **Nicolás Guzmán** | **Torres Richard** | 
 | <a href="1"><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a> <a href="1"><img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a> | <a href="2"><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a> <a href="2"><img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a> | <a href="3"><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a> <a href="3"><img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a> | <a href="4"><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a> <a href="4"><img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a> | <a href="5"><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a> <a href="5"><img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a> |
 
 <br/>
@@ -104,10 +110,9 @@
 <br/>
 
 ### Requerimientos 📋
-Para poder correr el servidor necesitas tener instalado NODEJS y NPM.
-Tambien necesitas una key de OPENAI para el servicio de preguntas y respuestas.
-Necesitas una key de google console para el servicio de mail con Nodemailer. 
-<br/><br/>
+- Para poder correr el servidor necesitas tener instalado NODEJS y NPM.
+- Tambien necesitas una key de OPENAI para el servicio de preguntas y respuestas. <a href="https://www.openai.com/">OpenIA</a>
+
 
 ### Documentacion
 
@@ -127,83 +132,35 @@ Necesitas una key de google console para el servicio de mail con Nodemailer.
 
   - Instalar dependencias con ```npm i```
 
-  - Crear un archivo .env con las siguientes variables:
+  - Crear un archivo **`.env`** (Producción) y o **`.development.env`** (desarrollo) con las siguientes variables:
 
   ```env
 #SERVER
-PORT=8000
+PORT=Puerto en el cual se va a ejecutar el servidor
 
 #DB
-POSTGRES_DB=
-POSTGRES_USER=
-POSTGRES_PASSWORD=
-POSTGRES_HOST=
-POSTGERS_PORT=5432
+POSTGRES_DB=Nombre de la base de datos de PostgreSQL a utilizar
+POSTGRES_USER=Nombre de usuario de PostgreSQL
+POSTGRES_PASSWORD=Contraseña del usuario de PostgreSQL
+POSTGRES_HOST=Host donde se encuentra la base de datos de PostgreSQL
+POSTGRES_PORT=Puerto en el que se ejecuta la base de datos de PostgreSQL
 
 #AUTH
-JWTAUTH_SECRET=
-JWTAUTH_EXPIRESIN=
+JWTAUTH_SECRET=Clave secreta utilizada para generar el token JWT
+JWTAUTH_EXPIRESIN=Tiempo de vida del token JWT en segundos
 
 #OPENAI
-OPENAI_API_KEY=
+OPENAI_API_KEY=Clave de la API de OpenAI
   ```
   
-  - Correr el servidor con ```npm run start:dev``` o ```npm start```
+  - Correr el servidor con ```npm run start:dev```(Producción) o ```npm start:prod```(desarrollo)
 
-  - La api correrá en el puesto especificado en el archivo .development.env
+  - La api correrá en el puesto especificado en la variable de entorno
 <br/>
-<br/>
-
 
 
 ### Deploy 📋
 
-Puedes encontrar nuestra API en el siguiente link: [https://link](link)
-
-<br/><br/>
+Puedes encontrar nuestra API en el siguiente link: [https://link](https://nekode-rqas.onrender.com/api)
 
 
-
-
-<br/><br/>
-
-# Equipo
-
-### Project Manager
-
-#### $\;\;\;\;\;\;$ Agregar - [Linkedin]() | [GitHub]()
-
-### UI-UX
-
-#### $\;\;\;\;\;\;$ Agregar - [Linkedin]() | [GitHub]()
-
-### Frontend
-
-#### $\;\;\;\;\;\;$ Agregar - [Linkedin]() | [GitHub]()
-
-#### $\;\;\;\;\;\;$ Agregar - [Linkedin]() | [GitHub]()
-
-#### $\;\;\;\;\;\;$ Agregar - [Linkedin]() | [GitHub]()
-
-#### $\;\;\;\;\;\;$  Agregar - [Linkedin]() | [GitHub]()
-
-#### $\;\;\;\;\;\;$ Agregar - [Linkedin]() | [GitHub]()
-
-
-### Backend
-
-#### $\;\;\;\;\;\;$ Maria Villen - [Linkedin](https://www.linkedin.com/in/maria-villen/) | [GitHub](https://github.com/MariaVillen)
-
-#### $\;\;\;\;\;\;$ Agregar - [Linkedin]() | [GitHub]()
-
-#### $\;\;\;\;\;\;$ Agregar - [Linkedin]() | [GitHub]()
-
-#### $\;\;\;\;\;\;$ Agregar - [Linkedin]() | [GitHub]()
-
-#### $\;\;\;\;\;\;$ Agregar - [Linkedin]() | [GitHub]()
-
-###QA Tester
-
-#### $\;\;\;\;\;\;$ Agregar - [Linkedin]() | [GitHub]()
-
-#### $\;\;\;\;\;\;$ Agregar - [Linkedin]() | [GitHub]()
