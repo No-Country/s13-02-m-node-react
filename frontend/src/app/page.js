@@ -36,7 +36,7 @@ export default function Home() {
               <ProgressBar
                 value={50}
                 data={'50%'}
-                title={'Tu ptogreso de hoy'}
+                title={'Tu progreso de hoy'}
               />
               <Languages data={data} />
               <CardDefLenguajeHome />

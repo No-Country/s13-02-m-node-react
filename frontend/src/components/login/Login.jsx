@@ -4,18 +4,13 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import Logo from '../logo/Logo'
-const pass = 'nekode'
-const email = 'nekode@nekode.com'
+
 const Login = () => {
   const router = useRouter()
   const loginHandler = (e) => {
     e.preventDefault()
     const userData = Object.fromEntries(new FormData(e.currentTarget))
-    console.log(pass)
-    userData.userEmail === email && userData.userPassword === pass
-      ? router.push('/')
-      : // loginPost(userData, router)
-        {}
+    userData.email && userData.password ? loginPost(userData, router) : {}
   }
   return (
     <form
@@ -39,19 +34,19 @@ const Login = () => {
             <label htmlFor='userEmail' className='flex flex-col  w-full'>
               <input
                 type='email'
-                name='userEmail'
+                name='email'
                 placeholder='Email'
-                id=''
+                id='userEmail'
                 className='border-2 border-black bg-black h-[56px] pl-5 outline-none'
                 required
               />
             </label>
-            <label htmlFor='userPassword' className='flex flex-col w-full'>
+            <label htmlFor='password' className='flex flex-col w-full'>
               <input
                 type='password'
-                name='userPassword'
+                name='password'
                 placeholder='Contraseña'
-                id=''
+                id='password'
                 className='border-2 border-black bg-black h-[56px] pl-5 outline-none'
                 required
               />
