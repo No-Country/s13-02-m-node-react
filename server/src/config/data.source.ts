@@ -8,7 +8,7 @@ ConfigModule.forRoot({
 });
 
 const configService = new ConfigService();
-console.log(process.env,configService.get('POSTGRES_HOST'))
+console.log(process.env,configService.get('POSTGRES_PASSWORD'))
 export const DataSourceConfig: DataSourceOptions = {
   type: 'postgres',
   host: configService.get('POSTGRES_HOST'),
