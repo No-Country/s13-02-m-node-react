@@ -6,6 +6,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import CloseIcon from '@mui/icons-material/Close'
 import Logo from '../logo/Logo'
 import Pet from '../pet/Pet'
+import MobileMenu from '../mobileMenu/MobileMenu'
 
 function NavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -25,12 +26,11 @@ function NavBar() {
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
+    // console.log("menu abierto");
   }
 
   return (
-
-    <AppBar position='fixed' className='flex bg-[#10151D]'>
-
+    <AppBar position='static' className='flex bg-[#10151D]'>
       <Container maxWidth='xl' className='bg-[#10151D] h-20'>
         <Toolbar
           disableGutters
@@ -43,7 +43,7 @@ function NavBar() {
               <Logo size='text-2xl w-10 h-12 p-2' space='space-x-2' />
             )}
           </div>
-          {/* Botón de menú móvil (reemplaza al Avatar en dispositivos móviles) */}
+          {/* Botón de menú móvil (reemplaza al Avatar) */}
           {isMobileView ? (
             <IconButton
               sx={{ p: 0 }}
@@ -66,8 +66,8 @@ function NavBar() {
           )}
           {/* Contenido del menú móvil */}
           {isMobileMenuOpen && (
-            <div className='sm:hidden w-full bg-[#10151D] py-4'>
-              {/* Aquí coloca los elementos del menú móvil */}
+            <div className='absolute z-50'>
+              <MobileMenu className="absolute z-50" />
             </div>
           )}
         </Toolbar>
@@ -76,6 +76,4 @@ function NavBar() {
   )
 }
 
-
 export default NavBar
-
