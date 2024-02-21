@@ -3,6 +3,7 @@ import ChooseYourState from "@/components/CardStatus/ChooseYourState";
 import { CardHome } from "@/components/CardHome";
 import MedalsRanks from "@/components/medals-ranks/MedalsRanks";
 import AscentZone from "@/components/ascent-zone/AscentZone";
+import Toolbar from "@mui/material/Toolbar";
 
 const pageRanks = () => {
   //Datos de muestra
@@ -71,6 +72,7 @@ const pageRanks = () => {
 
   return (
     <>
+      <Toolbar id="back-to-top-anchor" />
       <Container
         maxWidth="xl"
         sx={{
