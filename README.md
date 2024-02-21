@@ -1,16 +1,25 @@
 <h1 align = "center"> NEKODE </h1>
 <p align = "center"><img src="https://i.imgur.com/3gWep0X.png" /></p>
 <p align = "center"> Nekode es una plataforma para que puedas evaluar de forma lúdica tus conocimientos en distintas áreas como....COMPLETAR</p>
-<br><br>
+<hr>
 
+## Beneficios Clave 🚀 
 
-## PROJECT MANAGER 
+- **Evaluación continua:** La plataforma te permite evaluar tus conocimientos de manera regular y ver tu progreso a lo largo del tiempo, lo que puede ayudarte a identificar áreas en las que necesitas mejorar.
+
+- **Competencia saludable:** El ranking te permite competir con otros usuarios de la plataforma, lo que puede motivarte a esforzarte más y mejorar tus habilidades para alcanzar una posición más alta en el ranking.
+
+- **Feedback inmediato:** Al completar los desafíos, recibes un feedback inmediato sobre tu desempeño, lo que te permite corregir errores y mejorar rápidamente.
+
+<hr>
+
+## PROJECT MANAGER 🕵️‍♂️👩‍💻
 | <img  src="https://i.imgur.com/XQz5wqd.jpg" width=70> |
 |:-:|
 | **Raquel Sánchez** |
 | <a href=""><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a> <a href=""><img src="https://img.shields.io/badge/LinkedIn-0A66C2.svg?style=for-the-badge&logo=LinkedIn&logoColor=white"/></a> |
 
-### Tabajó con: 🛠️⚙
+### Trabajó con 🛠️⚙
 ![Slack](https://img.shields.io/badge/Slack-4A154B.svg?style=for-the-badge&logo=Slack&logoColor=white)
 ![Discord](https://img.shields.io/badge/Discord-5865F2.svg?style=for-the-badge&logo=Discord&logoColor=white)
 ![Trello](https://img.shields.io/badge/Trello-0052CC.svg?style=for-the-badge&logo=Trello&logoColor=white)
@@ -19,40 +28,38 @@
 ![Google](https://img.shields.io/badge/Google%20Meet-00897B.svg?style=for-the-badge&logo=Google-Meet&logoColor=white)
 
 
-
-
-
-### Documentacion
+### Documentación
 
 <hr>
 
-## UI-UX DESIGN
+## UI-UX DESIGN 🎨💻
 | <img  src="https://i.imgur.com/g4FXShv.png" width=70> |
 |:-:|
 | **Sofía Dolcemáscolo** |
 | <a href=""><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a> <a href=""><img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a> |
-### trabajó con: 🛠️
+### Trabajó con 🛠️
 ![Figma](https://img.shields.io/badge/Figma-F24E1E.svg?style=for-the-badge&logo=Figma&logoColor=white)
 
 
-### Documentacion
+### Documentación
+
 ### Prototipo
 
 <hr>
 
-## QA Tester
+## QA Tester 🧪👨‍💻
 | <img  src="https://i.imgur.com/o4QhzO8.jpg" width=70> |<img  src="https://i.imgur.com/DA0v86M.jpg" width=70> |
 |:-:|:-:|
 | **Arelys Acevedo** |**Ruth Sánchez** |
 | <a href="1"><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a> <a href="1"><img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a> | <a href="2"><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a> <a href="2"><img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a> |
 
 ### Desarrollada con: 🛠️
-### Documentacion
+### Documentación
 
 <hr>
 
 
-## FRONTEND
+## FRONTEND 🖼️💻
 | <img src="https://i.imgur.com/Zugll9X.jpg" width=70> | <img src="https://i.imgur.com/GkROevX.jpg" width=70> | <img src="https://i.imgur.com/nkoku4o.png" width=70> |<img src="https://i.imgur.com/J9fHHwv.jpg" width=70> | <img src="https://i.imgur.com/xzHOBdA.jpg" width=70> | 
 |:-:|:-:|:-:|:-:|:-:|
 | **Cristian Vásquez** | **Joaquin Pedraza** | **Martina Lanzi** | **Snowing Torres** | **Vicky Gonzalez** | 
@@ -65,7 +72,7 @@
 ![Material UI](https://img.shields.io/badge/Material%20Design-757575.svg?style=for-the-badge&logo=Material-Design&logoColor=white)
 
 
-### Requerimientos 
+### Requerimientos ✔📋
 
 ### Documentacion
 
@@ -73,15 +80,13 @@
 > Configuraciones Necesarias
 
 
-### Deploy 📋
+### Deploy 🚀🚀
 Puedes encontrar nuestra API en el siguiente link: [https://link](https://s13-02-m-node-react.vercel.app)
-
-![]()
 
 <hr>
 
-## BACKEND
-| <img src="https://i.imgur.com/jjsRe6Y.jpg" width=70> | <img src="https://i.imgur.com/t8pGPpP.jpg" width=70> | <img src="https://i.imgur.com/figyLvY.png" width=70> |<img src="" width=50> | <img src="https://i.imgur.com/YCOQckz.png" width=70> | 
+## BACKEND 🧠💻
+| <img src="https://i.imgur.com/jjsRe6Y.jpg" width=70> | <img src="https://i.imgur.com/t8pGPpP.jpg" width=70> | <img src="https://i.imgur.com/figyLvY.png" width=70> |<img src="https://i.imgur.com/PtF1jgb.jpg" width=70> | <img src="https://i.imgur.com/YCOQckz.png" width=70> | 
 |:-:|:-:|:-:|:-:|:-:|
 | **German Mendoza** | **Maria Villen** | **Marvin Ramos** | **Nicolás Guzmán** | **Torres Richard** | 
 | <a href="1"><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a> <a href="1"><img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a> | <a href="2"><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a> <a href="2"><img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a> | <a href="3"><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a> <a href="3"><img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a> | <a href="4"><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a> <a href="4"><img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a> | <a href="5"><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a> <a href="5"><img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a> |
@@ -109,7 +114,7 @@ Puedes encontrar nuestra API en el siguiente link: [https://link](https://s13-02
 <br/>
 <br/>
 
-### Requerimientos 📋
+### Requerimientos ✔📋
 - Para poder correr el servidor necesitas tener instalado NODEJS y NPM.
 - Tambien necesitas una key de OPENAI para el servicio de preguntas y respuestas. <a href="https://www.openai.com/">OpenIA</a>
 
@@ -159,7 +164,7 @@ OPENAI_API_KEY=Clave de la API de OpenAI
 <br/>
 
 
-### Deploy 📋
+### Deploy 🚀🚀
 
 Puedes encontrar nuestra API en el siguiente link: [https://link](https://nekode-rqas.onrender.com/api)
 
