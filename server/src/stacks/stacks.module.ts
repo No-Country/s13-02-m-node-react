@@ -9,6 +9,6 @@ import { UsersModule } from '../users/users.module';
   imports: [TypeOrmModule.forFeature([StacksEntity]), UsersModule],
   controllers: [StacksController],
   providers: [StacksService],
-  exports: [StacksService]
+  exports: [StacksService],
 })
 export class StacksModule {}
