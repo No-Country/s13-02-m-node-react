@@ -1,4 +1,4 @@
-<h1 align = "center"> NEKODE </h1>
+<h1 align = "center"> <img src="https://i.imgur.com/3gWep0X.png" width=30> NEKODE <img src="https://i.imgur.com/3gWep0X.png" width=30>  </h1>
 <p align = "center"><img src="https://i.imgur.com/3gWep0X.png" /></p>
 <p align = "center"> Nekode es una plataforma para que puedas evaluar de forma lúdica tus conocimientos en distintas áreas como....COMPLETAR</p>
 <hr>
