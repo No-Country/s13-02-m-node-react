@@ -32,12 +32,12 @@ const Register = () => {
           </small>
 
           <label className='flex flex-col gap-5 items-center w-full '>
-            <label htmlFor='userEmail' className='flex flex-col  w-full'>
+            <label htmlFor='username' className='flex flex-col  w-full'>
               <input
                 type='text'
                 name='username'
-                placeholder='User Name'
-                id=''
+                placeholder='Nombre'
+                id='username'
                 className='border-2 border-black bg-black h-[56px] pl-5 outline-none'
                 required
               />
@@ -47,7 +47,7 @@ const Register = () => {
                 type='email'
                 name='email'
                 placeholder='Email'
-                id=''
+                id='userPassword'
                 className='border-2 border-black bg-black h-[56px] pl-5 outline-none'
                 required
               />
@@ -57,7 +57,7 @@ const Register = () => {
                 type='password'
                 name='password'
                 placeholder='Contraseña'
-                id=''
+                id='userPassword'
                 className='border-2 border-black bg-black h-[56px] pl-5 outline-none'
                 required
               />
