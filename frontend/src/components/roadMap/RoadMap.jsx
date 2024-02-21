@@ -46,52 +46,28 @@ const Roadmap = () => {
   return (
     <>
       <div 
-      // className='grid grid-cols-3'
-      >
-        {/* <div className=''>
-          {isXsOrMd ? null : (
-            <Image
-              src={image1}
-              width={400}
-              height={400}
-              alt='Principiante'
-              className=' mt-[220px] hidden md:block'
-            />
-          )}
-          {isXsOrMd ? null : (
-            <Image
-              src={image2}
-              width={400}
-              height={400}
-              alt='Avanzado'
-              className=' mt-[750px] pr-[50px] hidden md:block '
-            />
-          )}
-        </div> */}
+          className='grid grid-cols-3'
+          >
+            <div className=''>
+              {isXsOrMd ? null : (
+                <img
+                 src="https://i.ibb.co/HT82H7W/amico.webp"
+                 alt='Principiante'
+                 className='w-[75%] mt-[150px] ml-10 '
+                 />
+                )}
+              {isXsOrMd ? null : (
+             <img src="https://i.ibb.co/6J4K7qt/Group69.webp"
+             alt='Avanzado'
+             className='w-[75%] mt-[800px] ml-10'
+             />
+
+              )}
+            </div>
         <div className={`flex flex-col items-center justify-center `}>
           {dataJavascript.themes.map((data, index) => {
             return (
               <button
-                // sx={{
-                //   color: '#FFFFFF',
-                //   fontWeight: 'medium',
-                //   width: {
-                //     xs: '270px', // theme.breakpoints.up('xs')
-                //     sm: '270px', // theme.breakpoints.up('sm')
-                //     md: '270px', // theme.breakpoints.up('md')
-                //     lg: '270px', // theme.breakpoints.up('lg')
-                //     xl: '270px' // theme.breakpoints.up('xl')
-                //   },
-                //   borderRadius: '31px',
-                //   boxShadow: '0px 4px 6px rgba(0,0,0,0.3)',
-                //   border: '5px solid #17B877',
-                //   // marginLeft:{marginLeft: getButtonMarginLeft(index) },
-                //   textTransform: 'none',
-                //   '&:hover': {
-                //     backgroundColor: '#A87FFB',
-                //     color: '#FFFFFF'
-                //   }
-                // }}
                 className={` 
                 bg-[#A87FFB] 
                 mb-4 
@@ -117,15 +93,13 @@ const Roadmap = () => {
           })}
         </div>
 
-        {/* {isXsOrMd ? null : (
-          <Image
-            src={image3}
-            width={400}
-            height={400}
-            alt='Intermedio'
-            className='mt-[660px] hidden md:block'
+        {isXsOrMd ? null : (
+          <img src="https://i.ibb.co/KrYLVP3/Group67.webp"
+          alt='Intermedio'
+          className='w-[75%] mt-[700px]'
           />
-        )} */}
+
+        )}
       </div>
     </>
   )
