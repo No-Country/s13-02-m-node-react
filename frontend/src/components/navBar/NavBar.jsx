@@ -30,7 +30,7 @@ function NavBar() {
   }
 
   return (
-    <AppBar position='static' className='flex bg-[#10151D]'>
+    <AppBar position='fixed' className='flex bg-[#10151D]'>
       <Container maxWidth='xl' className='bg-[#10151D] h-20'>
         <Toolbar
           disableGutters
