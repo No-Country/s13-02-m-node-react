@@ -5,9 +5,7 @@ import { OpenaiService } from './openai.service';
 import { UsersModule } from 'src/users/users.module';
 
 @Module({
-    imports:[
-        UsersModule
-    ],
+  imports: [UsersModule],
   controllers: [OpenaiController],
   providers: [OpenaiService],
 })

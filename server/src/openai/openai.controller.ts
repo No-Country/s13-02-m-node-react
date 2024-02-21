@@ -5,12 +5,10 @@ import { GetQuestionDto } from './dto/getQuestion.dto';
 
 @Controller('openai')
 export class OpenaiController {
-    constructor(private readonly openaiService: OpenaiService) {}
+  constructor(private readonly openaiService: OpenaiService) {}
 
-    @Post('/question')
-    
-    async getQuestion(@Body() message: GetQuestionDto): Promise <string>{
-        
-        return await this.openaiService.getQuestion(message)
-    }
+  @Post('/question')
+  async getQuestion(@Body() message: GetQuestionDto): Promise<string> {
+    return await this.openaiService.getQuestion(message);
+  }
 }
