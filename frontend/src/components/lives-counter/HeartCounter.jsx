@@ -75,7 +75,7 @@ const HeartCounter = ({ lives }) => {
     }
   }
 
-  return <div className='flex space-x-2 '>{heartIcons}</div>
+  return <div className='flex space-x-2 fixed'>{heartIcons}</div>
 }
 
 export default HeartCounter
