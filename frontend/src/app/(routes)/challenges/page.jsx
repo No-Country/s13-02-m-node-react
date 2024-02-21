@@ -1,22 +1,7 @@
-import Footer from '@/components/footer/Footer'
-import NavBar from '@/components/navBar/NavBar'
-import { Container } from '@mui/material'
-import React from 'react'
+import Challenges from '@/components/challenges/challenges'
 
 const pageChallenges = () => {
-  return (
-    <Container
-      maxWidth='xl'
-      sx={{
-        minHeight: '100vh'
-      }}
-      className='flex flex-col justify-between'
-    >
-      <NavBar />
-      <main className='h-full'></main>
-      <Footer />
-    </Container>
-  )
+  return <Challenges />
 }
 
 export default pageChallenges
