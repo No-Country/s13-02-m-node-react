@@ -1,6 +1,6 @@
 <h1 align = "center"> <img src="https://i.imgur.com/3gWep0X.png" width=30> NEKODE <img src="https://i.imgur.com/3gWep0X.png" width=30>  </h1>
 <p align = "center"><img src="https://i.imgur.com/3gWep0X.png" /></p>
-<p align = "center"> Nekode es una plataforma para que puedas evaluar de forma lúdica tus conocimientos en distintas áreas como....COMPLETAR</p>
+<p align = "center"> Nekode es una plataforma innovadora en el ámbito edtech que transforma el aprendizaje de JavaScript en una experiencia lúdica y envolvente. Con funciones de juego, como niveles y vidas, te permite evaluar tus conocimientos de manera interactiva. Además, cuenta con un sistema de ranking que mide tu progreso y lo compara con otros jugadores, asignando niveles y medallas para reconocer tus logros. Nekode ofrece valiosos feedbacks personalizados, indicándote las áreas específicas de JavaScript que debes reforzar, brindándote una ruta clara para mejorar tus habilidades en programación</p>
 <hr>
 
 ## Beneficios Clave 🚀 
