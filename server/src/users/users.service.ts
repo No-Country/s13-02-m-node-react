@@ -28,7 +28,7 @@ export class UsersService {
     }
   }
 
-  public async findUserBy(options: TSearchConditions) {
+  public async findUserBy(options: TSearchConditions<UsersEntity>) {
     try {
       const user: UsersEntity = await this.userRepository
         .createQueryBuilder('user')
