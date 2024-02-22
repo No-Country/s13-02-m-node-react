@@ -67,6 +67,7 @@ export class StacksService {
         .leftJoinAndSelect('stack.themes', 'themes')
         .getOne();
       if (!stack) {
+        console.log('id recibida ', id);
         throw new ErrorManager({
           type: 'NOT_FOUND',
           message: 'No stack found',

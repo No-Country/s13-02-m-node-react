@@ -7,7 +7,7 @@ import { UsersEntity } from '../users/entities/user.entity';
 import { ErrorManager } from '../utils/error.manager';
 import { hash, compare } from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
-import { IJWTPayload } from '../types/types/interfaces/auth.interface';
+import { IJWTPayload } from '../types/interfaces/auth.interface';
 import { UsersService } from '../users/users.service';
 import { ConfigService } from '@nestjs/config';
 
