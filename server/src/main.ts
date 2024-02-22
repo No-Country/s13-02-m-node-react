@@ -3,7 +3,7 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import * as morgan from 'morgan';
-// import { corsOptions } from './config/cors';
+import { corsOptions } from './config/cors';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
@@ -43,8 +43,8 @@ async function bootstrap() {
   // Prefix /api/
   app.setGlobalPrefix('api');
 
-  // // Cors
-  // app.enableCors(corsOptions);
+  // Cors
+  app.enableCors(corsOptions);
 
   // server
   const configService = app.get(ConfigService);
