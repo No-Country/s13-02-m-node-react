@@ -27,9 +27,32 @@ export class StacksService {
     }
   }
 
-  async findAll() {
+  async findAll(
+    page?: number,
+    limit?: number,
+    order?: 'ASC' | 'DESC',
+  ): Promise<
+    | StacksEntity[]
+    | {
+        data: StacksEntity[];
+        pagination: { totalPages: number; limit: number; page: number };
+      }
+  > {
     try {
-      return await this.stackRepository.find();
+      const queryBuilder = this.stackRepository.createQueryBuilder('stack');
+      let totalPages;
+      if (order) {
+        queryBuilder.orderBy('stack.name', order);
+      }
+      if (page && limit) {
+        const totalCount = await queryBuilder.getCount();
+        totalPages = Math.ceil(totalCount / limit);
+        queryBuilder.skip((page - 1) * limit).take(limit);
+        const data = await queryBuilder.getMany();
+        return { data, pagination: { totalPages, limit, page } };
+      }
+
+      return await queryBuilder.getMany();
     } catch (error) {
       console.error(error);
       throw ErrorManager.createSignatureError(error.message);
@@ -57,10 +80,18 @@ export class StacksService {
 
   public async findStackBy(options: TSearchConditions<StacksEntity>) {
     try {
-      const stack: StacksEntity = await this.stackRepository
-        .createQueryBuilder('stack')
-        .where({ [options.field]: options.value })
-        .getOne();
+      const queryBuilder = this.stackRepository.createQueryBuilder('stack');
+
+      if (options.caseInsensitive) {
+        queryBuilder.where(
+          `LOWER(${options.field}) = LOWER(:${options.field})`,
+          { [options.field]: options.value },
+        );
+      } else {
+        queryBuilder.where({ [options.field]: options.value });
+      }
+
+      const stack = await queryBuilder.getOne();
 
       if (!stack) {
         return undefined;

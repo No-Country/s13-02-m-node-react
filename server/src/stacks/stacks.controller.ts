@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { StacksService } from './stacks.service';
 import { CreateStackDto } from './dto/create-stack.dto';
@@ -29,25 +30,34 @@ export class StacksController {
   @Roles(ROLES.ADMIN)
   @Post()
   public async create(@Body() createStackDto: CreateStackDto) {
-    const { name } = createStackDto;
-    const isName = await this.stacksService.findStackBy({
-      field: 'name',
-      value: name,
-    });
-    console.log(isName);
-    if (isName) {
-      throw new ErrorManager({
-        type: 'BAD_REQUEST',
-        message: 'The name stack is already in use',
+    try {
+      const { name } = createStackDto;
+      const isName = await this.stacksService.findStackBy({
+        field: 'name',
+        value: name,
+        caseInsensitive: true,
       });
+      console.log('HAY NOMBRE?', isName);
+      if (isName) {
+        throw new ErrorManager({
+          type: 'BAD_REQUEST',
+          message: 'The name stack is already in use',
+        });
+      }
+      return this.stacksService.create(createStackDto);
+    } catch (error) {
+      throw ErrorManager.createSignatureError(error.message);
     }
-    return this.stacksService.create(createStackDto);
   }
 
   @PublicAccess()
   @Get()
-  findAll() {
-    return this.stacksService.findAll();
+  findAll(
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
+    @Query('order') order?: 'ASC' | 'DESC',
+  ) {
+    return this.stacksService.findAll(page, limit, order);
   }
 
   @PublicAccess()
