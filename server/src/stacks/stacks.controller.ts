@@ -17,6 +17,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { ROLES } from '../config/constants/roles';
+import { ErrorManager } from 'src/utils/error.manager';
 
 @ApiTags('stacks')
 @ApiBearerAuth()
@@ -27,7 +28,19 @@ export class StacksController {
 
   @Roles(ROLES.ADMIN)
   @Post()
-  create(@Body() createStackDto: CreateStackDto) {
+  public async create(@Body() createStackDto: CreateStackDto) {
+    const { name } = createStackDto;
+    const isName = await this.stacksService.findStackBy({
+      field: 'name',
+      value: name,
+    });
+    console.log(isName);
+    if (isName) {
+      throw new ErrorManager({
+        type: 'BAD_REQUEST',
+        message: 'The name stack is already in use',
+      });
+    }
     return this.stacksService.create(createStackDto);
   }
 
@@ -40,18 +53,18 @@ export class StacksController {
   @PublicAccess()
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.stacksService.findOne(+id);
+    return this.stacksService.findStackById(id);
   }
 
   @Roles(ROLES.ADMIN)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateStackDto: UpdateStackDto) {
-    return this.stacksService.update(+id, updateStackDto);
+    return this.stacksService.update(id, updateStackDto);
   }
 
   @Roles(ROLES.ADMIN)
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.stacksService.remove(+id);
+    return this.stacksService.remove(id);
   }
 }
