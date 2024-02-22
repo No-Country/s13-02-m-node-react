@@ -1,4 +1,4 @@
-import { IsEnum, IsNotEmpty, IsUUID } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsOptional, IsUUID } from 'class-validator';
 import { LEVELS } from 'src/config/constants/levels';
 import {
   IsNumber,
@@ -19,6 +19,10 @@ export class CreateThemeDto {
   @IsNumber()
   @IsNotEmpty()
   points: number;
+
+  @IsString()
+  @IsOptional()
+  description: string;
 
   @IsNumber()
   @IsNotEmpty()

@@ -12,6 +12,8 @@ export class ThemesEntity extends BaseEntity implements ITheme {
   @Column({ type: 'enum', enum: LEVELS, default: LEVELS.DEBUTANT })
   level: LEVELS;
   @Column({ default: 100 })
+  @Column({ nullable: true, default: true })
+  description?: string;
   points: number;
   @Column({ nullable: false })
   order: number;
