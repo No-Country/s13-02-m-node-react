@@ -1,6 +1,5 @@
-import { UsersEntity } from '../../users/entities/user.entity';
-
-export type TSearchConditions = {
-  field: keyof UsersEntity;
+export type TSearchConditions<T> = {
+  field: keyof T;
   value: string;
+  caseInsensitive?: boolean;
 };

@@ -1,11 +1,11 @@
-import { Type } from 'class-transformer';
+//import { Type } from 'class-transformer';
 import {
   IsNumber,
   IsPositive,
   IsString,
-  ValidateNested,
+  //ValidateNested,
 } from 'class-validator';
-import { ThemesEntity } from 'src/themes/entities/theme.entity';
+//import { ThemesEntity } from 'src/themes/entities/theme.entity';
 export class CreateStackDto {
   @IsString()
   name: string;
@@ -14,8 +14,8 @@ export class CreateStackDto {
   @IsPositive()
   points: number;
 
-  @ValidateNested({ each: true })
-  @Type(() => ThemesEntity)
-  themes: ThemesEntity[];
+  // @ValidateNested({ each: true })
+  // @Type(() => ThemesEntity)
+  // themes: ThemesEntity[];
   // The theme is not saved in the database
 }
