@@ -1,5 +1,5 @@
 "use client";
-import { Avatar, Badge, styled } from "@mui/material";
+import { Avatar, Badge, Skeleton, styled } from "@mui/material";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 
@@ -32,7 +32,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
-const AscentZone = ({ data }) => {
+const AscentZone = ({ data, dataLoaded }) => {
   const sortedData = [...data].sort((a, b) => b.puntaje - a.puntaje);
   const firstThree = sortedData.slice(0, 3);
   const nextTwo = sortedData.slice(3, 5);
@@ -45,22 +45,34 @@ const AscentZone = ({ data }) => {
           className="max-w-2xl w-full flex items-center justify-between gap-5 bg-jet-500 p-5 rounded-xl shadow-md shadow-picton-blue-800 text-indigo-500"
         >
           <div className="w-full flex items-center gap-5">
-            <div className="relative inline-block">
-              <StyledBadge
-                overlap="circular"
-                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                variant="dot"
-              >
-                <Avatar src={item.imagen} sx={{ width: 65, height: 65 }} />
-              </StyledBadge>
-              <span className="absolute top-2 right-0 inline-flex items-center justify-center w-7 h-7 p-2 transform translate-x-1/2 -translate-y-1/2 bg-white border shadow-md rounded-t-full rounded-r-full">
-                💻
-              </span>
-            </div>
-            <h2>{item.nombre}</h2>
+            {dataLoaded ? (
+              <Skeleton variant="circular" width={65} height={65} />
+            ) : (
+              <div className="relative inline-block">
+                <StyledBadge
+                  overlap="circular"
+                  anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                  variant="dot"
+                >
+                  <Avatar src={item.imagen} sx={{ width: 65, height: 65 }} />
+                </StyledBadge>
+                <span className="absolute top-2 right-0 inline-flex items-center justify-center w-7 h-7 p-2 transform translate-x-1/2 -translate-y-1/2 bg-white border shadow-md rounded-t-full rounded-r-full">
+                  💻
+                </span>
+              </div>
+            )}
+            {dataLoaded ? (
+              <Skeleton variant="text" width={150} height={24} />
+            ) : (
+              <h2>{item.nombre}</h2>
+            )}
           </div>
-          <div className="w-full text-end">
-            <h2>{`${item.puntaje} EXP`}</h2>
+          <div className="w-full flex items-center justify-end">
+            {dataLoaded ? (
+              <Skeleton variant="text" width={100} height={24} />
+            ) : (
+              <h2>{`${item.puntaje} EXP`}</h2>
+            )}
           </div>
         </div>
       ))}
@@ -77,22 +89,34 @@ const AscentZone = ({ data }) => {
           className="max-w-2xl w-full flex items-center justify-between gap-5 bg-jet-500 p-5 rounded-xl shadow-md shadow-picton-blue-800 text-indigo-500"
         >
           <div className="w-full flex items-center gap-5">
-            <div className="relative inline-block">
-              <StyledBadge
-                overlap="circular"
-                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                variant="dot"
-              >
-                <Avatar src={item.imagen} sx={{ width: 65, height: 65 }} />
-              </StyledBadge>
-              <span className="absolute top-2 right-0 inline-flex items-center justify-center w-7 h-7 p-2 transform translate-x-1/2 -translate-y-1/2 bg-white border shadow-md rounded-t-full rounded-r-full">
-                💻
-              </span>
-            </div>
-            <h2>{item.nombre}</h2>
+            {dataLoaded ? (
+              <Skeleton variant="circular" width={65} height={65} />
+            ) : (
+              <div className="relative inline-block">
+                <StyledBadge
+                  overlap="circular"
+                  anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                  variant="dot"
+                >
+                  <Avatar src={item.imagen} sx={{ width: 65, height: 65 }} />
+                </StyledBadge>
+                <span className="absolute top-2 right-0 inline-flex items-center justify-center w-7 h-7 p-2 transform translate-x-1/2 -translate-y-1/2 bg-white border shadow-md rounded-t-full rounded-r-full">
+                  💻
+                </span>
+              </div>
+            )}
+            {dataLoaded ? (
+              <Skeleton variant="text" width={150} height={24} />
+            ) : (
+              <h2>{item.nombre}</h2>
+            )}
           </div>
-          <div className="w-full text-end">
-            <h2>{`${item.puntaje} EXP`}</h2>
+          <div className="w-full flex items-center justify-end">
+            {dataLoaded ? (
+              <Skeleton variant="text" width={100} height={24} />
+            ) : (
+              <h2>{`${item.puntaje} EXP`}</h2>
+            )}
           </div>
         </div>
       ))}
@@ -109,22 +133,34 @@ const AscentZone = ({ data }) => {
           className="max-w-2xl w-full flex items-center justify-between gap-5 bg-jet-500 p-5 rounded-xl shadow-md shadow-picton-blue-800 text-indigo-500"
         >
           <div className="w-full flex items-center gap-5">
-            <div className="relative inline-block">
-              <StyledBadge
-                overlap="circular"
-                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                variant="dot"
-              >
-                <Avatar src={item.imagen} sx={{ width: 65, height: 65 }} />
-              </StyledBadge>
-              <span className="absolute top-2 right-0 inline-flex items-center justify-center w-7 h-7 p-2 transform translate-x-1/2 -translate-y-1/2 bg-white border shadow-md rounded-t-full rounded-r-full">
-                💻
-              </span>
-            </div>
-            <h2>{item.nombre}</h2>
+            {dataLoaded ? (
+              <Skeleton variant="circular" width={65} height={65} />
+            ) : (
+              <div className="relative inline-block">
+                <StyledBadge
+                  overlap="circular"
+                  anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                  variant="dot"
+                >
+                  <Avatar src={item.imagen} sx={{ width: 65, height: 65 }} />
+                </StyledBadge>
+                <span className="absolute top-2 right-0 inline-flex items-center justify-center w-7 h-7 p-2 transform translate-x-1/2 -translate-y-1/2 bg-white border shadow-md rounded-t-full rounded-r-full">
+                  💻
+                </span>
+              </div>
+            )}
+            {dataLoaded ? (
+              <Skeleton variant="text" width={150} height={24} />
+            ) : (
+              <h2>{item.nombre}</h2>
+            )}
           </div>
-          <div className="w-full text-end">
-            <h2>{`${item.puntaje} EXP`}</h2>
+          <div className="w-full flex items-center justify-end">
+            {dataLoaded ? (
+              <Skeleton variant="text" width={100} height={24} />
+            ) : (
+              <h2>{`${item.puntaje} EXP`}</h2>
+            )}
           </div>
         </div>
       ))}
