@@ -23,6 +23,8 @@ export class UsersEntity extends BaseEntity implements IUser {
   role: ROLES;
   @Column({ default: 3 })
   life: number;
+  @Column({ unique: true, nullable: true })
+  identifier_ia: string;
   @Column({ default: 0 })
   totalPoints: number;
   @Column({

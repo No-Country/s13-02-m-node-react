@@ -38,22 +38,17 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 # dotenv environment variable files
-.env
-<<<<<<< HEAD
-=======
 .development.env
->>>>>>> 79c326d9141f676725c59827acd798e8a4864275
+
 .env.development.local
 .env.test.local
 .env.production.local
 .env.local
-<<<<<<< HEAD
-=======
 *.env
 
 # docker
 docker-compose.yml
->>>>>>> 79c326d9141f676725c59827acd798e8a4864275
+
 
 # temp directory
 .temp
@@ -67,7 +62,3 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
-<<<<<<< HEAD
-=======
-
->>>>>>> 79c326d9141f676725c59827acd798e8a4864275
