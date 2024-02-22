@@ -1,3 +1,4 @@
+
 import {
   IsNumber,
   IsPositive,
@@ -14,5 +15,4 @@ export class CreateStackDto {
   @IsPositive()
   @Min(1)
   points: number;
-
 }
