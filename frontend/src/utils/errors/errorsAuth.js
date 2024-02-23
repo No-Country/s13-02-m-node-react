@@ -5,11 +5,18 @@ export const errorsAuth = [
   },
   {
     code: 400,
-    message: 'A ocurrido un error! Comprueba que los datos sean correctos'
+    message: 'A ocurrido un error! Comprueba que los datos sean correctos',
+    messageUsername: 'Este Nombre de usuario ya esta en uso, elige otro!',
+    messageEmail:
+      'Ya existe una cuenta con este email inicia sesión o elige otro!',
+    messagePassword: 'Tu contraseña no es segura, debes respetar el formato!',
+    serverEmailMessage: 'BAD_REQUEST :: Email already in use',
+    serverUsernameMessage: 'BAD_REQUEST :: Username already in use',
+    serverPasswordMessage: 'password is not strong enough'
   },
   {
     code: 401,
-    message: 'No tienes autorización para realizar esto!'
+    message: 'El usuario o contraseña no coinciden, verifica tus datos!'
   },
   {
     code: 403,
