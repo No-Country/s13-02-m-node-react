@@ -19,10 +19,10 @@ export class UsersService {
     private readonly progressStacksEntity: Repository<ProgressStacksEntity>,
   ) {}
 
-  public async create(user: RegisterAuthDto): Promise<UsersEntity> {
+  public async create(user: RegisterAuthDto): Promise<string> {
     try {
       const newUser: UsersEntity = await this.userRepository.save(user);
-      return newUser;
+      return newUser.id;
     } catch (error) {
       throw ErrorManager.createSignatureError(error.message);
     }

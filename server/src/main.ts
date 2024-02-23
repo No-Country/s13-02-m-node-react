@@ -9,6 +9,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  // Prefix /api/
+  app.setGlobalPrefix('api');
 
   // Documentation Swagger config
   const config = new DocumentBuilder()
@@ -20,10 +22,11 @@ async function bootstrap() {
     .addTag('users')
     .addTag('auth')
     .addTag('stacks')
+    .setBasePath('api')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('documentation', app, document);
+  SwaggerModule.setup('api/documentation', app, document);
 
   // Validation
   app.useGlobalPipes(
@@ -39,9 +42,6 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ClassSerializerInterceptor(reflector));
   // Log
   app.use(morgan('dev'));
-
-  // Prefix /api/
-  app.setGlobalPrefix('api');
 
   // Cors
   app.enableCors(corsOptions);

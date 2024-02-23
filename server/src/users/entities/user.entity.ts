@@ -30,6 +30,7 @@ export class UsersEntity extends BaseEntity implements IUser {
   @Column({ default: 3 })
   life: number;
   @Column({ unique: true, nullable: true })
+  @Exclude()
   identifier_ia: string;
   @Column({ default: 0 })
   totalPoints: number;
