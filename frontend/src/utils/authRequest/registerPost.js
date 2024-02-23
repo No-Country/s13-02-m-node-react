@@ -9,6 +9,7 @@ const registerPost = async (userData, router, setErrorAuth) => {
       setErrorAuth('')
     })
     .catch(function (err) {
+      console.log(err)
       errorAuthManagement(err, setErrorAuth)
     })
 }

@@ -24,12 +24,21 @@ export const useAuthHandler = () => {
 }
 
 export const errorAuthManagement = (err, setErrorAuth) => {
-  const error = err.response.status
-  err.response.status === errorsAuth.find((err) => error === err.code).code
-    ? setErrorAuth(
-        errorsAuth
-          .filter((err) => error === err.code)
-          .map((err) => err.message)[0]
-      )
-    : {}
+  const errorCode = err.response.data.statusCode
+  const messageCode = err.response.data.message
+  const e = errorsAuth.find((err) => errorCode === err.code)
+  // .map((msj) => msj.messageEmail)[0]
+  switch (messageCode.length > 1 ? messageCode : messageCode[0]) {
+    case e.serverEmailMessage:
+      setErrorAuth(e.messageEmail)
+      break
+    case e.serverUsernameMessage: // foo es 0, por lo tanto se cumple la condición y se ejecutara el siguiente bloque
+      setErrorAuth(e.messageUsername)
+      break
+    case e.serverPasswordMessage: // foo es 0, por lo tanto se cumple la condición y se ejecutara el siguiente bloque
+      setErrorAuth(e.messagePassword)
+      break
+    default:
+      setErrorAuth(e.message)
+  }
 }
