@@ -33,7 +33,7 @@ function NavBar() {
     setAvatarLetter(localStorage.getItem('avatar'))
   }, [])
   return (
-    <AppBar position='fixed' className='flex bg-[#10151D] '>
+    <AppBar position='static' className='flex bg-[#10151D]'>
       <Container maxWidth='xl' className='bg-[#10151D] h-20'>
         <Toolbar
           disableGutters
@@ -50,14 +50,10 @@ function NavBar() {
           {isMobileView ? (
             <IconButton
               sx={{ p: 0 }}
-              className='md:hidden '
+              className='md:hidden text-white'
               onClick={toggleMobileMenu}
             >
-              {isMobileMenuOpen ? (
-                <CloseIcon className='text-white' />
-              ) : (
-                <MenuIcon className='text-white' />
-              )}
+              {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
             </IconButton>
           ) : (
             <IconButton
@@ -69,7 +65,7 @@ function NavBar() {
           )}
           {/* Contenido del menú móvil */}
           {isMobileMenuOpen && (
-            <div className='absolute z-50'>
+            <div className='absolute top-11 right-4 z-50 '>
               <MobileMenu className='absolute z-50' />
             </div>
           )}

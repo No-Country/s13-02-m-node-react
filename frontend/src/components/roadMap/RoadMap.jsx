@@ -39,6 +39,7 @@ const Roadmap = () => {
   }
 
   const isXsOrMd = useMediaQuery('(max-width:960px)')
+  const imagesHidden = useMediaQuery('(max-width:1230px)')
   const datajs = data.filter((item) => item.name === 'Javascript') //prueba despues cambiar generico
   const dataJavascript = datajs[0] //prueba despues cambiar generico
 
@@ -46,14 +47,14 @@ const Roadmap = () => {
     <>
       <div className='grid grid-cols-3'>
         <div className=''>
-          {isXsOrMd ? null : (
+          {imagesHidden ? null : (
             <img
               src='https://i.ibb.co/HT82H7W/amico.webp'
               alt='Principiante'
               className='w-[75%] mt-[150px] ml-10 '
             />
           )}
-          {isXsOrMd ? null : (
+          {imagesHidden ? null : (
             <img
               src='https://i.ibb.co/6J4K7qt/Group69.webp'
               alt='Avanzado'
@@ -80,9 +81,7 @@ const Roadmap = () => {
                 capitalize
                 `}
                 style={{
-                  marginLeft: isXsOrMd
-                    ? getButtonMarginLeftXs(index)
-                    : getButtonMarginLeft(index)
+                  marginLeft: isXsOrMd ? '0px' : getButtonMarginLeft(index)
                 }}
                 key={index}
               >
