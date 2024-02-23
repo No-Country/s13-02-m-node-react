@@ -11,7 +11,7 @@ import MobileMenu from '../mobileMenu/MobileMenu'
 function NavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isMobileView, setIsMobileView] = useState(false)
-  const avatarLetter = localStorage.getItem('avatar')
+  const [avatarLetter, setAvatarLetter] = useState('')
   useEffect(() => {
     const handleResize = () => {
       setIsMobileView(window.innerWidth <= 768)
@@ -29,6 +29,9 @@ function NavBar() {
     // console.log("menu abierto");
   }
 
+  useEffect(() => {
+    setAvatarLetter(localStorage.getItem('avatar'))
+  }, [])
   return (
     <AppBar position='fixed' className='flex bg-[#10151D] '>
       <Container maxWidth='xl' className='bg-[#10151D] h-20'>

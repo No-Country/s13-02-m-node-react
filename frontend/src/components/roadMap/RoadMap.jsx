@@ -11,7 +11,6 @@ import data from '@/utils/db/stackThemes'
 import Link from 'next/link'
 
 const Roadmap = () => {
-
   const getButtonMarginLeft = (index) => {
     if (index === 0) {
       return `0px`
@@ -45,25 +44,23 @@ const Roadmap = () => {
 
   return (
     <>
-      <div 
-          className='grid grid-cols-3'
-          >
-            <div className=''>
-              {isXsOrMd ? null : (
-                <img
-                 src="https://i.ibb.co/HT82H7W/amico.webp"
-                 alt='Principiante'
-                 className='w-[75%] mt-[150px] ml-10 '
-                 />
-                )}
-              {isXsOrMd ? null : (
-             <img src="https://i.ibb.co/6J4K7qt/Group69.webp"
-             alt='Avanzado'
-             className='w-[75%] mt-[800px] ml-10'
-             />
-
-              )}
-            </div>
+      <div className='grid grid-cols-3'>
+        <div className=''>
+          {isXsOrMd ? null : (
+            <img
+              src='https://i.ibb.co/HT82H7W/amico.webp'
+              alt='Principiante'
+              className='w-[75%] mt-[150px] ml-10 '
+            />
+          )}
+          {isXsOrMd ? null : (
+            <img
+              src='https://i.ibb.co/6J4K7qt/Group69.webp'
+              alt='Avanzado'
+              className='w-[75%] mt-[800px] ml-10'
+            />
+          )}
+        </div>
         <div className={`flex flex-col items-center justify-center `}>
           {dataJavascript.themes.map((data, index) => {
             return (
@@ -83,7 +80,9 @@ const Roadmap = () => {
                 capitalize
                 `}
                 style={{
-                  marginLeft: isXsOrMd ? getButtonMarginLeftXs(index) : getButtonMarginLeft(index)
+                  marginLeft: isXsOrMd
+                    ? getButtonMarginLeftXs(index)
+                    : getButtonMarginLeft(index)
                 }}
                 key={index}
               >
@@ -94,11 +93,11 @@ const Roadmap = () => {
         </div>
 
         {isXsOrMd ? null : (
-          <img src="https://i.ibb.co/KrYLVP3/Group67.webp"
-          alt='Intermedio'
-          className='w-[75%] mt-[700px]'
+          <img
+            src='https://i.ibb.co/KrYLVP3/Group67.webp'
+            alt='Intermedio'
+            className='w-[75%] mt-[700px]'
           />
-
         )}
       </div>
     </>
@@ -106,7 +105,6 @@ const Roadmap = () => {
 }
 
 export default Roadmap
-
 
 // 'use client'
 // import React from 'react'
