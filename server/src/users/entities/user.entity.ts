@@ -12,7 +12,6 @@ export class UsersEntity extends BaseEntity implements IUser {
   @Column({ unique: true, nullable: false })
   username: string;
   @Column({ unique: true, nullable: false })
-
   email: string;
   @BeforeInsert()
   @BeforeUpdate()
