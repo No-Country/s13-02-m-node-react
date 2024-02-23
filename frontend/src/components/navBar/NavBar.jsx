@@ -11,7 +11,7 @@ import MobileMenu from '../mobileMenu/MobileMenu'
 function NavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isMobileView, setIsMobileView] = useState(false)
-
+  const [avatarLetter, setAvatarLetter] = useState('')
   useEffect(() => {
     const handleResize = () => {
       setIsMobileView(window.innerWidth <= 768)
@@ -29,6 +29,9 @@ function NavBar() {
     // console.log("menu abierto");
   }
 
+  useEffect(() => {
+    setAvatarLetter(localStorage.getItem('avatar'))
+  }, [])
   return (
     <AppBar position='static' className='flex bg-[#10151D]'>
       <Container maxWidth='xl' className='bg-[#10151D] h-20'>
@@ -57,17 +60,13 @@ function NavBar() {
               sx={{ p: 0 }}
               className='hidden md:flex' /* Solo visible en dispositivos de tamaño medio y grande */
             >
-              <Avatar
-                alt='Remy Sharp'
-                src='/broken-image.jpg'
-                className='h-12 w-12'
-              />
+              <Avatar className='h-12 w-12'>{avatarLetter}</Avatar>
             </IconButton>
           )}
           {/* Contenido del menú móvil */}
           {isMobileMenuOpen && (
             <div className='absolute top-11 right-4 z-50 '>
-              <MobileMenu className="absolute z-50" />
+              <MobileMenu className='absolute z-50' />
             </div>
           )}
         </Toolbar>

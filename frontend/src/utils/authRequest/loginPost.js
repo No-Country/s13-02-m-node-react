@@ -1,15 +1,17 @@
 import axios from 'axios'
-
-const loginPost = async (userData, router) => {
+import { errorAuthManagement } from '../services/hooksAuth'
+const loginPost = async (userData, router, setErrorAuth) => {
   await axios
-    .post('https://nekode-rqas.onrender.com/api/auth/login', userData)
+    .post(`${process.env.NEXT_PUBLIC_API_URL}/login`, userData)
     .then(function (res) {
       localStorage.setItem('avatar', res.data.getUser.username[0])
+      localStorage.setItem('lives', res.data.getUser.life)
       localStorage.setItem('idKey', res.data.accessToken)
       router.push('/')
+      setErrorAuth('')
     })
     .catch(function (err) {
-      console.log(err)
+      errorAuthManagement(err, setErrorAuth)
     })
 }
 
