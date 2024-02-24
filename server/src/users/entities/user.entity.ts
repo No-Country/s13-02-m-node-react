@@ -42,10 +42,11 @@ export class UsersEntity extends BaseEntity implements IUser {
   challengeNotification: NOTIFICATIONFREQUENCY;
   @Column({ default: true })
   notification: boolean;
+
   @OneToMany(
     () => ProgressStacksEntity,
-    (progressStack) => progressStack.stack,
-    { cascade: true },
+    (progressStack) => progressStack.user,
+    { eager: true, cascade: true },
   )
   stacks: ProgressStacksEntity[];
 

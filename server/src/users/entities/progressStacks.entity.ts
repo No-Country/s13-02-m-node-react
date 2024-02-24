@@ -1,5 +1,5 @@
 import { BaseEntity } from '../../config/base.entity';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { UsersEntity } from './user.entity';
 import { StacksEntity } from '../../stacks/entities/stack.entity';
 import { ProgressThemesEntity } from '../../themes/entities/progressTheme.entity';
@@ -9,11 +9,13 @@ export class ProgressStacksEntity extends BaseEntity {
   @Column({ default: 0 })
   progress: number;
 
-  @ManyToOne(() => UsersEntity, (user) => user.stacks)
-  user: UsersEntity;
+  @ManyToOne(() => UsersEntity)
+  @JoinColumn({ name: 'user' })
+  user: string;
 
-  @ManyToOne(() => StacksEntity, (stack) => stack.id)
-  stack: StacksEntity;
+  @ManyToOne(() => StacksEntity)
+  @JoinColumn({ name: 'stack' })
+  stack: string;
 
   @ManyToOne(() => ProgressThemesEntity, (progress) => progress.id, {
     cascade: true,

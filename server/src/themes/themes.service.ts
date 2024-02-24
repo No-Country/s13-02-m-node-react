@@ -200,4 +200,10 @@ export class ThemesService {
       throw ErrorManager.createSignatureError(error.message);
     }
   }
+
+  // add theme
+
+  // remove theme
+
+  // add experience to theme
 }
