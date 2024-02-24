@@ -15,6 +15,8 @@ export class ProgressStacksEntity extends BaseEntity {
   @ManyToOne(() => StacksEntity, (stack) => stack.id)
   stack: StacksEntity;
 
-  @ManyToOne(() => ProgressThemesEntity, (progress) => progress.id)
+  @ManyToOne(() => ProgressThemesEntity, (progress) => progress.id, {
+    cascade: true,
+  })
   themes: ProgressThemesEntity[];
 }

@@ -15,6 +15,6 @@ export class StacksEntity extends BaseEntity implements IStack {
 
   @Column()
   points: number;
-  @OneToMany(() => ThemesEntity, (theme) => theme.stack)
+  @OneToMany(() => ThemesEntity, (theme) => theme.stack, { cascade: true })
   themes: ThemesEntity[];
 }

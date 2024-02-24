@@ -6,8 +6,12 @@ export class UserDto {
   @IsString()
   @IsNotEmpty()
   name: string;
-  @IsEnum({ type: 'enum', enum: LEVELS, default: LEVELS.DEBUTANT })
+  @IsEnum(LEVELS, {
+    message: 'Solo hay actualmente niveles 1, 2 y 3',
+  })
+  @IsNotEmpty()
   level: LEVELS;
+
   @IsInt()
   points: number;
   @IsUUID()

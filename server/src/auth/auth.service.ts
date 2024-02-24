@@ -18,7 +18,13 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  // Create a user
+  /**
+   * @Service Register - Handles the registration of a new user.
+   * @param registerAuthDto An object containing user registration data.
+   * @returns An object indicating the success of the registration with a message.
+   * @throws ErrorManager.createSignatureError if there is an unexpected error during the process.
+   * @throws ErrorManager with type 'BAD_REQUEST' and a message if the provided email or username is already in use.
+   */
   public async register(registerAuthDto: RegisterAuthDto) {
     try {
       const isEmail = await this.usersService.findUserBy({
@@ -43,14 +49,21 @@ export class AuthService {
         });
       }
       registerAuthDto.password = await hash(registerAuthDto.password, 10);
-      return this.usersService.create(registerAuthDto);
+      await this.usersService.create(registerAuthDto);
+      return { message: 'User Created' };
     } catch (error) {
       console.log(error);
       throw ErrorManager.createSignatureError(error.message);
     }
   }
 
-  // Login user
+  /**
+   * @service Login - Handles the user login process.
+   * @param loginAuthDto An object containing user login credentials (email and password).
+   * @returns A JWT token upon successful login.
+   * @throws ErrorManager.createSignatureError if there is an unexpected error during the process.
+   * @throws ErrorManager with type 'UNAUTHORIZED' and a message if the provided identity or password is incorrect.
+   */
   public async login(loginAuthDto: LoginAuthDto) {
     try {
       const { email, password } = loginAuthDto;
@@ -76,7 +89,13 @@ export class AuthService {
     }
   }
 
-  // Validate email and password
+  /**
+   * @function validateUser - Validates user credentials (email and password) during the login process.
+   * @param user The user identity (email) for validation.
+   * @param password The password for validation.
+   * @returns The user object if validation is successful, otherwise returns undefined.
+   * @throws ErrorManager.createSignatureError if there is an unexpected error during the process.
+   */
   public async validateUser(user: string, password: string) {
     try {
       const userToValidate = await this.usersService.findUserBy({
@@ -98,7 +117,12 @@ export class AuthService {
     }
   }
 
-  // Sign Token
+  /**
+   * @function SignJWT - Signs a JSON Web Token (JWT) with the provided payload.
+   * @param payload The payload to be included in the JWT.
+   * @returns The signed JWT token.
+   * @throws ErrorManager.createSignatureError if there is an unexpected error during the process.
+   */
   public async signJWT(payload: jwt.JwtPayload) {
     try {
       const token = jwt.sign(
@@ -117,7 +141,12 @@ export class AuthService {
     }
   }
 
-  // Generate Token
+  /**
+   * @function generateJWT Generates a JSON Web Token (JWT) for the provided user.
+   * @param user<UsersEntity> - The user entity for whom the JWT is generated.
+   * @returns An object containing the access token and user information.
+   * @throws ErrorManager.createSignatureError if there is an unexpected error during the process.
+   */
   public async generateJWT(user: UsersEntity): Promise<any> {
     try {
       const getUser = await this.usersService.findUserById(user.id);
