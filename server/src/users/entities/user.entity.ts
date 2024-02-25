@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { BaseEntity } from '../../config/base.entity';
 import { ROLES } from '../../config/constants/roles';
 import { IUser } from '../../types/interfaces/user.interface';

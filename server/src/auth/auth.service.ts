@@ -1,5 +1,3 @@
-/* eslint-disable prettier/prettier */
-
 import { Injectable } from '@nestjs/common';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { RegisterAuthDto } from './dto/register-auth.dto';
@@ -16,15 +14,8 @@ export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly configService: ConfigService,
-  ) {}
+  ) {} // Create a user
 
-  /**
-   * @Service Register - Handles the registration of a new user.
-   * @param registerAuthDto An object containing user registration data.
-   * @returns An object indicating the success of the registration with a message.
-   * @throws ErrorManager.createSignatureError if there is an unexpected error during the process.
-   * @throws ErrorManager with type 'BAD_REQUEST' and a message if the provided email or username is already in use.
-   */
   public async register(registerAuthDto: RegisterAuthDto) {
     try {
       registerAuthDto.email = registerAuthDto.email.toLowerCase();
@@ -49,35 +40,28 @@ export class AuthService {
           message: 'Username already in use',
         });
       }
-      registerAuthDto.password = await hash(registerAuthDto.password, 10);
-      await this.usersService.create(registerAuthDto);
-      return { message: 'User Created' };
+
+      const hashedPassword = await hash(registerAuthDto.password, 10);
+      return this.usersService.create({
+        username: registerAuthDto.username,
+        email: registerAuthDto.email,
+        password: hashedPassword,
+      });
     } catch (error) {
       console.log(error);
       throw ErrorManager.createSignatureError(error.message);
     }
-  }
+  } // Login user
 
-  /**
-   * @service Login - Handles the user login process.
-   * @param loginAuthDto An object containing user login credentials (email and password).
-   * @returns A JWT token upon successful login.
-   * @throws ErrorManager.createSignatureError if there is an unexpected error during the process.
-   * @throws ErrorManager with type 'UNAUTHORIZED' and a message if the provided identity or password is incorrect.
-   */
   public async login(loginAuthDto: LoginAuthDto) {
     try {
-      loginAuthDto.email = loginAuthDto.email.toLowerCase();
-      const { email, password } = loginAuthDto;
-      const userValidate = await this.validateUser(email, password);
-      console.log(
-        'email ',
+      const email = loginAuthDto.email.toLowerCase();
+      const password = loginAuthDto.password;
+      const userValidate = await this.validateUser({
         email,
-        ' password: ',
         password,
-        ' user:',
-        userValidate,
-      );
+      });
+      console.log('uservalidate ', userValidate);
       if (!userValidate) {
         throw new ErrorManager({
           type: 'UNAUTHORIZED',
@@ -89,29 +73,28 @@ export class AuthService {
       console.log(error);
       throw ErrorManager.createSignatureError(error.message);
     }
-  }
+  } // Validate email and password
 
-  /**
-   * @function validateUser - Validates user credentials (email and password) during the login process.
-   * @param user The user identity (email) for validation.
-   * @param password The password for validation.
-   * @returns The user object if validation is successful, otherwise returns undefined.
-   * @throws ErrorManager.createSignatureError if there is an unexpected error during the process.
-   */
-  public async validateUser(email: string, password: string) {
+  public async validateUser(data) {
+    console.log('PASSWORD RECIBIDA ', data.password);
     try {
       const userToValidate = await this.usersService.findUserBy({
         field: 'email',
-        value: email,
+        value: data.email,
       });
-      console.log('USER : ', userToValidate);
+      console.log('Existe userToValidate? : ', userToValidate);
       if (!userToValidate) {
-        console.log('no User found');
         return undefined;
       }
-      const match = await compare(password, userToValidate.password);
+      console.log(
+        'passwordToCompare ',
+        data.password,
+        ' against ',
+        userToValidate.password,
+      );
+      const match = await compare(data.password, userToValidate.password);
       if (!match) {
-        console.log('no pass match');
+        console.log('No match');
         return undefined;
       }
       return userToValidate;
@@ -119,14 +102,8 @@ export class AuthService {
       console.log(error);
       throw ErrorManager.createSignatureError(error.message);
     }
-  }
+  } // Sign Token
 
-  /**
-   * @function SignJWT - Signs a JSON Web Token (JWT) with the provided payload.
-   * @param payload The payload to be included in the JWT.
-   * @returns The signed JWT token.
-   * @throws ErrorManager.createSignatureError if there is an unexpected error during the process.
-   */
   public async signJWT(payload: jwt.JwtPayload) {
     try {
       const token = jwt.sign(
@@ -143,14 +120,8 @@ export class AuthService {
       console.log(error);
       throw ErrorManager.createSignatureError(error.message);
     }
-  }
+  } // Generate Token
 
-  /**
-   * @function generateJWT Generates a JSON Web Token (JWT) for the provided user.
-   * @param user<UsersEntity> - The user entity for whom the JWT is generated.
-   * @returns An object containing the access token and user information.
-   * @throws ErrorManager.createSignatureError if there is an unexpected error during the process.
-   */
   public async generateJWT(user: UsersEntity): Promise<any> {
     try {
       const getUser = await this.usersService.findUserById(user.id);
