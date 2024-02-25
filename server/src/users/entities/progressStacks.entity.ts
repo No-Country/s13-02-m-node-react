@@ -32,10 +32,7 @@ export class ProgressStacksEntity extends BaseEntity {
   @Column({ nullable: true })
   stackId: string;
 
-  @OneToMany(() => ProgressThemesEntity, (theme) => theme.id, {
-    cascade: ['update'],
-    onDelete: 'CASCADE',
-  })
+  @OneToMany(() => ProgressThemesEntity, (themes) => themes.stack)
   @JoinColumn({ name: 'themes' })
   themes: ProgressThemesEntity[];
 }

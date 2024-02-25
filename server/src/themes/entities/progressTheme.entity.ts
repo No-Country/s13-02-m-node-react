@@ -13,10 +13,13 @@ export class ProgressThemesEntity extends BaseEntity {
   @JoinColumn()
   theme: ThemesEntity;
 
+  @Column({ nullable: true })
+  themeId: string;
+
   @ManyToOne(() => ProgressStacksEntity)
   @JoinColumn()
   stack: ProgressStacksEntity;
 
   @Column({ nullable: true })
-  stackId: number;
+  stackId: string;
 }

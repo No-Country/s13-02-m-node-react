@@ -228,25 +228,28 @@ export class ThemesService {
   // add theme to user
   public async addThemeToUser(
     progressThemeDto: CreateProgressThemesDto,
-    userAuth,
+    userAuth: { role: string; id: string },
   ) {
     try {
-      console.log('quellega al crear un tema para user', progressThemeDto);
+      const { theme: themeId, stack: progressStackId } = progressThemeDto;
+      // See if progressStack id exists
+      console.log('ADDING THEME TO USER: ', progressThemeDto);
       const progressStackAsigned = await this.progressStackRespository.findOne({
         where: {
-          id: progressThemeDto.stack,
+          id: progressStackId,
         },
       });
-
+      console.log('progressStackAsigned: ', progressStackAsigned);
       if (!progressStackAsigned) {
         throw new ErrorManager({
           type: 'NOT_FOUND',
-          message: " Stack wrong or doesn't exists",
+          message: ' You must add the stack before adding a theme',
         });
       }
 
+      // See if user has permission to make the action.
       if (
-        userAuth.id !== progressStackAsigned.user &&
+        userAuth.id !== progressStackAsigned.userId &&
         userAuth.role !== 'ADMIN'
       ) {
         throw new ErrorManager({
@@ -255,24 +258,33 @@ export class ThemesService {
         });
       }
 
-      const themeAsigned = await this.themeRepository.findOne({
+      // See if theme required exists and it is a child of the stack
+      const themeRequired = await this.themeRepository.findOne({
         where: {
-          id: progressThemeDto.theme,
+          id: themeId,
+          stackId: progressStackAsigned.stackId,
         },
       });
 
-      if (!themeAsigned) {
+      console.log('themeRequired: ', themeRequired);
+      if (!themeRequired) {
         throw new ErrorManager({
           type: 'NOT_FOUND',
-          message: " Theme wrong or doesn't exists",
+          message:
+            " Theme wrong or doesn't exists or is not a theme from the stack",
         });
       }
+
+      console.log('creating progrestheme object');
       const newProgressTheme = new ProgressThemesEntity();
       newProgressTheme.progress = progressThemeDto.progress;
-      newProgressTheme.theme = themeAsigned;
+      newProgressTheme.theme = themeRequired;
       newProgressTheme.stack = progressStackAsigned;
+      console.log('POGRESS THEME OBJECT ', newProgressTheme);
 
-      await this.progressThemeRepository.save(newProgressTheme);
+      const mynewprogress =
+        await this.progressThemeRepository.save(newProgressTheme);
+      console.log('mynewprogress: ', mynewprogress);
       return { message: 'Stack added to user' };
     } catch (error) {
       console.log(error);

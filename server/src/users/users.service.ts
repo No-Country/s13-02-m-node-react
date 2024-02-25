@@ -75,9 +75,22 @@ export class UsersService {
       const { page, limit, orderBy, order } = query;
       const queryBuilder = this.userRepository
         .createQueryBuilder('user')
-        .leftJoinAndSelect('user.stacks', 'stacks')
-        .leftJoinAndSelect('stacks.stack', 'stack')
-        .addSelect(['user', 'user.username', 'stack.id', 'stack.name']);
+        .leftJoinAndSelect('user.stacks', 'stacks') // Relación en UsersEntity
+        .leftJoinAndSelect('stacks.stack', 'stack') // Relacion en progressStacks
+        .leftJoinAndSelect('stacks.themes', 'themes') // Relacion en progressStacks
+        .leftJoinAndSelect('themes.theme', 'theme') // Relacion en ThemesEntity
+        .select([
+          'user',
+          'stacks.id',
+          'stacks.progress',
+          'stack.name',
+          'themes.id',
+          'theme.name',
+          'theme.description',
+          'theme.level',
+          'theme.order',
+          'themes.progress',
+        ]);
       if (order && orderBy) {
         queryBuilder.orderBy(`user.${orderBy}`, order);
       }
@@ -119,8 +132,22 @@ export class UsersService {
       const user: UsersEntity = await this.userRepository
         .createQueryBuilder('user')
         .where({ id })
-        .leftJoinAndSelect('user.stacks', 'stacks')
-        .leftJoinAndSelect('stacks.stack', 'stack')
+        .leftJoinAndSelect('user.stacks', 'stacks') // Relación en UsersEntity
+        .leftJoinAndSelect('stacks.stack', 'stack') // Relacion en progressStacks
+        .leftJoinAndSelect('stacks.themes', 'themes') // Relacion en progressStacks
+        .leftJoinAndSelect('themes.theme', 'theme') // Relacion en ThemesEntity
+        .select([
+          'user',
+          'stacks.id',
+          'stacks.progress',
+          'stack.name',
+          'themes.id',
+          'theme.name',
+          'theme.description',
+          'theme.level',
+          'theme.order',
+          'themes.progress',
+        ])
         .getOne();
       if (!user) {
         return undefined;
