@@ -1,5 +1,5 @@
 import { IsEnum, IsNotEmpty, IsOptional, IsUUID } from 'class-validator';
-import { LEVELS } from 'src/config/constants/levels';
+import { LEVELS } from '../../config/constants/levels';
 import {
   IsNumber,
   IsPositive,

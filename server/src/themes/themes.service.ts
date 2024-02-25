@@ -1,20 +1,32 @@
 import { ConflictException, Inject, Injectable } from '@nestjs/common';
-import { CreateThemeDto } from './dto/create-theme.dto';
-import { UpdateThemeDto } from './dto/update-theme.dto';
-import { ThemesEntity } from './entities/theme.entity';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ErrorManager } from 'src/utils/error.manager';
 import { StacksService } from 'src/stacks/stacks.service';
-import { ThemeQueryDto } from './dto/theme-query.dto';
+import {
+  CreateThemeDto,
+  UpdateThemeDto,
+  ThemeQueryDto,
+  CreateProgressThemesDto,
+  UpdateProgressThemeDto,
+} from './dto';
+
+import { ThemesEntity } from './entities/theme.entity';
+import { ProgressThemesEntity } from './entities/progressTheme.entity';
+import { ProgressStacksEntity } from 'src/users/entities/progressStacks.entity';
+
+import { ErrorManager } from 'src/utils/error.manager';
 
 @Injectable()
 export class ThemesService {
   constructor(
     @InjectRepository(ThemesEntity)
     private themeRepository: Repository<ThemesEntity>,
+    @InjectRepository(ThemesEntity)
+    private progressThemeRepository: Repository<ProgressThemesEntity>,
     @Inject(StacksService)
     private stackService: StacksService,
+    @InjectRepository(ProgressStacksEntity)
+    private progressStackRespository: Repository<ProgressStacksEntity>,
   ) {}
 
   /**
@@ -29,7 +41,7 @@ export class ThemesService {
     try {
       const stack = createThemeDto.stack;
       const stackFound = await this.stackService.findStackById(stack);
-
+      console.log('que llega: ', createThemeDto);
       if (!stackFound) {
         throw new ErrorManager({
           type: 'BAD_REQUEST',
@@ -45,6 +57,7 @@ export class ThemesService {
         description: createThemeDto.description || null,
         stack: stackFound.id,
       });
+      console.log('theme: ', theme);
 
       await this.themeRepository.save(theme);
       return theme;
@@ -201,9 +214,76 @@ export class ThemesService {
     }
   }
 
-  // add theme
+  // add theme to user
+  public async addThemeToUser(
+    progressThemeDto: CreateProgressThemesDto,
+    userAuth,
+  ) {
+    try {
+      console.log('quellega al crear un tema para user', progressThemeDto);
+      const progressStackAsigned = await this.progressStackRespository.findOne({
+        where: {
+          id: progressThemeDto.stack,
+        },
+      });
+
+      if (!progressStackAsigned) {
+        throw new ErrorManager({
+          type: 'NOT_FOUND',
+          message: " Stack wrong or doesn't exists",
+        });
+      }
+
+      if (
+        userAuth.id !== progressStackAsigned.user &&
+        userAuth.role !== 'ADMIN'
+      ) {
+        throw new ErrorManager({
+          type: 'FORBIDDEN',
+          message: 'You have no privileges for perform this action',
+        });
+      }
+
+      const progressThemeAsigned = await this.progressThemeRepository.findOne({
+        where: {
+          id: progressThemeDto.theme,
+        },
+      });
+
+      if (!progressThemeAsigned) {
+        throw new ErrorManager({
+          type: 'NOT_FOUND',
+          message: " Theme wrong or doesn't exists",
+        });
+      }
+      const newProgressTheme = new ProgressThemesEntity();
+      newProgressTheme.progress = progressThemeDto.progress;
+      newProgressTheme.theme = progressThemeAsigned.id;
+      newProgressTheme.stack = progressStackAsigned.id;
+
+      await this.progressThemeRepository.save(newProgressTheme);
+      return { message: 'Stack added to user' };
+    } catch (error) {
+      console.log(error);
+      throw ErrorManager.createSignatureError(error.message);
+    }
+  }
 
   // remove theme
 
   // add experience to theme
+  public async updateThemeProgress(
+    id: string,
+    updateProgress: UpdateProgressThemeDto,
+  ) {
+    try {
+      const themeUpdated = await this.progressThemeRepository.update(
+        id,
+        updateProgress,
+      );
+      return themeUpdated;
+    } catch (error) {
+      throw ErrorManager.createSignatureError(error.message);
+    }
+  }
 }

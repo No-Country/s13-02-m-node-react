@@ -17,8 +17,11 @@ export class ProgressStacksEntity extends BaseEntity {
   @JoinColumn({ name: 'stack' })
   stack: string;
 
-  @ManyToOne(() => ProgressThemesEntity, (progress) => progress.id, {
-    cascade: true,
-  })
-  themes: ProgressThemesEntity[];
+  // @ManyToOne(() => ProgressThemesEntity, (progress) => progress.id, {
+  //   cascade: true,
+  // })
+  // themes: ProgressThemesEntity[];
+  @ManyToOne(() => ProgressThemesEntity, { eager: true, cascade: true })
+  @JoinColumn({ name: 'themes' })
+  themes: string[];
 }

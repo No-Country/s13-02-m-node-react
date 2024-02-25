@@ -121,13 +121,9 @@ export class UsersService {
         .where({ id })
         .leftJoinAndSelect('user.stacks', 'stacks')
         .leftJoinAndSelect('stacks.stack', 'stack')
-        .leftJoinAndSelect('stack.themes', 'themes')
         .getOne();
       if (!user) {
-        throw new ErrorManager({
-          type: 'NOT_FOUND',
-          message: 'No user found',
-        });
+        return undefined;
       }
       return user;
     } catch (error) {

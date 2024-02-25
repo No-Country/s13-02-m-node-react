@@ -6,10 +6,15 @@ import { ThemesEntity } from './entities/theme.entity';
 import { StacksEntity } from 'src/stacks/entities/stack.entity';
 import { UsersModule } from 'src/users/users.module';
 import { StacksService } from 'src/stacks/stacks.service';
+import { ProgressThemesEntity } from './entities/progressTheme.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ThemesEntity, StacksEntity]),
+    TypeOrmModule.forFeature([
+      ThemesEntity,
+      StacksEntity,
+      ProgressThemesEntity,
+    ]),
     UsersModule,
   ],
   controllers: [ThemesController],

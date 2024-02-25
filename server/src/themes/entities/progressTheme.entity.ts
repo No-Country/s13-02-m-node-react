@@ -1,5 +1,5 @@
 import { BaseEntity } from '../../config/base.entity';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { ThemesEntity } from './theme.entity';
 import { ProgressStacksEntity } from '../../users/entities/progressStacks.entity';
 
@@ -8,9 +8,11 @@ export class ProgressThemesEntity extends BaseEntity {
   @Column({ default: 0 })
   progress: number;
 
-  @ManyToOne(() => ThemesEntity, (theme) => theme.id)
-  theme: ThemesEntity;
+  @ManyToOne(() => ThemesEntity)
+  @JoinColumn({ name: 'theme' })
+  theme: string;
 
-  @ManyToOne(() => ProgressStacksEntity, (stack) => stack.id)
-  stack: ProgressStacksEntity;
+  @ManyToOne(() => ProgressStacksEntity)
+  @JoinColumn({ name: 'stack' })
+  stack: string;
 }

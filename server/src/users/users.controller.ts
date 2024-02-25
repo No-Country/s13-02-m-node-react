@@ -22,6 +22,7 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 import { ROLES } from 'src/config/constants/roles';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { UserQueryDto } from './dto/theme-query.dto';
+import { ErrorManager } from 'src/utils/error.manager';
 
 @ApiTags('users')
 @ApiBearerAuth()
@@ -46,7 +47,14 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
+    const user = await this.usersService.findUserById(id);
+    if (!user) {
+      throw new ErrorManager({
+        type: 'NOT_FOUND',
+        message: 'No user found',
+      });
+    }
     return this.usersService.findUserById(id);
   }
 
