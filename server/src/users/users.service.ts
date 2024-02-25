@@ -161,8 +161,24 @@ export class UsersService {
   public async update(
     id: string,
     updateUserDto: UpdateUserDto,
+    userAuth: { role: string; id: string },
   ): Promise<UpdateResult | undefined> {
     try {
+      if (updateUserDto.role && userAuth.role !== 'ADMIN') {
+        throw new ErrorManager({
+          type: 'FORBIDDEN',
+          message: 'You have no privileges for perform this action',
+        });
+      }
+      const userFound: UsersEntity = await this.userRepository.findOne({
+        where: { id },
+      });
+      if (userAuth.id !== userFound.id && userAuth.role !== 'ADMIN') {
+        throw new ErrorManager({
+          type: 'FORBIDDEN',
+          message: 'You have no privileges for perform this action',
+        });
+      }
       const user: UpdateResult = await this.userRepository.update(
         id,
         updateUserDto,
@@ -208,7 +224,6 @@ export class UsersService {
         const stackUser = await this.userRepository.findOne({
           where: { id: progressStackDto.user },
         });
-        console.log(stackUser);
         if (!stackUser) {
           throw new ErrorManager({
             type: 'NOT_FOUND',

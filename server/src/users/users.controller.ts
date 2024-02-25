@@ -73,8 +73,13 @@ export class UsersController {
 
   // modifiy username, avatar, notification, notificationchallenge
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(id, updateUserDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+    @Req() req,
+  ) {
+    const { userAuth } = req;
+    return this.usersService.update(id, updateUserDto, userAuth);
   }
 
   @Roles(ROLES.ADMIN)

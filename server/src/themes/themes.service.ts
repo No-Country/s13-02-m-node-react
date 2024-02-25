@@ -41,7 +41,6 @@ export class ThemesService {
     try {
       const stack = createThemeDto.stack;
       const stackFound = await this.stackService.findOne(stack);
-      console.log('que llega: ', createThemeDto);
       if (!stackFound) {
         throw new ErrorManager({
           type: 'BAD_REQUEST',
@@ -146,16 +145,16 @@ export class ThemesService {
         .createQueryBuilder('theme')
         .where({ id })
         .leftJoinAndSelect('theme.stack', 'stack')
-        .select([
-          'theme.id',
-          'theme.name',
-          'theme.level',
-          'theme.description',
-          'theme.points',
-          'theme.order',
-          'stack.id',
-          'stack.name',
-        ])
+        // .select([
+        //   'theme.id',
+        //   'theme.name',
+        //   'theme.level',
+        //   'theme.description',
+        //   'theme.points',
+        //   'theme.order',
+        //   'stack.id',
+        //   'stack.name',
+        // ])
         .getOne();
 
       if (!theme) {
