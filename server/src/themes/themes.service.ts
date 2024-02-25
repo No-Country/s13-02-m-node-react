@@ -21,7 +21,7 @@ export class ThemesService {
   constructor(
     @InjectRepository(ThemesEntity)
     private themeRepository: Repository<ThemesEntity>,
-    @InjectRepository(ThemesEntity)
+    @InjectRepository(ProgressThemesEntity)
     private progressThemeRepository: Repository<ProgressThemesEntity>,
     @Inject(StacksService)
     private stackService: StacksService,
@@ -39,7 +39,7 @@ export class ThemesService {
    */
   public async create(createThemeDto: CreateThemeDto) {
     try {
-      const stack = createThemeDto.stack;
+      const stack = createThemeDto.progressStack;
       const stackFound = await this.stackService.findOne(stack);
       if (!stackFound) {
         throw new ErrorManager({
@@ -181,21 +181,19 @@ export class ThemesService {
   public async update(
     id: string,
     updateThemeDto: UpdateThemeDto,
-  ): Promise<UpdateResult | undefined> {
+  ): Promise<{ message: string } | undefined> {
     try {
-      const { stack, ...updateThemeWithoutStack } = updateThemeDto;
-      const stackEntity = await this.stackService.findStackById(stack);
       const theme: UpdateResult = await this.themeRepository.update(id, {
-        ...updateThemeWithoutStack,
-        stack: stackEntity,
+        ...updateThemeDto,
       });
+
       if (theme.affected === 0) {
         throw new ErrorManager({
           type: 'NOT_FOUND',
           message: 'Cant update - No theme found',
         });
       }
-      return theme;
+      return { message: 'Theme Updated' };
     } catch (error) {
       throw ErrorManager.createSignatureError(error.message);
     }
@@ -209,7 +207,7 @@ export class ThemesService {
    * @throws ErrorManager.createSignatureError if there is an unexpected error during the process.
    * @throws ErrorManager with type 'NOT_FOUND' if no matching Theme is found to remove.
    */
-  public async remove(id: string): Promise<DeleteResult | undefined> {
+  public async remove(id: string): Promise<{ message: string } | undefined> {
     try {
       const theme: DeleteResult = await this.themeRepository.delete(id);
       if (theme.affected === 0) {
@@ -218,7 +216,7 @@ export class ThemesService {
           message: 'Cant delete - No theme found',
         });
       }
-      return theme;
+      return { message: 'Theme Deleted' };
     } catch (error) {
       throw ErrorManager.createSignatureError(error.message);
     }
@@ -230,13 +228,13 @@ export class ThemesService {
     userAuth: { role: string; id: string },
   ) {
     try {
-      const { theme: themeId, stack: progressStackId } = progressThemeDto;
+      const { theme: themeId, progressStack: progressStackId } =
+        progressThemeDto;
       // See if progressStack id exists
       const progressStackAsigned = await this.progressStackRespository.findOne({
         where: {
           id: progressStackId,
         },
-        relations: ['themes'],
       });
       if (!progressStackAsigned) {
         throw new ErrorManager({
@@ -244,7 +242,6 @@ export class ThemesService {
           message: ' You must add the stack before adding a theme',
         });
       }
-      console.log('STACK ASSINGED PROGRESS: ', progressStackAsigned);
 
       // See if user has permission to make the action.
       if (
@@ -272,13 +269,17 @@ export class ThemesService {
             " Theme wrong or doesn't exists or is not a theme from the stack",
         });
       }
-      console.log('THEMES ASSINGED: ', themeRequired);
 
-      const myNewProgressTheme = await this.progressThemeRepository.save({
+      console.log('PROGRESSSTACK -> ', progressStackAsigned);
+      console.log('THEME -> ', themeRequired);
+      const myNewProgressTheme = this.progressThemeRepository.create({
         progress: progressThemeDto.progress,
-        stack: progressStackAsigned,
+        progressStack: progressStackAsigned,
         theme: themeRequired,
       });
+      console.log('CREATING THIS PROGRESSSTAK ', myNewProgressTheme);
+
+      await this.progressThemeRepository.save(myNewProgressTheme);
 
       console.log('CREATED PROGRESSTHEME: ', myNewProgressTheme);
       return { message: 'Stack added to user' };

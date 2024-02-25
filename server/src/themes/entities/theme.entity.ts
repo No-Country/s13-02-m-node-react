@@ -2,7 +2,7 @@ import { BaseEntity } from '../../config/base.entity';
 import { StacksEntity } from '../../stacks/entities/stack.entity';
 import { ITheme } from '../../types/interfaces/theme.interface';
 import { LEVELS } from '../../config/constants/levels';
-import { Column, Entity, JoinColumn, ManyToOne, Unique } from 'typeorm';
+import { Column, Entity, ManyToOne, Unique } from 'typeorm';
 
 @Entity({ name: 'themes' })
 @Unique(['name', 'level', 'stack'])
@@ -17,10 +17,11 @@ export class ThemesEntity extends BaseEntity implements ITheme {
   points: number;
   @Column({ nullable: false })
   order: number;
+
+  @ManyToOne(() => StacksEntity, (stack) => stack.themes, {
+    onDelete: 'CASCADE',
+  })
+  stack: StacksEntity;
   @Column({ nullable: true })
   stackId: string;
-
-  @ManyToOne(() => StacksEntity)
-  @JoinColumn()
-  stack: StacksEntity;
 }

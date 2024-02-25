@@ -34,5 +34,5 @@ export class CreateThemeDto {
 
   @IsUUID()
   @IsNotEmpty()
-  stack: string;
+  progressStack: string;
 }

@@ -18,15 +18,13 @@ export class ProgressStacksEntity extends BaseEntity {
   progress: number;
 
   // En ThemesEntity
-  @ManyToOne(() => UsersEntity)
-  @JoinColumn()
+  @ManyToOne(() => UsersEntity, (user) => user.stacks, { onDelete: 'CASCADE' })
   user: UsersEntity;
 
   @Column({ nullable: true })
   userId: string;
 
   @ManyToOne(() => StacksEntity)
-  @JoinColumn()
   stack: StacksEntity;
 
   @Column({ nullable: true })
@@ -35,6 +33,10 @@ export class ProgressStacksEntity extends BaseEntity {
   // @OneToMany(() => ProgressThemesEntity, (themes) => themes.stack)
   // @JoinColumn({ name: 'themes' })
   // themes: ProgressThemesEntity[];
-  @OneToMany(() => ProgressThemesEntity, (themes) => themes.stack)
+  @OneToMany(
+    () => ProgressThemesEntity,
+    (progressThemes) => progressThemes.progressStack,
+  )
+  @JoinColumn()
   themes: ProgressThemesEntity[];
 }
