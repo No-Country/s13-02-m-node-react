@@ -40,7 +40,7 @@ export class ThemesService {
   public async create(createThemeDto: CreateThemeDto) {
     try {
       const stack = createThemeDto.stack;
-      const stackFound = await this.stackService.findStackById(stack);
+      const stackFound = await this.stackService.findOne(stack);
       console.log('que llega: ', createThemeDto);
       if (!stackFound) {
         throw new ErrorManager({
@@ -48,7 +48,10 @@ export class ThemesService {
           message: `There is no stack with the id: ${stack}`,
         });
       }
-
+      if (!createThemeDto.order) {
+        const maxOrder = await this.getMaxOrderForStack(stack);
+        createThemeDto.order = maxOrder + 1;
+      }
       const theme = this.themeRepository.create({
         name: createThemeDto.name.toLowerCase(),
         level: createThemeDto.level,
@@ -57,10 +60,8 @@ export class ThemesService {
         description: createThemeDto.description || null,
         stack: stackFound,
       });
-      console.log('theme: ', theme);
-
-      await this.themeRepository.save(theme);
-      return theme;
+      const newTheme = await this.themeRepository.save(theme);
+      return { id: newTheme.id };
     } catch (error) {
       console.error(error);
       if (error.code === '23505')
@@ -71,6 +72,15 @@ export class ThemesService {
     }
   }
 
+  private async getMaxOrderForStack(stackId: string): Promise<number> {
+    const maxOrder = await this.themeRepository
+      .createQueryBuilder('theme')
+      .select('MAX(theme.order)', 'maxOrder')
+      .where('theme.stackId = :stackId', { stackId })
+      .getRawOne();
+
+    return maxOrder?.maxOrder || 0;
+  }
   /**
    * @service Retrieves all Theme entities with optional pagination and ordering.
    * @param query An object containing options for pagination (page, limit) and ordering (orderBy, order).

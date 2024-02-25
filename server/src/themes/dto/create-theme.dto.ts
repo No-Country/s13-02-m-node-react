@@ -27,6 +27,7 @@ export class CreateThemeDto {
   description: string;
 
   @IsNumber()
+  @IsOptional()
   @IsNotEmpty()
   @IsPositive({ message: 'El número de orden debe ser positivo' })
   order: number;
