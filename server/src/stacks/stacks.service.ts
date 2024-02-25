@@ -66,10 +66,17 @@ export class StacksService {
       // Paginate if pagination parameters are provided
       if (page && limit) {
         const totalCount = await queryBuilder.getCount();
-        totalPages = Math.ceil(totalCount / limit);
-        queryBuilder.skip((page - 1) * limit).take(limit);
+        totalPages = Math.ceil(totalCount / +limit);
+        queryBuilder.skip((page - 1) * +limit).take(limit);
         const data = await queryBuilder.getMany();
-        return { data, pagination: { totalPages, limit, page } };
+        return {
+          data,
+          pagination: {
+            totalPages,
+            limit: parseInt(limit),
+            page: parseInt(page),
+          },
+        };
       }
 
       // Return all stacks if no pagination or ordering parameters are provided

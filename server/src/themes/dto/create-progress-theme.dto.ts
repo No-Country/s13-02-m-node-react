@@ -11,5 +11,5 @@ export class CreateProgressThemesDto {
 
   @IsUUID()
   @IsNotEmpty()
-  stack: string;
+  progressStack: string;
 }

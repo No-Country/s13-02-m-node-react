@@ -21,29 +21,31 @@ export class UsersEntity extends BaseEntity implements IUser {
   @Column({ nullable: true }) // cambie esto para poder hacer pruebas
   @Exclude()
   tokenPass: string;
-  @Column({ type: 'enum', enum: ROLES, default: ROLES.BASIC })
-  role: ROLES;
-  @Column({ default: 3 })
-  life: number;
+
   @Column({ unique: true, nullable: true })
   @Exclude()
   identifier_ia: string;
+
+  @Column({ type: 'enum', enum: ROLES, default: ROLES.BASIC })
+  role: ROLES;
+
+  @Column({ default: 3 })
+  life: number;
+
   @Column({ default: 0 })
   totalPoints: number;
+
   @Column({
     type: 'enum',
     enum: NOTIFICATIONFREQUENCY,
     default: NOTIFICATIONFREQUENCY.DAILY,
   })
   challengeNotification: NOTIFICATIONFREQUENCY;
+
   @Column({ default: true })
   notification: boolean;
 
-  @OneToMany(
-    () => ProgressStacksEntity,
-    (progressStack) => progressStack.user,
-    { eager: true, cascade: ['update'], onDelete: 'CASCADE' },
-  )
-  @JoinColumn({ name: 'stacks' })
+  @OneToMany(() => ProgressStacksEntity, (progressStack) => progressStack.user)
+  @JoinColumn()
   stacks: ProgressStacksEntity[];
 }
