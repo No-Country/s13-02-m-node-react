@@ -1,27 +1,41 @@
 import { BaseEntity } from '../../config/base.entity';
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  Unique,
+} from 'typeorm';
 import { UsersEntity } from './user.entity';
 import { StacksEntity } from '../../stacks/entities/stack.entity';
 import { ProgressThemesEntity } from '../../themes/entities/progressTheme.entity';
 
 @Entity({ name: 'progress_stacks' })
+@Unique(['stack', 'user'])
 export class ProgressStacksEntity extends BaseEntity {
   @Column({ default: 0 })
   progress: number;
 
+  // En ThemesEntity
   @ManyToOne(() => UsersEntity)
-  @JoinColumn({ name: 'user' })
-  user: string;
+  @JoinColumn()
+  user: UsersEntity;
+
+  @Column({ nullable: true })
+  userId: string;
 
   @ManyToOne(() => StacksEntity)
-  @JoinColumn({ name: 'stack' })
-  stack: string;
+  @JoinColumn()
+  stack: StacksEntity;
 
-  // @ManyToOne(() => ProgressThemesEntity, (progress) => progress.id, {
-  //   cascade: true,
-  // })
-  // themes: ProgressThemesEntity[];
-  @ManyToOne(() => ProgressThemesEntity, { eager: true, cascade: true })
+  @Column({ nullable: true })
+  stackId: string;
+
+  @OneToMany(() => ProgressThemesEntity, (theme) => theme.id, {
+    cascade: ['update'],
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'themes' })
-  themes: string[];
+  themes: ProgressThemesEntity[];
 }

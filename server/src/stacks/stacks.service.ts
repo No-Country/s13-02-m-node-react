@@ -44,7 +44,18 @@ export class StacksService {
   > {
     try {
       const { limit, page, order, orderBy } = query;
-      const queryBuilder = this.stackRepository.createQueryBuilder('stack');
+      const queryBuilder = this.stackRepository
+        .createQueryBuilder('stack')
+        .leftJoinAndSelect('stack.themes', 'theme') // Cambiado de 'themes' a 'theme'
+        .select([
+          'stack',
+          'theme.id',
+          'theme.name',
+          'theme.level',
+          'theme.order',
+          'theme.points',
+        ]);
+      //.loadRelationCountAndMap('stack.themeQuantity', 'stack.themes'); // carga el recuento de temas en 'stack'
       let totalPages;
 
       // Sort if ordering parameters are provided
@@ -71,6 +82,25 @@ export class StacksService {
     }
   }
 
+  // To intern purposes
+  async findOne(id: string): Promise<StacksEntity> {
+    try {
+      // Query to retrieve the Stack entity by ID, including associated Themes through a left join
+      const stack: StacksEntity = await this.stackRepository
+        .createQueryBuilder('stack')
+        .where({ id })
+        .getOne();
+
+      // Check if the Stack entity is not found and throw an error if so
+      if (!stack) {
+        return undefined;
+      }
+      return stack;
+    } catch (error) {
+      throw ErrorManager.createSignatureError(error.message);
+    }
+  }
+
   /**
    * @function: Finds and retrieves a Stack entity by its ID, including its associated Themes through a left join.
    * @param id<string> The ID of the Stack entity to be retrieved.
@@ -84,6 +114,14 @@ export class StacksService {
         .createQueryBuilder('stack')
         .where({ id })
         .leftJoinAndSelect('stack.themes', 'themes')
+        .select([
+          'stack',
+          'theme.id',
+          'theme.name',
+          'theme.level',
+          'theme.order',
+          'theme.points',
+        ])
         .getOne();
 
       // Check if the Stack entity is not found and throw an error if so

@@ -169,8 +169,9 @@ export class UsersService {
 
   public async addStackToUser(
     progressStackDto: CreateProgressStackDto,
-    userAuth,
+    userAuth: { role: string; id: string },
   ) {
+    console.log('entering add stack user');
     try {
       if (userAuth.id !== progressStackDto.user && userAuth.role !== 'ADMIN') {
         throw new ErrorManager({
@@ -181,13 +182,15 @@ export class UsersService {
         const stackUser = await this.userRepository.findOne({
           where: { id: progressStackDto.user },
         });
+        console.log(stackUser);
         if (!stackUser) {
           throw new ErrorManager({
             type: 'NOT_FOUND',
             message: " Id User wrong or doesn't exists",
           });
         }
-        const stackAsigned = await this.stacksService.findStackById(
+        console.log('checking stackAsigned');
+        const stackAsigned = await this.stacksService.findOne(
           progressStackDto.stack,
         );
         if (!stackAsigned) {
@@ -196,10 +199,9 @@ export class UsersService {
             message: " Stack wrong or doesn't exists",
           });
         }
-
         await this.progressStacksRepository.save({
-          user: stackUser.id,
-          stack: stackAsigned.id,
+          user: stackUser,
+          stack: stackAsigned,
           progress: 0,
         });
 
@@ -224,7 +226,7 @@ export class UsersService {
         .addSelect('user.password')
         .where({ [options.field]: options.value })
         .getOne();
-
+      console.log('user:', user);
       if (!user) {
         return undefined;
       }

@@ -2,7 +2,7 @@
 import { BaseEntity } from '../../config/base.entity';
 import { ROLES } from '../../config/constants/roles';
 import { IUser } from '../../types/interfaces/user.interface';
-import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany } from 'typeorm';
 import { ProgressStacksEntity } from './progressStacks.entity';
 import { NOTIFICATIONFREQUENCY } from '../../config/constants/notification_frequency';
 import { Exclude } from 'class-transformer';
@@ -11,17 +11,13 @@ import { Exclude } from 'class-transformer';
 export class UsersEntity extends BaseEntity implements IUser {
   @Column({ unique: true, nullable: false })
   username: string;
+
   @Column({ unique: true, nullable: false })
   email: string;
-  @BeforeInsert()
-  @BeforeUpdate()
-  async toLowerCase() {
-    // Este método se ejecutará antes de insertar o actualizar la entidad
-    this.email = await this.transformToLowerCase(this.email);
-  }
-  @Exclude()
+
   @Column({ nullable: false })
   password: string;
+
   @Column({ nullable: true }) // cambie esto para poder hacer pruebas
   @Exclude()
   tokenPass: string;
@@ -46,11 +42,8 @@ export class UsersEntity extends BaseEntity implements IUser {
   @OneToMany(
     () => ProgressStacksEntity,
     (progressStack) => progressStack.user,
-    { eager: true, cascade: true },
+    { eager: true, cascade: ['update'], onDelete: 'CASCADE' },
   )
+  @JoinColumn({ name: 'stacks' })
   stacks: ProgressStacksEntity[];
-
-  private async transformToLowerCase(value: string): Promise<string> {
-    return value.toLowerCase();
-  }
 }

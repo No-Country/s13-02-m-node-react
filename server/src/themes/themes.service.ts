@@ -55,7 +55,7 @@ export class ThemesService {
         points: createThemeDto.points,
         order: createThemeDto.order,
         description: createThemeDto.description || null,
-        stack: stackFound.id,
+        stack: stackFound,
       });
       console.log('theme: ', theme);
 
@@ -85,19 +85,18 @@ export class ThemesService {
   }> {
     try {
       const { page, limit, orderBy, order } = query;
-      const queryBuilder = this.themeRepository
-        .createQueryBuilder('theme')
-        .leftJoinAndSelect('theme.stack', 'stack')
-        .select([
-          'theme.id',
-          'theme.name',
-          'theme.level',
-          'theme.description',
-          'theme.points',
-          'theme.order',
-          'stack.id',
-          'stack.name',
-        ]);
+      const queryBuilder = this.themeRepository.createQueryBuilder('theme');
+      //.leftJoinAndSelect('theme.stack', 'stack');
+      // .select([
+      //   'theme.id',
+      //   'theme.name',
+      //   'theme.level',
+      //   'theme.description',
+      //   'theme.points',
+      //   'theme.order',
+      //   'stack.id',
+      //   'stack.name',
+      // ]);
 
       if (order && orderBy) {
         queryBuilder.orderBy(`theme.${orderBy}`, order);
@@ -175,10 +174,12 @@ export class ThemesService {
     updateThemeDto: UpdateThemeDto,
   ): Promise<UpdateResult | undefined> {
     try {
-      const theme: UpdateResult = await this.themeRepository.update(
-        id,
-        updateThemeDto,
-      );
+      const { stack, ...updateThemeWithoutStack } = updateThemeDto;
+      const stackEntity = await this.stackService.findStackById(stack);
+      const theme: UpdateResult = await this.themeRepository.update(id, {
+        ...updateThemeWithoutStack,
+        stack: stackEntity,
+      });
       if (theme.affected === 0) {
         throw new ErrorManager({
           type: 'NOT_FOUND',
@@ -244,13 +245,13 @@ export class ThemesService {
         });
       }
 
-      const progressThemeAsigned = await this.progressThemeRepository.findOne({
+      const themeAsigned = await this.themeRepository.findOne({
         where: {
           id: progressThemeDto.theme,
         },
       });
 
-      if (!progressThemeAsigned) {
+      if (!themeAsigned) {
         throw new ErrorManager({
           type: 'NOT_FOUND',
           message: " Theme wrong or doesn't exists",
@@ -258,8 +259,8 @@ export class ThemesService {
       }
       const newProgressTheme = new ProgressThemesEntity();
       newProgressTheme.progress = progressThemeDto.progress;
-      newProgressTheme.theme = progressThemeAsigned.id;
-      newProgressTheme.stack = progressStackAsigned.id;
+      newProgressTheme.theme = themeAsigned;
+      newProgressTheme.stack = progressStackAsigned;
 
       await this.progressThemeRepository.save(newProgressTheme);
       return { message: 'Stack added to user' };

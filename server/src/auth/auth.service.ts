@@ -27,6 +27,7 @@ export class AuthService {
    */
   public async register(registerAuthDto: RegisterAuthDto) {
     try {
+      registerAuthDto.email = registerAuthDto.email.toLowerCase();
       const isEmail = await this.usersService.findUserBy({
         field: 'email',
         value: registerAuthDto.email,
@@ -66,6 +67,7 @@ export class AuthService {
    */
   public async login(loginAuthDto: LoginAuthDto) {
     try {
+      loginAuthDto.email = loginAuthDto.email.toLowerCase();
       const { email, password } = loginAuthDto;
       const userValidate = await this.validateUser(email, password);
       console.log(
@@ -96,18 +98,20 @@ export class AuthService {
    * @returns The user object if validation is successful, otherwise returns undefined.
    * @throws ErrorManager.createSignatureError if there is an unexpected error during the process.
    */
-  public async validateUser(user: string, password: string) {
+  public async validateUser(email: string, password: string) {
     try {
       const userToValidate = await this.usersService.findUserBy({
         field: 'email',
-        value: user,
+        value: email,
       });
-
+      console.log('USER : ', userToValidate);
       if (!userToValidate) {
+        console.log('no User found');
         return undefined;
       }
       const match = await compare(password, userToValidate.password);
       if (!match) {
+        console.log('no pass match');
         return undefined;
       }
       return userToValidate;

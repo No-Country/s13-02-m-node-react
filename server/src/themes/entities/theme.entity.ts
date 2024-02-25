@@ -17,8 +17,11 @@ export class ThemesEntity extends BaseEntity implements ITheme {
   points: number;
   @Column({ nullable: false })
   order: number;
+  @Column({ nullable: true })
+  stackId: number;
+
   // En ThemesEntity
   @ManyToOne(() => StacksEntity)
-  @JoinColumn({ name: 'stack_id' })
-  stack: string;
+  @JoinColumn()
+  stack: StacksEntity;
 }
