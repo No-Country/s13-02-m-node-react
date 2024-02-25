@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Query,
+  ValidationPipe,
 } from '@nestjs/common';
 import { StacksService } from './stacks.service';
 import { CreateStackDto } from './dto/create-stack.dto';
@@ -19,6 +20,7 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { ROLES } from '../config/constants/roles';
 import { ErrorManager } from 'src/utils/error.manager';
+import { StackQueryDto } from './dto/query-stack.dto';
 
 @ApiTags('stacks')
 @ApiBearerAuth()
@@ -53,11 +55,9 @@ export class StacksController {
   @PublicAccess()
   @Get()
   findAll(
-    @Query('page') page?: number,
-    @Query('limit') limit?: number,
-    @Query('order') order?: 'ASC' | 'DESC',
+    @Query(new ValidationPipe({ transform: true })) query: StackQueryDto,
   ) {
-    return this.stacksService.findAll(page, limit, order);
+    return this.stacksService.findAll(query);
   }
 
   @PublicAccess()

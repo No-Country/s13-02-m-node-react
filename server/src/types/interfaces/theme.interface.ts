@@ -4,5 +4,6 @@ export interface ITheme {
   name: string;
   level: LEVELS;
   order: number;
+  description?: string;
   points: number;
 }

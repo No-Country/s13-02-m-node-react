@@ -1,5 +1,5 @@
-import { IsEnum, IsNotEmpty, IsUUID } from 'class-validator';
-import { LEVELS } from 'src/config/constants/levels';
+import { IsEnum, IsNotEmpty, IsOptional, IsUUID } from 'class-validator';
+import { LEVELS } from '../../config/constants/levels';
 import {
   IsNumber,
   IsPositive,
@@ -12,7 +12,9 @@ export class CreateThemeDto {
   @IsNotEmpty()
   name: string;
 
-  @IsEnum({ type: 'enum', enum: LEVELS, default: LEVELS.DEBUTANT })
+  @IsEnum(LEVELS, {
+    message: 'Solo hay actualmente niveles 1, 2 y 3',
+  })
   @IsNotEmpty()
   level: LEVELS;
 
@@ -20,7 +22,12 @@ export class CreateThemeDto {
   @IsNotEmpty()
   points: number;
 
+  @IsString()
+  @IsOptional()
+  description: string;
+
   @IsNumber()
+  @IsOptional()
   @IsNotEmpty()
   @IsPositive({ message: 'El número de orden debe ser positivo' })
   order: number;

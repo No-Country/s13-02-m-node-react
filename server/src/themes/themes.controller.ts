@@ -7,16 +7,23 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
+  ValidationPipe,
+  Req,
 } from '@nestjs/common';
-import { ThemesService } from './themes.service';
-import { CreateThemeDto } from './dto/create-theme.dto';
-import { UpdateThemeDto } from './dto/update-theme.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from 'src/auth/guards/auth.guards';
-import { PublicAccess } from 'src/auth/decorators/public.decorator';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { ThemesService } from './themes.service';
+import {
+  CreateThemeDto,
+  UpdateThemeDto,
+  ThemeQueryDto,
+  CreateProgressThemesDto,
+  UpdateProgressThemeDto,
+} from './dto';
+
+import { AuthGuard, PublicAccess, RolesGuard, Roles } from '../auth';
 import { ROLES } from 'src/config/constants/roles';
-import { Roles } from 'src/auth/decorators/roles.decorator';
+
 @ApiTags('themes')
 @ApiBearerAuth()
 @UseGuards(AuthGuard, RolesGuard)
@@ -26,31 +33,53 @@ export class ThemesController {
 
   @Roles(ROLES.ADMIN)
   @Post()
-  create(@Body() createThemeDto: CreateThemeDto) {
+  public async create(@Body() createThemeDto: CreateThemeDto) {
+    console.log('creating theme');
     return this.themesService.create(createThemeDto);
+  }
+
+  @Post('user/add')
+  public async addUserToTheme(
+    @Body() createProgressThemeDto: CreateProgressThemesDto,
+    @Req() req,
+  ) {
+    console.log('adding theme to user');
+    const { userAuth } = req;
+    console.log('adding theme to user');
+    return this.themesService.addThemeToUser(createProgressThemeDto, userAuth);
   }
 
   @PublicAccess()
   @Get()
-  findAll() {
-    return this.themesService.findAll();
+  findAll(
+    @Query(new ValidationPipe({ transform: true })) query: ThemeQueryDto,
+  ) {
+    return this.themesService.findAll(query);
   }
 
   @PublicAccess()
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.themesService.findOne(+id);
+    return this.themesService.findById(id);
+  }
+
+  @Patch('add-experience/:idTheme')
+  updateThemeProgress(
+    @Param('idTheme') id: string,
+    @Body() updateProgress: UpdateProgressThemeDto,
+  ) {
+    return this.themesService.updateThemeProgress(id, updateProgress);
   }
 
   @Roles(ROLES.ADMIN)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateThemeDto: UpdateThemeDto) {
-    return this.themesService.update(+id, updateThemeDto);
+    return this.themesService.update(id, updateThemeDto);
   }
 
   @Roles(ROLES.ADMIN)
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.themesService.remove(+id);
+    return this.themesService.remove(id);
   }
 }

@@ -1,16 +1,25 @@
 import { BaseEntity } from '../../config/base.entity';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, Unique } from 'typeorm';
 import { ThemesEntity } from './theme.entity';
 import { ProgressStacksEntity } from '../../users/entities/progressStacks.entity';
 
 @Entity({ name: 'progress_themes' })
+@Unique(['theme', 'stack'])
 export class ProgressThemesEntity extends BaseEntity {
   @Column({ default: 0 })
-  progressStack: number;
+  progress: number;
 
-  @ManyToOne(() => ThemesEntity, (theme) => theme.id)
+  @ManyToOne(() => ThemesEntity)
+  @JoinColumn()
   theme: ThemesEntity;
 
-  @ManyToOne(() => ProgressStacksEntity, (stack) => stack.id)
+  @Column({ nullable: true })
+  themeId: string;
+
+  @ManyToOne(() => ProgressStacksEntity)
+  @JoinColumn()
   stack: ProgressStacksEntity;
+
+  @Column({ nullable: true })
+  stackId: string;
 }
