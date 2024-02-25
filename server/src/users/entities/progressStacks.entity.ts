@@ -32,7 +32,9 @@ export class ProgressStacksEntity extends BaseEntity {
   @Column({ nullable: true })
   stackId: string;
 
+  // @OneToMany(() => ProgressThemesEntity, (themes) => themes.stack)
+  // @JoinColumn({ name: 'themes' })
+  // themes: ProgressThemesEntity[];
   @OneToMany(() => ProgressThemesEntity, (themes) => themes.stack)
-  @JoinColumn({ name: 'themes' })
   themes: ProgressThemesEntity[];
 }

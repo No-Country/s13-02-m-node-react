@@ -198,7 +198,6 @@ export class UsersService {
     progressStackDto: CreateProgressStackDto,
     userAuth: { role: string; id: string },
   ) {
-    console.log('entering add stack user');
     try {
       if (userAuth.id !== progressStackDto.user && userAuth.role !== 'ADMIN') {
         throw new ErrorManager({
@@ -216,7 +215,6 @@ export class UsersService {
             message: " Id User wrong or doesn't exists",
           });
         }
-        console.log('checking stackAsigned');
         const stackAsigned = await this.stacksService.findOne(
           progressStackDto.stack,
         );

@@ -233,19 +233,19 @@ export class ThemesService {
     try {
       const { theme: themeId, stack: progressStackId } = progressThemeDto;
       // See if progressStack id exists
-      console.log('ADDING THEME TO USER: ', progressThemeDto);
       const progressStackAsigned = await this.progressStackRespository.findOne({
         where: {
           id: progressStackId,
         },
+        relations: ['themes'],
       });
-      console.log('progressStackAsigned: ', progressStackAsigned);
       if (!progressStackAsigned) {
         throw new ErrorManager({
           type: 'NOT_FOUND',
           message: ' You must add the stack before adding a theme',
         });
       }
+      console.log('STACK ASSINGED PROGRESS: ', progressStackAsigned);
 
       // See if user has permission to make the action.
       if (
@@ -266,7 +266,6 @@ export class ThemesService {
         },
       });
 
-      console.log('themeRequired: ', themeRequired);
       if (!themeRequired) {
         throw new ErrorManager({
           type: 'NOT_FOUND',
@@ -274,17 +273,15 @@ export class ThemesService {
             " Theme wrong or doesn't exists or is not a theme from the stack",
         });
       }
+      console.log('THEMES ASSINGED: ', themeRequired);
 
-      console.log('creating progrestheme object');
-      const newProgressTheme = new ProgressThemesEntity();
-      newProgressTheme.progress = progressThemeDto.progress;
-      newProgressTheme.theme = themeRequired;
-      newProgressTheme.stack = progressStackAsigned;
-      console.log('POGRESS THEME OBJECT ', newProgressTheme);
+      const myNewProgressTheme = await this.progressThemeRepository.save({
+        progress: progressThemeDto.progress,
+        stack: progressStackAsigned,
+        theme: themeRequired,
+      });
 
-      const mynewprogress =
-        await this.progressThemeRepository.save(newProgressTheme);
-      console.log('mynewprogress: ', mynewprogress);
+      console.log('CREATED PROGRESSTHEME: ', myNewProgressTheme);
       return { message: 'Stack added to user' };
     } catch (error) {
       console.log(error);

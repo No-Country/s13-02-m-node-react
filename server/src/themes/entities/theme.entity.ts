@@ -20,7 +20,6 @@ export class ThemesEntity extends BaseEntity implements ITheme {
   @Column({ nullable: true })
   stackId: string;
 
-  // En ThemesEntity
   @ManyToOne(() => StacksEntity)
   @JoinColumn()
   stack: StacksEntity;
