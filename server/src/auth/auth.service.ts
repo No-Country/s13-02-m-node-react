@@ -3,11 +3,11 @@ import { LoginAuthDto } from './dto/login-auth.dto';
 import { RegisterAuthDto } from './dto/register-auth.dto';
 import { UsersEntity } from '../users/entities/user.entity';
 import { ErrorManager } from '../utils/error.manager';
-import { hash, compare } from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { IJWTPayload } from '../types/interfaces/auth.interface';
 import { UsersService } from '../users/users.service';
 import { ConfigService } from '@nestjs/config';
+import { compare } from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -19,34 +19,7 @@ export class AuthService {
   public async register(registerAuthDto: RegisterAuthDto) {
     try {
       registerAuthDto.email = registerAuthDto.email.toLowerCase();
-      const isEmail = await this.usersService.findUserBy({
-        field: 'email',
-        value: registerAuthDto.email,
-      });
-      if (isEmail) {
-        throw new ErrorManager({
-          type: 'BAD_REQUEST',
-          message: 'Email already in use',
-        });
-      }
-      const isUsername = await this.usersService.findUserBy({
-        field: 'username',
-        value: registerAuthDto.username,
-      });
-
-      if (isUsername) {
-        throw new ErrorManager({
-          type: 'BAD_REQUEST',
-          message: 'Username already in use',
-        });
-      }
-
-      const hashedPassword = await hash(registerAuthDto.password, 10);
-      return this.usersService.create({
-        username: registerAuthDto.username,
-        email: registerAuthDto.email,
-        password: hashedPassword,
-      });
+      return this.usersService.create(registerAuthDto);
     } catch (error) {
       console.log(error);
       throw ErrorManager.createSignatureError(error.message);

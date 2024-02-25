@@ -31,7 +31,7 @@ export class UsersService {
    * @throws ErrorManager.createSignatureError if there is an unexpected error during the process.
    * @throws ErrorManager with type 'BAD_REQUEST' and a message if the provided email or username is already in use.
    */
-  public async create(user: RegisterAuthDto): Promise<string> {
+  public async create(user: RegisterAuthDto): Promise<object> {
     try {
       const isEmail = await this.findUserBy({
         field: 'email',
@@ -59,9 +59,9 @@ export class UsersService {
 
       user.password = await hash(user.password, 10);
 
-      const newUser: UsersEntity = await this.userRepository.save(user);
+      await this.userRepository.save(user);
 
-      return newUser.id;
+      return { message: 'User Created' };
     } catch (error) {
       throw ErrorManager.createSignatureError(error.message);
     }
