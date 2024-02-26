@@ -11,6 +11,36 @@ import CloseIcon from "@mui/icons-material/Close";
 import GridStatues from "./GridStatues";
 import { useState } from "react";
 
+function stringToColor(string) {
+  let hash = 0;
+  let i;
+  for (i = 0; i < string.length; i += 1) {
+    hash = string.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  let color = "#";
+  for (i = 0; i < 3; i += 1) {
+    const value = (hash >> (i * 8)) & 0xff;
+    color += `00${value.toString(16)}`.slice(-2);
+  }
+  return color;
+}
+
+function stringAvatar(name) {
+  const initials = name
+    .split(" ")
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase();
+  return {
+    sx: {
+      bgcolor: stringToColor(name),
+      width: 65,
+      height: 65,
+    },
+    children: initials,
+  };
+}
+
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
     backgroundColor: "#44b700",
@@ -88,7 +118,10 @@ const ChooseYourState = ({ dataLoaded }) => {
                 anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                 variant="dot"
               >
-                <Avatar src="" sx={{ width: 65, height: 65 }} />
+                <Avatar
+                  src={"Cristian Vásquez"}
+                  {...stringAvatar("Cristian Vásquez")}
+                />
               </StyledBadge>
               <span className="absolute top-2 -right-2 inline-flex items-center justify-center w-9 h-9 transform translate-x-1/2 -translate-y-1/2 bg-jet-500 border border-rich-black-500 rounded-t-full rounded-r-full">
                 💻
