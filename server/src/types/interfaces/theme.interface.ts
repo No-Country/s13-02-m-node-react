@@ -1,7 +1,9 @@
+import { LEVELS } from '../../config/constants/levels';
+
 export interface ITheme {
-  stack: string;
   name: string;
-  level: number;
-  order: string;
+  level: LEVELS;
+  order: number;
+  description?: string;
   points: number;
 }

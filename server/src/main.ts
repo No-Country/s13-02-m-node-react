@@ -3,12 +3,14 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import * as morgan from 'morgan';
-// import { corsOptions } from './config/cors';
+import { corsOptions } from './config/cors';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  // Prefix /api/
+  app.setGlobalPrefix('api');
 
   // Documentation Swagger config
   const config = new DocumentBuilder()
@@ -20,10 +22,11 @@ async function bootstrap() {
     .addTag('users')
     .addTag('auth')
     .addTag('stacks')
+    .setBasePath('api')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('documentation', app, document);
+  SwaggerModule.setup('api/documentation', app, document);
 
   // Validation
   app.useGlobalPipes(
@@ -40,11 +43,8 @@ async function bootstrap() {
   // Log
   app.use(morgan('dev'));
 
-  // Prefix /api/
-  app.setGlobalPrefix('api');
-
-  // // Cors
-  // app.enableCors(corsOptions);
+  // Cors
+  app.enableCors(corsOptions);
 
   // server
   const configService = app.get(ConfigService);

@@ -8,16 +8,21 @@ import {
   Delete,
   Post,
   UseGuards,
+  Query,
+  ValidationPipe,
+  Req,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ProgressStackDto } from './dto/progress-stack.dto';
+import { CreateProgressStackDto } from './dto/create-progress-stack.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../auth/guards/auth.guards';
 import { PublicAccess } from '../auth/decorators/public.decorator';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { ROLES } from 'src/config/constants/roles';
 import { Roles } from 'src/auth/decorators/roles.decorator';
+import { UserQueryDto } from './dto/theme-query.dto';
+import { ErrorManager } from 'src/utils/error.manager';
 
 @ApiTags('users')
 @ApiBearerAuth()
@@ -26,19 +31,36 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post('add-stack')
-  public async create(@Body() progressStackDto: ProgressStackDto) {
-    return this.usersService.addStack(progressStackDto);
+  @Post('add-stack') // Correct decorator with method name
+  async addStackToUser(
+    @Body() progressStackDto: CreateProgressStackDto,
+    @Req() req,
+  ) {
+    const userAuth = req.userAuth;
+    return this.usersService.addStackToUser(progressStackDto, userAuth);
   }
 
   @Get()
   @PublicAccess()
-  findAll() {
-    return this.usersService.findAll();
+  findAll(@Query(new ValidationPipe({ transform: true })) query: UserQueryDto) {
+    return this.usersService.findAll(query);
+  }
+
+  @Get('me')
+  async findMe(@Req() req) {
+    const user = req.userAuth;
+    return this.usersService.findUserById(user.id);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
+    const user = await this.usersService.findUserById(id);
+    if (!user) {
+      throw new ErrorManager({
+        type: 'NOT_FOUND',
+        message: 'No user found',
+      });
+    }
     return this.usersService.findUserById(id);
   }
 
@@ -55,14 +77,15 @@ export class UsersController {
     return this.usersService.getOneUserStack(userId, stackId);
   }
 
-  @Post('stack')
-  public async addUserStack(@Body() progressStackDto: ProgressStackDto) {
-    return this.usersService.addStack(progressStackDto);
-  }
-
+  // modifiy username, avatar, notification, notificationchallenge
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(id, updateUserDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+    @Req() req,
+  ) {
+    const { userAuth } = req;
+    return this.usersService.update(id, updateUserDto, userAuth);
   }
 
   @Roles(ROLES.ADMIN)
