@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { IsString } from 'class-validator';
+import { IsNumber, IsString, IsOptional } from 'class-validator';
 
 export class GetQuestionDto {
   @IsString()
@@ -8,7 +8,11 @@ export class GetQuestionDto {
   @IsString()
   level: string;
 
+  @IsNumber()
+  quest_number: number;
+
   @IsString()
+  @IsOptional()
   id_thread?: string;
 
   @IsString()
