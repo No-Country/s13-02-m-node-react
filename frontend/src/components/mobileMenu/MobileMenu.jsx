@@ -24,7 +24,7 @@ export default function MobileMenu() {
   }
 
   return (
-    <div className='absolute z-50 top-10 left-48 bg-[#333333] p-4'>
+    <div className=' bg-[#333333] p-4'>
       <div className='mx-auto'>
         <MenuItem className='flex gap-4'>
           <FitnessCenterIcon />
