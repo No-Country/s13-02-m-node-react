@@ -46,12 +46,6 @@ export class UsersController {
     return this.usersService.findAll(query);
   }
 
-  @Get('/me')
-  async findMe(@Req() req) {
-    const { id } = req.userAuth;
-    return await this.usersService.findUserById(id);
-  }
-
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const user = await this.usersService.findUserById(id);

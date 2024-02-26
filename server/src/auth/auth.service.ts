@@ -34,6 +34,7 @@ export class AuthService {
         email,
         password,
       });
+      console.log('uservalidate ', userValidate);
       if (!userValidate) {
         throw new ErrorManager({
           type: 'UNAUTHORIZED',
@@ -48,14 +49,22 @@ export class AuthService {
   } // Validate email and password
 
   public async validateUser(data) {
+    console.log('PASSWORD RECIBIDA ', data.password);
     try {
       const userToValidate = await this.usersService.findUserBy({
         field: 'email',
         value: data.email,
       });
+      console.log('Existe userToValidate? : ', userToValidate);
       if (!userToValidate) {
         return undefined;
       }
+      console.log(
+        'passwordToCompare ',
+        data.password,
+        ' against ',
+        userToValidate.password,
+      );
       const match = await compare(data.password, userToValidate.password);
       if (!match) {
         console.log('No match');
@@ -92,13 +101,7 @@ export class AuthService {
       const payload: IJWTPayload = {
         user: { role: getUser.role, id: getUser.id },
       };
-      const userData: Partial<UsersEntity> = getUser.avatar
-        ? { avatar: getUser.username }
-        : { username: getUser.username };
-      const response = {
-        accessToken: await this.signJWT(payload),
-        ...userData,
-      };
+      const response = { accessToken: await this.signJWT(payload), getUser };
       return response;
     } catch (error) {
       console.log(error);

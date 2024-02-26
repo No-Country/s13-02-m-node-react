@@ -25,10 +25,6 @@ export class UsersEntity extends BaseEntity implements IUser {
   role: ROLES;
   @Column({ default: 3 })
   life: number;
-
-  @Column({ nullable: true })
-  avatar: string;
-
   @Column({ unique: true, nullable: true })
   @Exclude()
   identifier_ia: string;
