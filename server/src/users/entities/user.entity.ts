@@ -14,6 +14,9 @@ export class UsersEntity extends BaseEntity implements IUser {
   @Column({ unique: true, nullable: false })
   email: string;
 
+  @Column({ nullable: true })
+  avatar: string;
+
   @Column({ nullable: false })
   @Exclude()
   password: string;
