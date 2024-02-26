@@ -1,20 +1,13 @@
 'use client'
-import registerPost from '@/utils/authRequest/registerPost'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import React from 'react'
 import Logo from '../logo/Logo'
+import { useAuthHandler } from '@/utils/services/hooksAuth'
 const Register = () => {
-  const router = useRouter()
-  const registerHandler = (e) => {
-    e.preventDefault()
-    const userData = Object.fromEntries(new FormData(e.currentTarget))
-    console.log(userData)
-    userData.email && userData.password ? registerPost(userData, router) : {}
-  }
+  const authHook = useAuthHandler()
+
   return (
     <form
-      onSubmit={registerHandler}
+      onSubmit={authHook.registerHandler}
       className='flex flex-col gap-16 items-center justify-center w-full h-screen min-h-screen p-5  md:px-24 md:py-16 bg-rich-black-500 text-white'
     >
       <Logo
@@ -62,7 +55,14 @@ const Register = () => {
                 required
               />
             </label>
+            <small>
+              La contraseña debera contener Mayusculas, minusculas, un numero, y
+              caracteres especiales
+            </small>
           </label>
+        </div>
+        <div className='flex text-red-500 min-h-[25px] items-end justify-center'>
+          <small>{authHook.errorAuth}</small>
         </div>
       </label>
       <input

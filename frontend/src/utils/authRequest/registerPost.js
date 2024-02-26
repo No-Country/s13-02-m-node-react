@@ -1,13 +1,16 @@
 import axios from 'axios'
+import { errorAuthManagement } from '../services/hooksAuth'
 
-const registerPost = async (userData, router) => {
+const registerPost = async (userData, router, setErrorAuth) => {
   await axios
-    .post('https://nekode-rqas.onrender.com/api/auth/register', userData)
+    .post(`${process.env.NEXT_PUBLIC_API_URL}/register`, userData)
     .then(function (res) {
       router.push('/login')
+      setErrorAuth('')
     })
     .catch(function (err) {
       console.log(err)
+      errorAuthManagement(err, setErrorAuth)
     })
 }
 
