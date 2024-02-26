@@ -7,9 +7,9 @@ import {
   OneToMany,
   Unique,
 } from 'typeorm';
-import { UsersEntity } from './user.entity';
 import { StacksEntity } from '../../stacks/entities/stack.entity';
 import { ProgressThemesEntity } from '../../themes/entities/progressTheme.entity';
+import { UsersEntity } from '../../users/entities/user.entity';
 
 @Entity({ name: 'progress_stacks' })
 @Unique(['stack', 'user'])

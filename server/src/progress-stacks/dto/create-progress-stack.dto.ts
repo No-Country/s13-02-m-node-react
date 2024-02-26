@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsOptional, IsUUID } from 'class-validator';
+import { IsNotEmpty, IsUUID } from 'class-validator';
 
 export class CreateProgressStackDto {
   @IsNotEmpty()
@@ -8,8 +8,4 @@ export class CreateProgressStackDto {
   @IsNotEmpty()
   @IsUUID()
   stack: string;
-
-  @IsInt()
-  @IsOptional()
-  progress?: number;
 }

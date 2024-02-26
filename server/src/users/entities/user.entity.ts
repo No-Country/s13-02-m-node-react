@@ -1,10 +1,9 @@
-import { BaseEntity } from '../../config/base.entity';
-import { ROLES } from '../../config/constants/roles';
-import { IUser } from '../../types/interfaces/user.interface';
-import { Column, Entity, JoinColumn, OneToMany } from 'typeorm';
-import { ProgressStacksEntity } from './progressStacks.entity';
-import { NOTIFICATIONFREQUENCY } from '../../config/constants/notification_frequency';
 import { Exclude } from 'class-transformer';
+import { Column, Entity, JoinColumn, OneToMany } from 'typeorm';
+import { BaseEntity } from '../../config/base.entity';
+import { ProgressStacksEntity } from '../../progress-stacks/entities/progress-stack.entity';
+import { ROLES, NOTIFICATIONFREQUENCY } from '../../config/constants';
+import { IUser } from '../../types';
 
 @Entity({ name: 'users' })
 export class UsersEntity extends BaseEntity implements IUser {
