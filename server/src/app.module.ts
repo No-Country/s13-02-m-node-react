@@ -10,7 +10,6 @@ import { UsersModule } from './users/users.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { OpenaiModule } from './openai/openai.module';
-import { FilesModule } from './files/files.module';
 
 console.log(process.env.NODE_ENV);
 @Module({
@@ -25,7 +24,6 @@ console.log(process.env.NODE_ENV);
     ThemesModule,
     StacksModule,
     OpenaiModule,
-    FilesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
