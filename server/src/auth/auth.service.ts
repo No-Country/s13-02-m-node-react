@@ -101,7 +101,13 @@ export class AuthService {
       const payload: IJWTPayload = {
         user: { role: getUser.role, id: getUser.id },
       };
-      const response = { accessToken: await this.signJWT(payload), getUser };
+      const userData = getUser.avatar
+        ? { avatar: getUser.avatar }
+        : { username: getUser.username };
+      const response = {
+        accessToken: await this.signJWT(payload),
+        ...userData,
+      };
       return response;
     } catch (error) {
       console.log(error);
