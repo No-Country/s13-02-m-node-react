@@ -33,4 +33,10 @@ console.log(process.env.NODE_ENV);
   controllers: [AppController],
   providers: [AppService, AdminService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private readonly adminService: AdminService) {}
+
+  async onApplicationBootstrap() {
+    await this.adminService.createAdminIfNotExists();
+  }
+}

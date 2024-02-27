@@ -25,6 +25,9 @@ export class AdminService {
       });
 
       if (!admin) {
+        if (!adminEmail || !adminPassword) {
+          throw new Error('ADMIN ACCOUNT NOT CONFIGURED.');
+        }
         const hashedPassword = await hash(adminPassword, 10);
 
         const newAdmin = await this.userRepository.save({
@@ -41,7 +44,8 @@ export class AdminService {
           console.log('Admin account created.');
         }
       }
-      console.log('Admin account ready.');
+
+      console.log('ADMIN ACCOUNT READY... ');
     } catch (error) {
       console.error(error);
     }
