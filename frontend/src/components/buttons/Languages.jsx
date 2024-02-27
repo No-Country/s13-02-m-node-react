@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { Button, styled } from '@mui/material'
 import Stack from '@mui/material/Stack'
 import { useMediaQuery } from '@mui/material'
-
 const LanguageButton = styled(Button)({
   color: '#ffffff',
   borderColor: '#86198f',
@@ -15,7 +14,7 @@ const LanguageButton = styled(Button)({
 })
 
 const Languages = ({ onClick, data }) => {
-  const [selectedLanguage, setSelectedLanguage] = useState(Object.keys(data))
+  const [selectedLanguage, setSelectedLanguage] = useState(Object.keys(data[0]))
 
   const handleButtonClick = (language) => {
     setSelectedLanguage(language)

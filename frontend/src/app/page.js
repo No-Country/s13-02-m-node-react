@@ -1,16 +1,16 @@
 "use client";
-import { CardHome } from "@/components/CardHome";
 import Languages from "@/components/buttons/Languages";
 import CardDefLenguajeHome from "@/components/cardDefLenguajeHome/CardDefLenguajeHome";
 import HeartCounter from "@/components/lives-counter/HeartCounter";
 import ProgressBar from "@/components/progressBar/ProgressBar";
 import Roadmap from "@/components/roadMap/RoadMap";
-import { Container } from "@mui/material";
+import { CardHome } from "@/components/cardHome/CardHome";
 import { useMediaQuery } from "@mui/material";
 import data from "../utils/db/stackThemes";
 import Footer from "@/components/footer/Footer";
 import NavBar from "@/components/navBar/NavBar";
 import { useEffect, useState } from "react";
+
 export default function Home() {
   const isXsOrMd = useMediaQuery("(max-width:768px)");
 

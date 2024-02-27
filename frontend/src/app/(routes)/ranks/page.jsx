@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Container, Snackbar } from "@mui/material";
 import ChooseYourState from "@/components/CardStatus/ChooseYourState";
-import { CardHome } from "@/components/CardHome";
+import { CardHome } from "@/components/cardHome/CardHome";
 import MedalsRanks from "@/components/medals-ranks/MedalsRanks";
 import AscentZone from "@/components/ascent-zone/AscentZone";
 import axios from "axios";

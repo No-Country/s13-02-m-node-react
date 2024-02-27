@@ -1,20 +1,15 @@
 'use client'
-import loginPost from '@/utils/authRequest/loginPost'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import React from 'react'
 import Logo from '../logo/Logo'
+import { useAuthHandler } from '@/utils/services/hooksAuth'
 
 const Login = () => {
-  const router = useRouter()
-  const loginHandler = (e) => {
-    e.preventDefault()
-    const userData = Object.fromEntries(new FormData(e.currentTarget))
-    userData.email && userData.password ? loginPost(userData, router) : {}
-  }
+  const authHook = useAuthHandler()
+
   return (
     <form
-      onSubmit={loginHandler}
+      onSubmit={authHook.loginHandler}
       className='flex flex-col gap-16 items-center justify-center w-full h-screen min-h-screen p-5  md:px-24 md:py-16 bg-rich-black-500 text-white'
     >
       <Logo
@@ -52,6 +47,9 @@ const Login = () => {
               />
             </label>
           </label>
+        </div>
+        <div className='flex text-red-500 min-h-[25px] items-end justify-center'>
+          <small>{authHook.errorAuth}</small>
         </div>
       </label>
       <input
