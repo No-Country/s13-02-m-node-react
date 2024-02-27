@@ -46,4 +46,7 @@ export class UsersEntity extends BaseEntity implements IUser {
   )
   @JoinColumn({ name: 'stacks' })
   stacks: ProgressStacksEntity[];
+  
+  @Column({ nullable: true })
+  avatarUrl?: string;
 }

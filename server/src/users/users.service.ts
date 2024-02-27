@@ -179,6 +179,10 @@ export class UsersService {
           message: 'You have no privileges for perform this action',
         });
       }
+      if(updateUserDto.avatarUrl) {
+        userFound.avatarUrl = updateUserDto.avatarUrl;
+      }
+
       const user: UpdateResult = await this.userRepository.update(
         id,
         updateUserDto,
