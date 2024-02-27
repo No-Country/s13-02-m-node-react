@@ -1,24 +1,30 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
+import { MailDto } from './dto/mail.dto';
 
 @Injectable()
 export class ExampleService {
   constructor(private readonly mailerService: MailerService) {}
-  public example(): void {
-    this.mailerService
-      .sendMail({
-        to: 'test@nestjs.com',
-        from: 'noreply@nestjs.com',
-        subject: 'Testing Nest Mailermodule with template ✔',
-        template: __dirname + '/welcome', // The `.pug`, `.ejs` or `.hbs` extension is appended automatically.
-        context: {
-          // Data to be sent to template engine.
-          code: 'cf1a3f828287',
-          username: 'john doe',
-        },
-      })
-      .then(() => {})
-      .catch(() => {});
+  public async sendEmail(mailDto: MailDto){
+    try{
+      const { email, name, subject } = mailDto;
+   
+      await this.mailerService.sendMail({
+        to: email,
+        subject: subject,
+        template: 'mail',
+        // context: {
+        //   name,
+        //   message
+        // },
+      });
+      
+      return name + email;
+    }catch(error){
+      console.log(error);
+      return error.message;
+    }
   }
+  
 }
