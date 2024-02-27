@@ -73,7 +73,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <Languages data={data} />
+              <Languages data={stacks} onLanguageSelect={handleLanguageSelect}/>
               <CardDefLenguajeHome />
               <Roadmap selectedLanguageId={selectedLanguageId?selectedLanguageId:"616c8a2c-1c9b-4b4d-a0ab-6bd7f962bf0d"} />
             </section>
