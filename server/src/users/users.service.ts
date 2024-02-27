@@ -1,22 +1,19 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, EntityManager, Repository, UpdateResult } from 'typeorm';
 import { UsersEntity } from './entities/user.entity';
-import { ProgressStacksService } from 'src/progress-stacks/progress-stacks.service';
 import { RegisterAuthDto } from '../auth/dto/register-auth.dto';
-import { CreateProgressStackDto } from 'src/progress-stacks/dto/create-progress-stack.dto';
-import { UpdateUserDto, UserQueryDto } from './dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { TSearchConditions, TQueryPagination } from '../types';
 import { hash } from 'bcrypt';
 import { ErrorManager } from '../utils/error.manager';
+import { UserQueryDto } from './dto/user-query.dto';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(UsersEntity)
     private readonly userRepository: Repository<UsersEntity>,
-    @Inject(ProgressStacksService)
-    private readonly progressStacksService: ProgressStacksService,
   ) {}
 
   /**
@@ -219,18 +216,6 @@ export class UsersService {
         });
       }
       return user;
-    } catch (error) {
-      throw ErrorManager.createSignatureError(error.message);
-    }
-  }
-
-  public async addStackToUser(
-    progressStackDto: CreateProgressStackDto,
-    userAuth: { role: string; id: string },
-  ) {
-    try {
-      await this.progressStacksService.create(progressStackDto, userAuth);
-      return { message: 'Stack added to user' };
     } catch (error) {
       throw ErrorManager.createSignatureError(error.message);
     }

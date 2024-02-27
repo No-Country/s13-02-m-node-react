@@ -4,13 +4,11 @@ import { UsersController } from './users.controller';
 import { UsersEntity } from './entities/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthGuard } from 'src/auth/guards/auth.guards';
-import { StacksEntity } from 'src/stacks/entities/stack.entity';
-import { ProgressStacksService } from 'src/progress-stacks/progress-stacks.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UsersEntity, StacksEntity])],
+  imports: [TypeOrmModule.forFeature([UsersEntity])],
   controllers: [UsersController],
-  providers: [UsersService, AuthGuard, ProgressStacksService],
+  providers: [UsersService, AuthGuard],
   exports: [UsersService, TypeOrmModule],
 })
 export class UsersModule {}

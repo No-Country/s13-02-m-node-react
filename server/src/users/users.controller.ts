@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  Post,
   UseGuards,
   Query,
   ValidationPipe,
@@ -15,12 +14,13 @@ import {
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { PublicAccess } from '../auth/decorators/public.decorator';
 import { Roles } from '../auth/decorators/roles.decorator';
-import { AuthGuard, RolesGuard } from '../auth/guards';
 import { UsersService } from './users.service';
-import { UpdateUserDto, UserQueryDto } from './dto';
-import { CreateProgressStackDto } from '../progress-stacks/dto';
-import { ROLES } from '../config/constants';
+import { ROLES } from '../config/constants/roles';
 import { ErrorManager } from '../utils/error.manager';
+import { AuthGuard } from '../auth/guards/auth.guards';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { UserQueryDto } from './dto/user-query.dto';
 
 @ApiTags('users')
 @ApiBearerAuth()
@@ -28,15 +28,6 @@ import { ErrorManager } from '../utils/error.manager';
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
-  @Post('add-stack') // Correct decorator with method name
-  async addStackToUser(
-    @Body() progressStackDto: CreateProgressStackDto,
-    @Req() req,
-  ) {
-    const userAuth = req.userAuth;
-    return this.usersService.addStackToUser(progressStackDto, userAuth);
-  }
 
   @Get('me')
   async findMe(@Req() req) {

@@ -1,7 +1,17 @@
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { ProgressThemesService } from './progress-themes.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { AuthGuard, RolesGuard } from 'src/auth/guards';
+import { CreateProgressThemesDto } from './dto/create-progress-theme.dto';
+import { AuthGuard } from '../auth/guards/auth.guards';
+import { RolesGuard } from '../auth/guards/roles.guard';
 
 @ApiTags('Progress Themes')
 @ApiBearerAuth()
@@ -9,6 +19,15 @@ import { AuthGuard, RolesGuard } from 'src/auth/guards';
 @Controller('progress-themes')
 export class ProgressThemesController {
   constructor(private readonly progressThemesService: ProgressThemesService) {}
+
+  @Post()
+  public async addUserToTheme(
+    @Body() createProgressThemeDto: CreateProgressThemesDto,
+    @Req() req,
+  ) {
+    const { userAuth } = req;
+    return this.progressThemesService.create(createProgressThemeDto, userAuth);
+  }
 
   @Get('/stack/:id')
   async findAll(@Param('id') id: string) {

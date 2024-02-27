@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateProgressThemesDto } from './dto';
+import { CreateProgressThemesDto } from './dto/create-progress-theme.dto';
 import { ProgressThemesEntity } from './entities/progress-theme.entity';
 import { ProgressStacksEntity } from '../progress-stacks/entities/progress-stack.entity';
 import { ProgressStacksService } from '../progress-stacks/progress-stacks.service';
@@ -64,7 +64,6 @@ export class ProgressThemesService {
         });
       }
       const myNewProgressTheme = this.progressThemesRepository.create({
-        progress: progressThemeDto.progress,
         progressStack: progressStackAsigned,
         theme: themeRequired,
       });

@@ -9,16 +9,17 @@ import {
   UseGuards,
   Query,
   ValidationPipe,
-  Req,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ThemesService } from './themes.service';
-import { CreateThemeDto, UpdateThemeDto, ThemeQueryDto } from './dto';
-import { AuthGuard, RolesGuard } from '../auth/guards';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { ROLES } from 'src/config/constants/roles';
-import { CreateProgressThemesDto } from 'src/progress-themes/dto';
 import { PublicAccess } from 'src/auth/decorators/public.decorator';
+import { AuthGuard } from 'src/auth/guards/auth.guards';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { CreateThemeDto } from './dto/create-theme.dto';
+import { UpdateThemeDto } from './dto/update-theme.dto';
+import { ThemeQueryDto } from './dto/theme-query.dto';
 
 @ApiTags('themes')
 @ApiBearerAuth()
@@ -30,17 +31,7 @@ export class ThemesController {
   @Roles(ROLES.ADMIN)
   @Post()
   public async create(@Body() createThemeDto: CreateThemeDto) {
-    console.log('creating theme');
     return this.themesService.create(createThemeDto);
-  }
-
-  @Post('add-to-user')
-  public async addUserToTheme(
-    @Body() createProgressThemeDto: CreateProgressThemesDto,
-    @Req() req,
-  ) {
-    const { userAuth } = req;
-    return this.themesService.addThemeToUser(createProgressThemeDto, userAuth);
   }
 
   @PublicAccess()

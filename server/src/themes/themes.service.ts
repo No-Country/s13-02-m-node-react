@@ -2,26 +2,19 @@ import { ConflictException, Inject, Injectable } from '@nestjs/common';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { StacksService } from 'src/stacks/stacks.service';
-import { CreateThemeDto, UpdateThemeDto, ThemeQueryDto } from './dto';
-
 import { ThemesEntity } from './entities/theme.entity';
-
 import { ErrorManager } from 'src/utils/error.manager';
-import { ProgressThemesEntity } from 'src/progress-themes/entities/progress-theme.entity';
-import { ProgressStacksEntity } from 'src/progress-stacks/entities/progress-stack.entity';
-import { CreateProgressThemesDto } from 'src/progress-themes/dto';
+import { CreateThemeDto } from './dto/create-theme.dto';
+import { UpdateThemeDto } from './dto/update-theme.dto';
+import { ThemeQueryDto } from './dto/theme-query.dto';
 
 @Injectable()
 export class ThemesService {
   constructor(
     @InjectRepository(ThemesEntity)
     private themeRepository: Repository<ThemesEntity>,
-    @InjectRepository(ProgressThemesEntity)
-    private progressThemeRepository: Repository<ProgressThemesEntity>,
     @Inject(StacksService)
     private stackService: StacksService,
-    @InjectRepository(ProgressStacksEntity)
-    private progressStackRespository: Repository<ProgressStacksEntity>,
   ) {}
 
   /**
@@ -213,73 +206,6 @@ export class ThemesService {
       }
       return { message: 'Theme Deleted' };
     } catch (error) {
-      throw ErrorManager.createSignatureError(error.message);
-    }
-  }
-
-  // add theme to user
-  public async addThemeToUser(
-    progressThemeDto: CreateProgressThemesDto,
-    userAuth: { role: string; id: string },
-  ) {
-    try {
-      const { theme: themeId, progressStack: progressStackId } =
-        progressThemeDto;
-      // See if progressStack id exists
-      const progressStackAsigned = await this.progressStackRespository.findOne({
-        where: {
-          id: progressStackId,
-        },
-      });
-      if (!progressStackAsigned) {
-        throw new ErrorManager({
-          type: 'NOT_FOUND',
-          message: ' You must add the stack before adding a theme',
-        });
-      }
-
-      // See if user has permission to make the action.
-      if (
-        userAuth.id !== progressStackAsigned.userId &&
-        userAuth.role !== 'ADMIN'
-      ) {
-        throw new ErrorManager({
-          type: 'FORBIDDEN',
-          message: 'You have no privileges for perform this action',
-        });
-      }
-
-      // See if theme required exists and it is a child of the stack
-      const themeRequired = await this.themeRepository.findOne({
-        where: {
-          id: themeId,
-          stackId: progressStackAsigned.stackId,
-        },
-      });
-
-      if (!themeRequired) {
-        throw new ErrorManager({
-          type: 'NOT_FOUND',
-          message:
-            " Theme wrong or doesn't exists or is not a theme from the stack",
-        });
-      }
-
-      console.log('PROGRESSSTACK -> ', progressStackAsigned);
-      console.log('THEME -> ', themeRequired);
-      const myNewProgressTheme = this.progressThemeRepository.create({
-        progress: progressThemeDto.progress,
-        progressStack: progressStackAsigned,
-        theme: themeRequired,
-      });
-      console.log('CREATING THIS PROGRESSSTAK ', myNewProgressTheme);
-
-      await this.progressThemeRepository.save(myNewProgressTheme);
-
-      console.log('CREATED PROGRESSTHEME: ', myNewProgressTheme);
-      return { message: 'Stack added to user' };
-    } catch (error) {
-      console.log(error);
       throw ErrorManager.createSignatureError(error.message);
     }
   }

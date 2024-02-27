@@ -2,8 +2,9 @@ import { Exclude } from 'class-transformer';
 import { Column, Entity, JoinColumn, OneToMany } from 'typeorm';
 import { BaseEntity } from '../../config/base.entity';
 import { ProgressStacksEntity } from '../../progress-stacks/entities/progress-stack.entity';
-import { ROLES, NOTIFICATIONFREQUENCY } from '../../config/constants';
+import { ROLES } from '../../config/constants/roles';
 import { IUser } from '../../types';
+import { NOTIFICATIONFREQUENCY } from '../../config/constants/notification_frequency';
 
 @Entity({ name: 'users' })
 export class UsersEntity extends BaseEntity implements IUser {
