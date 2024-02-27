@@ -10,6 +10,7 @@ import { UsersModule } from './users/users.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { OpenaiModule } from './openai/openai.module';
+import { EmailsModule } from './notifications/notification.module';
 
 console.log(process.env.NODE_ENV);
 @Module({
@@ -20,6 +21,7 @@ console.log(process.env.NODE_ENV);
     }),
     TypeOrmModule.forRoot(DataSourceConfig),
     UsersModule,
+    EmailsModule,
     AuthModule,
     ThemesModule,
     StacksModule,
