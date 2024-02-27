@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  Patch,
   Post,
   Req,
   UseGuards,
@@ -37,6 +38,11 @@ export class ProgressThemesController {
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return this.progressThemesService.findOne(id);
+  }
+
+  @Patch(':id')
+  async update(@Param('id') id: string, @Body() data: { points: number }) {
+    return this.progressThemesService.update(id, data.points);
   }
 
   // @Delete(':id')

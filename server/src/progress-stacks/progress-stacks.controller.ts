@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  // Delete,
   Get,
   Param,
   Post,
@@ -39,9 +40,8 @@ export class ProgressStacksController {
     return this.progressStacksService.findOne(id);
   }
 
-  // borrar?
   // @Delete(':id')
   // remove(@Param('id') id: string) {
-  //   return this.progressStacksService.remove(+id);
+  //   return this.progressStacksService.remove(id);
   // }
 }

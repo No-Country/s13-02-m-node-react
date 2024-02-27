@@ -8,12 +8,14 @@ import { ProgressStacksService } from '../progress-stacks/progress-stacks.servic
 import { UsersService } from '../users/users.service';
 import { UsersEntity } from '../users/entities/user.entity';
 import { ErrorManager } from '../utils/error.manager';
+import { ThemesEntity } from 'src/themes/entities/theme.entity';
 @Injectable()
 export class ProgressThemesService {
-  themeRepository: any;
   constructor(
     @InjectRepository(ProgressThemesEntity)
     private readonly progressThemesRepository: Repository<ProgressThemesEntity>,
+    @InjectRepository(ThemesEntity)
+    private readonly themeRepository: Repository<ThemesEntity>,
     @Inject(ProgressStacksService)
     private progressStacksService: ProgressStacksService,
     @Inject(UsersService)
@@ -27,9 +29,11 @@ export class ProgressThemesService {
     try {
       const { theme: themeId, progressStack: progressStackId } =
         progressThemeDto;
+
       // See if progressStack id exists
       const progressStackAsigned =
         await this.progressStacksService.findOne(progressStackId);
+
       if (!progressStackAsigned) {
         throw new ErrorManager({
           type: 'NOT_FOUND',
@@ -133,6 +137,7 @@ export class ProgressThemesService {
           await manager.save(ProgressStacksEntity, progressStackFound);
           await manager.save(UsersEntity, userFound);
 
+          return { message: 'Points updated' }; // Retorna un mensaje de éxito
           // Si todas las operaciones son exitosas, no haces nada, ya que la transacción se comprometerá automáticamente
         } catch (error) {
           // Si se produce un error, se revertirán todas las operaciones de la transacción

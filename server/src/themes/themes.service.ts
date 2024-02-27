@@ -201,18 +201,40 @@ export class ThemesService {
    */
   public async remove(id: string): Promise<{ message: string } | undefined> {
     try {
+      // Obtener el theme antes de eliminarlo
+      const themeToRemove = await this.themeRepository.findOne({
+        where: { id },
+        relations: ['stack'],
+      });
+
+      if (!themeToRemove) {
+        throw new ErrorManager({
+          type: 'NOT_FOUND',
+          message: "Can't delete - No theme found",
+        });
+      }
+
+      // Obtener el stack asociado al theme
+      const stackId = themeToRemove.stack.id;
+      // Restar los puntos del theme del total de puntos del stack
+      const newTotalPoints = themeToRemove.stack.points - themeToRemove.points;
+
+      // Actualizar el total de puntos del stack
+      await this.stackService.updateTotalPoints(stackId, newTotalPoints);
+
+      // Eliminar el theme de la base de datos
       const theme: DeleteResult = await this.themeRepository.delete(id);
+
       if (theme.affected === 0) {
         throw new ErrorManager({
           type: 'NOT_FOUND',
-          message: 'Cant delete - No theme found',
+          message: "Can't delete - No theme found",
         });
       }
+
       return { message: 'Theme Deleted' };
     } catch (error) {
       throw ErrorManager.createSignatureError(error.message);
     }
   }
-
-  // remove theme
 }

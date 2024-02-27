@@ -65,6 +65,7 @@ export class ThemesController {
   @Roles(ROLES.ADMIN)
   @Delete(':id')
   remove(@Param('id') id: string) {
+    console.log('id es undefined? ', id);
     return this.themesService.remove(id);
   }
 }
