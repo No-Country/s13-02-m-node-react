@@ -8,7 +8,7 @@ import {
   Unique,
 } from 'typeorm';
 import { StacksEntity } from '../../stacks/entities/stack.entity';
-import { ProgressThemesEntity } from '../../themes/entities/progressTheme.entity';
+import { ProgressThemesEntity } from '../../progress-themes/entities/progress-theme.entity';
 import { UsersEntity } from '../../users/entities/user.entity';
 
 @Entity({ name: 'progress_stacks' })

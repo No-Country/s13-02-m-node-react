@@ -1,45 +1,22 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { ProgressThemesService } from './progress-themes.service';
-import { CreateProgressThemeDto } from './dto/create-progress-theme.dto';
-import { UpdateProgressThemeDto } from './dto/update-progress-theme.dto';
 
 @Controller('progress-themes')
 export class ProgressThemesController {
   constructor(private readonly progressThemesService: ProgressThemesService) {}
 
-  @Post()
-  create(@Body() createProgressThemeDto: CreateProgressThemeDto) {
-    return this.progressThemesService.create(createProgressThemeDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.progressThemesService.findAll();
+  @Get('/stack/:id')
+  async findAll(@Param('id') id: string) {
+    return this.progressThemesService.findAllByStackProgress(id);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.progressThemesService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return this.progressThemesService.findOne(id);
   }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateProgressThemeDto: UpdateProgressThemeDto,
-  ) {
-    return this.progressThemesService.update(+id, updateProgressThemeDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.progressThemesService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.progressThemesService.remove(+id);
+  // }
 }

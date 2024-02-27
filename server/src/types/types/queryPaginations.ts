@@ -1,6 +1,6 @@
 export type TQueryPagination<T> = {
   data: T[];
-  pagination: {
+  pagination?: {
     totalPages: number;
     limit: number;
     page: number;

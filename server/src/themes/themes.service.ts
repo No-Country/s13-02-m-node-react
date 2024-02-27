@@ -2,19 +2,14 @@ import { ConflictException, Inject, Injectable } from '@nestjs/common';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { StacksService } from 'src/stacks/stacks.service';
-import {
-  CreateThemeDto,
-  UpdateThemeDto,
-  ThemeQueryDto,
-  CreateProgressThemesDto,
-  UpdateProgressThemeDto,
-} from './dto';
+import { CreateThemeDto, UpdateThemeDto, ThemeQueryDto } from './dto';
 
 import { ThemesEntity } from './entities/theme.entity';
-import { ProgressThemesEntity } from './entities/progressTheme.entity';
-import { ProgressStacksEntity } from 'src/users/entities/progressStacks.entity';
 
 import { ErrorManager } from 'src/utils/error.manager';
+import { ProgressThemesEntity } from 'src/progress-themes/entities/progress-theme.entity';
+import { ProgressStacksEntity } from 'src/progress-stacks/entities/progress-stack.entity';
+import { CreateProgressThemesDto } from 'src/progress-themes/dto';
 
 @Injectable()
 export class ThemesService {
@@ -290,20 +285,4 @@ export class ThemesService {
   }
 
   // remove theme
-
-  // add experience to theme
-  public async updateThemeProgress(
-    id: string,
-    updateProgress: UpdateProgressThemeDto,
-  ) {
-    try {
-      const themeUpdated = await this.progressThemeRepository.update(
-        id,
-        updateProgress,
-      );
-      return themeUpdated;
-    } catch (error) {
-      throw ErrorManager.createSignatureError(error.message);
-    }
-  }
 }

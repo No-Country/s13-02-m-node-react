@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository, UpdateResult } from 'typeorm';
+import { DeleteResult, EntityManager, Repository, UpdateResult } from 'typeorm';
 import { UsersEntity } from './entities/user.entity';
 import { ProgressStacksService } from 'src/progress-stacks/progress-stacks.service';
 import { RegisterAuthDto } from '../auth/dto/register-auth.dto';
@@ -189,6 +189,13 @@ export class UsersService {
     }
   }
 
+  public async save(user: UsersEntity) {
+    try {
+      return await this.userRepository.save(user);
+    } catch (error) {
+      throw ErrorManager.createSignatureError(error.message);
+    }
+  }
   // public async removeLife(userId: string) {
   //   const user: UsersEntity = await this.userRepository.findOne({
   //     where: { id: userId },
@@ -247,12 +254,17 @@ export class UsersService {
     }
   }
 
-  public async findOne(id: string) {
+  public async findOne(id: string, manager?: EntityManager) {
     try {
-      return await this.userRepository
-        .createQueryBuilder('user')
-        .where({ id })
-        .getOne();
+      if (manager) {
+        return await manager.findOne(UsersEntity, {
+          where: { id },
+        });
+      } else {
+        return await this.userRepository.findOne({
+          where: { id },
+        });
+      }
     } catch (error) {
       console.log(error);
       throw ErrorManager.createSignatureError(error.message);

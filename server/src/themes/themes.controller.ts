@@ -13,16 +13,10 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ThemesService } from './themes.service';
-import {
-  CreateThemeDto,
-  UpdateThemeDto,
-  ThemeQueryDto,
-  CreateProgressThemesDto,
-  UpdateProgressThemeDto,
-} from './dto';
-
+import { CreateThemeDto, UpdateThemeDto, ThemeQueryDto } from './dto';
 import { AuthGuard, PublicAccess, RolesGuard, Roles } from '../auth';
 import { ROLES } from 'src/config/constants/roles';
+import { CreateProgressThemesDto } from 'src/progress-themes/dto';
 
 @ApiTags('themes')
 @ApiBearerAuth()
@@ -38,14 +32,12 @@ export class ThemesController {
     return this.themesService.create(createThemeDto);
   }
 
-  @Post('user/add')
+  @Post('add-to-user')
   public async addUserToTheme(
     @Body() createProgressThemeDto: CreateProgressThemesDto,
     @Req() req,
   ) {
-    console.log('adding theme to user');
     const { userAuth } = req;
-    console.log('adding theme to user');
     return this.themesService.addThemeToUser(createProgressThemeDto, userAuth);
   }
 
@@ -63,13 +55,13 @@ export class ThemesController {
     return this.themesService.findById(id);
   }
 
-  @Patch('add-experience/:idTheme')
-  updateThemeProgress(
-    @Param('idTheme') id: string,
-    @Body() updateProgress: UpdateProgressThemeDto,
-  ) {
-    return this.themesService.updateThemeProgress(id, updateProgress);
-  }
+  // @Patch('add-experience/:idTheme')
+  // updateThemeProgress(
+  //   @Param('idTheme') id: string,
+  //   @Body() updateProgress: UpdateProgressThemeDto,
+  // ) {
+  //   return this.themesService.updateThemeProgress(id, updateProgress);
+  // }
 
   @Roles(ROLES.ADMIN)
   @Patch(':id')

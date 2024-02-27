@@ -3,10 +3,9 @@ import { CreateProgressStackDto } from './dto/create-progress-stack.dto';
 import { ErrorManager } from 'src/utils/error.manager';
 import { InjectRepository } from '@nestjs/typeorm';
 import { StacksService } from 'src/stacks/stacks.service';
-import { Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 import { ProgressStacksEntity } from './entities/progress-stack.entity';
 import { UsersService } from 'src/users/users.service';
-import { UpdateProgressStackDto } from './dto/update-progress-stack.dto';
 
 @Injectable()
 export class ProgressStacksService {
@@ -59,26 +58,23 @@ export class ProgressStacksService {
 
   public async findAllByUser(userId: string) {
     try {
-      await this.progressStackRepository.find({ where: { userId } });
+      return await this.progressStackRepository.find({ where: { userId } });
     } catch (error) {
       throw ErrorManager.createSignatureError(error.message);
     }
   }
 
-  public async findOne(id: string) {
+  public async findOne(id: string, manager?: EntityManager) {
     try {
-      await this.progressStackRepository.findOne({ where: { id } });
-    } catch (error) {
-      throw ErrorManager.createSignatureError(error.message);
-    }
-  }
-
-  public async update(
-    id: string,
-    updateProgressStackDto: UpdateProgressStackDto,
-  ) {
-    try {
-      await this.progressStackRepository.update(id, updateProgressStackDto);
+      if (manager) {
+        return await manager.findOne(ProgressStacksEntity, {
+          where: { id },
+        });
+      } else {
+        return await this.progressStackRepository.findOne({
+          where: { id },
+        });
+      }
     } catch (error) {
       throw ErrorManager.createSignatureError(error.message);
     }
