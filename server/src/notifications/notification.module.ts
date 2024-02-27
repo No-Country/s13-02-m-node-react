@@ -16,6 +16,7 @@ import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
           host: configService.get('MAIL_SERVER'),
           port: configService.get('MAIL_PORT'),
           secure: true,
+          service: 'gmail',
           auth: {
             type: 'OAuth2',
             project_id: configService.get('GOOGLE_SMTP_PROJECT_ID'),
@@ -28,7 +29,10 @@ import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
             auth_provider_x509_cert_url: configService.get('GOOGLE_SMTP_AUTH_PROVIDER_X509_CERT_URL'),
             client_x509_cert_url: configService.get('GOOGLE_SMTP_CLIENT_X509_CERT_URL'),
             universe_domain: configService.get('GOOGLE_SMTP_UNIVERSE_DOMAIN'),
-          }
+          },
+          tls: {
+            ciphers:'SSLv3'
+        }
           // auth: {
           //   user: configService.get('MAIL_USER'),
           //   pass: configService.get('MAIL_PASSWORD'),
