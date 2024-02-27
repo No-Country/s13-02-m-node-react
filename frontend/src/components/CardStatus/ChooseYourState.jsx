@@ -88,7 +88,7 @@ const ChooseYourState = ({ dataLoaded }) => {
 
   return (
     <div className="w-full">
-      <div className="md:w-80 bg-jet-500 p-5 space-y-5 rounded-xl shadow-md shadow-picton-blue-800">
+      <div className="w-full bg-jet-500 p-5 space-y-5 rounded-xl shadow-md shadow-picton-blue-800">
         <div className="w-full flex items-center justify-between">
           {dataLoaded ? (
             <Skeleton variant="text" width={120} height={24} />
