@@ -1,16 +1,17 @@
-"use client";
-import Languages from "@/components/buttons/Languages";
-import CardDefLenguajeHome from "@/components/cardDefLenguajeHome/CardDefLenguajeHome";
-import HeartCounter from "@/components/lives-counter/HeartCounter";
-import ProgressBar from "@/components/progressBar/ProgressBar";
-import Roadmap from "@/components/roadMap/RoadMap";
-import { CardHome } from "@/components/cardHome/CardHome";
-import { useMediaQuery } from "@mui/material";
-import data from "../utils/db/stackThemes";
-import Footer from "@/components/footer/Footer";
-import NavBar from "@/components/navBar/NavBar";
-import { useEffect, useState } from "react";
-
+'use client'
+import { CardHome } from '@/components/cardHome/CardHome'
+import Languages from '@/components/buttons/Languages'
+import CardDefLenguajeHome from '@/components/cardDefLenguajeHome/CardDefLenguajeHome'
+import HeartCounter from '@/components/lives-counter/HeartCounter'
+import ProgressBar from '@/components/progressBar/ProgressBar'
+import Roadmap from '@/components/roadMap/RoadMap'
+import { Container } from '@mui/material'
+import { useMediaQuery } from '@mui/material'
+// import data from '@/utils/db/stackThemes'
+import Footer from '@/components/footer/Footer'
+import NavBar from '@/components/navBar/NavBar'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
 export default function Home() {
   const isXsOrMd = useMediaQuery("(max-width:768px)");
 
@@ -21,6 +22,29 @@ export default function Home() {
       setDataLoaded(true);
     }, 3000);
   }, []);
+
+
+  const [stacks, setStacks] = useState([])
+  const [selectedLanguageId, setSelectedLanguageId] = useState(null);
+
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://nekode-rqas.onrender.com/api/stacks')
+        setStacks(response.data)
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    }
+    
+    fetchData()
+  }, [])
+  
+  const handleLanguageSelect = (languageId) => {
+    setSelectedLanguageId(languageId);
+  };
+  
 
   return (
     <>
@@ -49,9 +73,9 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <Languages data={data} />
+              <Languages data={stacks} onLanguageSelect={handleLanguageSelect}/>
               <CardDefLenguajeHome />
-              <Roadmap />
+              <Roadmap selectedLanguageId={selectedLanguageId?selectedLanguageId:"616c8a2c-1c9b-4b4d-a0ab-6bd7f962bf0d"} />
             </section>
           </main>
         </div>

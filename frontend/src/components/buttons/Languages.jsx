@@ -13,17 +13,11 @@ const LanguageButton = styled(Button)({
   }
 })
 
-const Languages = ({ onClick, data }) => {
-  const [selectedLanguage, setSelectedLanguage] = useState(Object.keys(data[0]))
+const Languages = ({ data, onLanguageSelect}) => {
 
-  const handleButtonClick = (language) => {
-    setSelectedLanguage(language)
-    // onClick(language)
-  }
-
-  useEffect(() => {
-    // onClick(selectedLanguage)
-  }, [selectedLanguage, onClick])
+  const handleButtonClick = (languageId) => {
+    onLanguageSelect(languageId);
+  };
 
   return (
     <div className='mb-3'>
@@ -32,10 +26,10 @@ const Languages = ({ onClick, data }) => {
           <LanguageButton
             key={res.name}
             variant='outlined'
-            onClick={() => handleButtonClick(res.name)}
-            style={{
-              backgroundColor: selectedLanguage === res.name ? '#d946ef' : ''
-            }}
+             onClick={() => handleButtonClick(res.id)}
+            //  style={{
+            //    backgroundColor: selectedLanguage === res.name ? '#d946ef' : ''
+            //  }}
           >
             {res.name}
           </LanguageButton>
