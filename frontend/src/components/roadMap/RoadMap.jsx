@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '@mui/material/Button'
 import { Container } from '@mui/material'
 import Image from 'next/image'
@@ -10,8 +10,27 @@ import image3 from '/public/Group67.webp'
 import { useMediaQuery } from '@mui/material'
 import data from '@/utils/db/stackThemes'
 import Link from 'next/link'
+import axios from 'axios'
 
-const Roadmap = () => {
+const Roadmap = ({selectedLanguageId}) => {
+
+  const [themes, setThemes] = useState([])
+  console.log(selectedLanguageId)
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://nekode-rqas.onrender.com/api/themes')
+        setThemes(response.data.data)
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    }
+    
+    fetchData()
+  }, [])
+  
+console.log(themes)
   const getButtonMarginLeft = (index) => {
     if (index === 0) {
       return `0px`
@@ -25,19 +44,7 @@ const Roadmap = () => {
       return `${(index - 18) * -30}px`
     }
   }
-  const getButtonMarginLeftXs = (index) => {
-    if (index === 0) {
-      return `0px`
-    } else if (index < 5) {
-      return `${index * 10 - 60}px`
-    } else if (index < 12) {
-      return `${(index - 6) * -15}px`
-    } else if (index < 18) {
-      return `${(index - 12) * 10 - 60}px`
-    } else {
-      return `${(index - 18) * -15}px`
-    }
-  }
+
 
   const isXsOrMd = useMediaQuery('(max-width:960px)')
   const imagesHidden = useMediaQuery('(max-width:1230px)')
@@ -64,7 +71,7 @@ const Roadmap = () => {
           )}
         </div>
         <div className={`flex flex-col items-center justify-center `}>
-          {dataJavascript.themes.map((data, index) => {
+          {themes.filter((item)=> item.stackId === selectedLanguageId).map((data, index) => {
             return (
               <button
                 className={` 
