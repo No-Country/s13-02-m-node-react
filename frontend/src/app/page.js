@@ -13,7 +13,16 @@ import NavBar from '@/components/navBar/NavBar'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 export default function Home() {
-  const isXsOrMd = useMediaQuery('(max-width:768px)')
+  const isXsOrMd = useMediaQuery("(max-width:768px)");
+
+  // Simulacion de la carga de datos en 3 segundos
+  const [dataLoaded, setDataLoaded] = useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setDataLoaded(true);
+    }, 3000);
+  }, []);
+
 
   const [stacks, setStacks] = useState([])
   const [selectedLanguageId, setSelectedLanguageId] = useState(null);
@@ -39,41 +48,39 @@ export default function Home() {
 
   return (
     <>
-      <Container
-        maxWidth='xl'
-        sx={{
-          minHeight: '100vh'
-        }}
-        className='flex flex-col justify-between'
-      >
-        <NavBar />
-        <main className='flex'>
-          <aside className={`hidden md:block mt-[100px] '`}>
-            <CardHome />
-            <CardHome secondary={true} />
-          </aside>
-          <div className=' grid grid-cols-4'>
-            <section
-              className={`w-full flex flex-col items-center justify-around mt-[100px]  ${
-                isXsOrMd ? 'col-span-4' : 'col-span-3'
-              } `}
-            >
-              <ProgressBar
-                value={50}
-                data={'50%'}
-                title={'Tu progreso de hoy'}
-              />
-              <Languages data={stacks} onLanguageSelect={handleLanguageSelect} />
+      <div className="w-full relative">
+        <div className="sticky top-0 z-50">
+          <NavBar />
+        </div>
+        <div className="p-2 lg:p-5">
+          <main className="grid gap-2 grid-cols-1 lg:grid-cols-4 relative">
+            <aside className="w-60 lg:w-full lg:max-w-60 xl:max-w-80 hidden lg:block lg:col-span-1 space-y-5">
+              <div className="w-full sticky top-24">
+                <CardHome />
+                <CardHome secondary={true} />
+              </div>
+            </aside>
+            <section className="w-full lg:col-span-3 flex gap-5 flex-col items-center justify-center">
+              <div className="w-full sticky top-20 z-40 bg-rich-black-500">
+                <div className="w-full flex items-center justify-center relative">
+                  <ProgressBar
+                    value={50}
+                    data={"50%"}
+                    title={"Tu progreso de hoy"}
+                  />
+                  <div className="absolute right-0 hidden lg:block">
+                    <HeartCounter lives={2} dataLoaded={dataLoaded} />
+                  </div>
+                </div>
+              </div>
+              <Languages data={data} />
               <CardDefLenguajeHome />
               <Roadmap selectedLanguageId={selectedLanguageId?selectedLanguageId:"616c8a2c-1c9b-4b4d-a0ab-6bd7f962bf0d"} />
             </section>
-            <section className={`hidden md:block mt-[140px]`}>
-              <HeartCounter lives={2} position={'fixed'} />
-            </section>
-          </div>
-        </main>
+          </main>
+        </div>
         <Footer />
-      </Container>
+      </div>
     </>
-  )
+  );
 }

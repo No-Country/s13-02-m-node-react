@@ -1,106 +1,73 @@
-import { Container } from '@mui/material'
-import ChooseYourState from '@/components/CardStatus/ChooseYourState'
-import { CardHome } from '@/components/cardHome/CardHome'
-import MedalsRanks from '@/components/medals-ranks/MedalsRanks'
-import AscentZone from '@/components/ascent-zone/AscentZone'
-import Toolbar from '@mui/material/Toolbar'
+"use client";
+import React, { useEffect, useState } from "react";
+import { Alert, Container, Snackbar } from "@mui/material";
+import ChooseYourState from "@/components/CardStatus/ChooseYourState";
+import { CardHome } from "@/components/cardHome/CardHome";
+import MedalsRanks from "@/components/medals-ranks/MedalsRanks";
+import AscentZone from "@/components/ascent-zone/AscentZone";
+import axios from "axios";
 
-const pageRanks = () => {
-  //Datos de muestra
-  const data = [
-    {
-      imagen:
-        'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      nombre: 'Usuario 1',
-      puntaje: 85
-    },
-    {
-      imagen:
-        'https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      nombre: 'Usuario 2',
-      puntaje: 78
-    },
-    {
-      imagen:
-        'https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      nombre: 'Usuario 3',
-      puntaje: 92
-    },
-    {
-      imagen:
-        'https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      nombre: 'Usuario 4',
-      puntaje: 65
-    },
-    {
-      imagen:
-        'https://images.pexels.com/photos/1036622/pexels-photo-1036622.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      nombre: 'Usuario 5',
-      puntaje: 100
-    },
-    {
-      imagen:
-        'https://images.pexels.com/photos/2787341/pexels-photo-2787341.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      nombre: 'Usuario 6',
-      puntaje: 45
-    },
-    {
-      imagen:
-        'https://images.pexels.com/photos/2013701/pexels-photo-2013701.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      nombre: 'Usuario 7',
-      puntaje: 73
-    },
-    {
-      imagen:
-        'https://images.pexels.com/photos/720598/pexels-photo-720598.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      nombre: 'Usuario 8',
-      puntaje: 87
-    },
-    {
-      imagen:
-        'https://images.pexels.com/photos/3034903/pexels-photo-3034903.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      nombre: 'Usuario 9',
-      puntaje: 62
-    },
-    {
-      imagen:
-        'https://images.pexels.com/photos/15308686/pexels-photo-15308686/free-photo-of-mujer-primavera-retrato-sonriente.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      nombre: 'Usuario 10',
-      puntaje: 95
-    }
-  ]
+const PageRanks = () => {
+  const [userData, setUserData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [errorAlert, setErrorAlert] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://nekode-rqas.onrender.com/api/users"
+        );
+        setUserData(response.data.data);
+        setLoading(false);
+      } catch (error) {
+        setErrorAlert(true);
+        console.error("Error al obtener datos:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <>
-      <Toolbar id='back-to-top-anchor' />
-      <Container
-        maxWidth='xl'
-        sx={{
-          minHeight: '100vh'
+      <Snackbar
+        open={errorAlert}
+        autoHideDuration={6000}
+        onClose={() => {
+          setErrorAlert(false);
         }}
-        className='flex flex-col justify-between mt-6'
       >
-        <main className='flex'>
-          <aside className='w-80 hidden lg:block space-y-5'>
+        <Alert
+          onClose={() => {
+            setErrorAlert(false);
+          }}
+          severity="error"
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          Error al obtener datos de la clasificación.
+        </Alert>
+      </Snackbar>
+      <main className="grid gap-2 grid-cols-1 lg:grid-cols-4 relative">
+        <aside className="w-60 lg:w-full lg:max-w-60 xl:max-w-80 hidden lg:block lg:col-span-1 space-y-5 ">
+          <div className="w-full sticky top-24">
             <ChooseYourState />
             <CardHome secondary={true} />
-          </aside>
-          <Container className='p-0 flex gap-5 flex-col items-center '>
-            <section className='w-full flex gap-5 flex-col items-center justify-center'>
-              <MedalsRanks rank={'oro'} />
-              <div className='text-center text-white'>
-                <h2 className='text-sm sm:text-lg'>DIVISION ORO</h2>
-                <h4 className='text-xs sm:text-base'>
-                  Estás a 3 puestos de la zona de descenso.
-                </h4>
-              </div>
-            </section>
-            <AscentZone data={data} />
-          </Container>
-        </main>
-      </Container>
+          </div>
+        </aside>
+        <section className="w-full lg:col-span-3 flex gap-5 flex-col items-center justify-center">
+          <MedalsRanks rank={"oro"} />
+          <div className="text-center text-white">
+            <h2 className="text-sm sm:text-lg">DIVISION ORO</h2>
+            <h4 className="text-xs sm:text-base">
+              Estás a 3 puestos de la zona de descenso.
+            </h4>
+          </div>
+          <AscentZone dataLoaded={loading} data={userData} />
+        </section>
+      </main>
     </>
-  )
-}
+  );
+};
 
-export default pageRanks
+export default PageRanks;

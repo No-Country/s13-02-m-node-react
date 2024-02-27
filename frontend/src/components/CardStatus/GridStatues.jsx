@@ -6,11 +6,11 @@ const GridStatues = ({ data }) => {
     return null;
   }
   return (
-    <div className="w-full grid gap-2 grid-cols-3 grid-rows-4 md:grid-cols-6 md:grid-rows-2">
+    <div className="w-full grid gap-2 grid-cols-3 grid-rows-4 xl:grid-cols-6 xl:grid-rows-2 place-items-center">
       {data.map((item, index) => (
         <button
           key={index}
-          className="w-10 h-10 flex items-center justify-center border border-rich-black-500 rounded-lg shadow-md shadow-picton-blue-800"
+          className="w-10 h-10 flex items-center justify-center border border-rich-black-500 rounded-lg shadow-md shadow-picton-blue-800 place-self-center"
         >
           {item}
         </button>
