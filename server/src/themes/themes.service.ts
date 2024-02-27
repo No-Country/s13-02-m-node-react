@@ -27,18 +27,21 @@ export class ThemesService {
    */
   public async create(createThemeDto: CreateThemeDto) {
     try {
-      const stack = createThemeDto.progressStack;
-      const stackFound = await this.stackService.findOne(stack);
+      const stackId = createThemeDto.stack;
+      const stackFound = await this.stackService.findOne(stackId);
+
       if (!stackFound) {
         throw new ErrorManager({
           type: 'BAD_REQUEST',
-          message: `There is no stack with the id: ${stack}`,
+          message: `There is no stack with the id: ${stackId}`,
         });
       }
+
       if (!createThemeDto.order) {
-        const maxOrder = await this.getMaxOrderForStack(stack);
+        const maxOrder = await this.getMaxOrderForStack(stackId);
         createThemeDto.order = maxOrder + 1;
       }
+
       const theme = this.themeRepository.create({
         name: createThemeDto.name.toLowerCase(),
         level: createThemeDto.level,
@@ -47,14 +50,25 @@ export class ThemesService {
         description: createThemeDto.description || null,
         stack: stackFound,
       });
+
+      // Calcular el nuevo total de puntos del stack
+      const newTotalPoints = stackFound.points + createThemeDto.points;
+
+      // Actualizar el total de puntos del stack
+      await this.stackService.updateTotalPoints(stackId, newTotalPoints);
+
       const newTheme = await this.themeRepository.save(theme);
+
       return { id: newTheme.id };
     } catch (error) {
       console.error(error);
-      if (error.code === '23505')
+
+      if (error.code === '23505') {
         throw new ConflictException(
           `Theme with name '${createThemeDto.name}' already exists.`,
         );
+      }
+
       throw ErrorManager.createSignatureError(error.message);
     }
   }
@@ -133,16 +147,6 @@ export class ThemesService {
         .createQueryBuilder('theme')
         .where({ id })
         .leftJoinAndSelect('theme.stack', 'stack')
-        // .select([
-        //   'theme.id',
-        //   'theme.name',
-        //   'theme.level',
-        //   'theme.description',
-        //   'theme.points',
-        //   'theme.order',
-        //   'stack.id',
-        //   'stack.name',
-        // ])
         .getOne();
 
       if (!theme) {
