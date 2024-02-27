@@ -59,12 +59,6 @@ export class AuthService {
       if (!userToValidate) {
         return undefined;
       }
-      console.log(
-        'passwordToCompare ',
-        data.password,
-        ' against ',
-        userToValidate.password,
-      );
       const match = await compare(data.password, userToValidate.password);
       if (!match) {
         console.log('No match');

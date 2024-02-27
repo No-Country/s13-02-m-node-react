@@ -12,6 +12,7 @@ import { AppService } from './app.service';
 import { OpenaiModule } from './openai/openai.module';
 import { ProgressThemesModule } from './progress-themes/progress-themes.module';
 import { ProgressStacksModule } from './progress-stacks/progress-stacks.module';
+import { AdminService } from './admin/admin.service';
 
 console.log(process.env.NODE_ENV);
 @Module({
@@ -30,6 +31,6 @@ console.log(process.env.NODE_ENV);
     ProgressStacksModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AdminService],
 })
 export class AppModule {}
