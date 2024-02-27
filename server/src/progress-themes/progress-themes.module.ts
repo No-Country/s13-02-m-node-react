@@ -3,12 +3,19 @@ import { ProgressThemesService } from './progress-themes.service';
 import { ProgressThemesController } from './progress-themes.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProgressThemesEntity } from './entities/progress-theme.entity';
-import { ProgressStacksService } from 'src/progress-stacks/progress-stacks.service';
-import { ThemesService } from 'src/themes/themes.service';
+import { UsersModule } from 'src/users/users.module';
+import { ThemesModule } from 'src/themes/themes.module';
+import { ProgressStacksModule } from 'src/progress-stacks/progress-stacks.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ProgressThemesEntity])],
+  imports: [
+    TypeOrmModule.forFeature([ProgressThemesEntity]),
+    UsersModule,
+    ProgressStacksModule,
+    ThemesModule,
+  ],
   controllers: [ProgressThemesController],
-  providers: [ProgressThemesService, ProgressStacksService, ThemesService],
+  providers: [ProgressThemesService],
+  exports: [ProgressThemesService, TypeOrmModule],
 })
 export class ProgressThemesModule {}

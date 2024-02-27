@@ -1,14 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreateProgressThemesDto } from './dto';
-import { ErrorManager } from 'src/utils/error.manager';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ProgressThemesEntity } from './entities/progress-theme.entity';
 import { Repository } from 'typeorm';
-import { ProgressStacksService } from 'src/progress-stacks/progress-stacks.service';
-import { UsersService } from 'src/users/users.service';
-import { ProgressStacksEntity } from 'src/progress-stacks/entities/progress-stack.entity';
-import { UsersEntity } from 'src/users/entities/user.entity';
-
+import { CreateProgressThemesDto } from './dto';
+import { ProgressThemesEntity } from './entities/progress-theme.entity';
+import { ProgressStacksEntity } from '../progress-stacks/entities/progress-stack.entity';
+import { ProgressStacksService } from '../progress-stacks/progress-stacks.service';
+import { UsersService } from '../users/users.service';
+import { UsersEntity } from '../users/entities/user.entity';
+import { ErrorManager } from '../utils/error.manager';
 @Injectable()
 export class ProgressThemesService {
   themeRepository: any;

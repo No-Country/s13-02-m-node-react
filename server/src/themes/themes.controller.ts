@@ -14,9 +14,11 @@ import {
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ThemesService } from './themes.service';
 import { CreateThemeDto, UpdateThemeDto, ThemeQueryDto } from './dto';
-import { AuthGuard, PublicAccess, RolesGuard, Roles } from '../auth';
+import { AuthGuard, RolesGuard } from '../auth/guards';
+import { Roles } from '../auth/decorators/roles.decorator';
 import { ROLES } from 'src/config/constants/roles';
 import { CreateProgressThemesDto } from 'src/progress-themes/dto';
+import { PublicAccess } from 'src/auth/decorators/public.decorator';
 
 @ApiTags('themes')
 @ApiBearerAuth()

@@ -3,9 +3,9 @@ import { CreateProgressStackDto } from './dto/create-progress-stack.dto';
 import { ErrorManager } from 'src/utils/error.manager';
 import { InjectRepository } from '@nestjs/typeorm';
 import { StacksService } from 'src/stacks/stacks.service';
-import { EntityManager, Repository } from 'typeorm';
 import { ProgressStacksEntity } from './entities/progress-stack.entity';
 import { UsersService } from 'src/users/users.service';
+import { EntityManager, Repository } from 'typeorm';
 
 @Injectable()
 export class ProgressStacksService {

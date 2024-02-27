@@ -13,7 +13,9 @@ import {
   Req,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { AuthGuard, RolesGuard, PublicAccess, Roles } from '../auth';
+import { PublicAccess } from '../auth/decorators/public.decorator';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { AuthGuard, RolesGuard } from '../auth/guards';
 import { UsersService } from './users.service';
 import { UpdateUserDto, UserQueryDto } from './dto';
 import { CreateProgressStackDto } from '../progress-stacks/dto';

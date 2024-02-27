@@ -19,5 +19,6 @@ import { ProgressThemesEntity } from 'src/progress-themes/entities/progress-them
   ],
   controllers: [ThemesController],
   providers: [ThemesService, StacksService],
+  exports: [ThemesService, TypeOrmModule],
 })
 export class ThemesModule {}
