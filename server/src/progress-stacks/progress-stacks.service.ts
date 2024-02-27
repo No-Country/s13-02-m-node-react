@@ -80,11 +80,11 @@ export class ProgressStacksService {
     }
   }
 
-  public async remove(id: string) {
-    try {
-      return await this.progressStackRepository.delete(id);
-    } catch (error) {
-      throw ErrorManager.createSignatureError(error.message);
-    }
-  }
+  // public async remove(id: string) {
+  //   try {
+  //     return await this.progressStackRepository.delete(id);
+  //   } catch (error) {
+  //     throw ErrorManager.createSignatureError(error.message);
+  //   }
+  // }
 }

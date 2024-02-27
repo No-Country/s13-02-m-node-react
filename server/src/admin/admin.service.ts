@@ -1,10 +1,10 @@
 // admin.service.ts
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { ROLES } from '../config/constants/roles';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UsersEntity } from '../users/entities/user.entity';
 import { ConfigService } from '@nestjs/config';
+import { ROLES } from '../config/constants/roles';
+import { UsersEntity } from '../users/entities/user.entity';
 import { hash } from 'bcrypt';
 
 @Injectable()

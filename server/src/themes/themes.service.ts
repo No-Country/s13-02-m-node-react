@@ -97,17 +97,6 @@ export class ThemesService {
     try {
       const { page, limit, orderBy, order } = query;
       const queryBuilder = this.themeRepository.createQueryBuilder('theme');
-      //.leftJoinAndSelect('theme.stack', 'stack');
-      // .select([
-      //   'theme.id',
-      //   'theme.name',
-      //   'theme.level',
-      //   'theme.description',
-      //   'theme.points',
-      //   'theme.order',
-      //   'stack.id',
-      //   'stack.name',
-      // ]);
 
       if (order && orderBy) {
         queryBuilder.orderBy(`theme.${orderBy}`, order);

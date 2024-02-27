@@ -48,14 +48,6 @@ export class ThemesController {
     return this.themesService.findById(id);
   }
 
-  // @Patch('add-experience/:idTheme')
-  // updateThemeProgress(
-  //   @Param('idTheme') id: string,
-  //   @Body() updateProgress: UpdateProgressThemeDto,
-  // ) {
-  //   return this.themesService.updateThemeProgress(id, updateProgress);
-  // }
-
   @Roles(ROLES.ADMIN)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateThemeDto: UpdateThemeDto) {

@@ -39,9 +39,4 @@ export class ProgressStacksController {
   public async findOne(@Param('stackId') id: string) {
     return this.progressStacksService.findOne(id);
   }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.progressStacksService.remove(id);
-  // }
 }

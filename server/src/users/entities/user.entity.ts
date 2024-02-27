@@ -3,8 +3,8 @@ import { Column, Entity, JoinColumn, OneToMany } from 'typeorm';
 import { BaseEntity } from '../../config/base.entity';
 import { ProgressStacksEntity } from '../../progress-stacks/entities/progress-stack.entity';
 import { ROLES } from '../../config/constants/roles';
-import { IUser } from '../../types';
 import { NOTIFICATIONFREQUENCY } from '../../config/constants/notification_frequency';
+import { IUser } from '../../types/interfaces/user.interface';
 
 @Entity({ name: 'users' })
 export class UsersEntity extends BaseEntity implements IUser {

@@ -64,12 +64,6 @@ export class UsersController {
     return this.usersService.update(id, updateUserDto, userAuth);
   }
 
-  // @Patch('remove-life')
-  // async removeLife(@Req() req) {
-  //   const { userAuth } = req;
-  //   return this.usersService.removeLife(userAuth.id);
-  // }
-
   @Roles(ROLES.ADMIN)
   @Delete(':id')
   remove(@Param('id') id: string) {
