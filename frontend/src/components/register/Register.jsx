@@ -40,7 +40,7 @@ const Register = () => {
                 type='email'
                 name='email'
                 placeholder='Email'
-                id='userPassword'
+                id='userEmail'
                 className='border-2 border-black bg-black h-[56px] pl-5 outline-none'
                 required
               />

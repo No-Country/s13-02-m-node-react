@@ -28,7 +28,7 @@ export const errorAuthManagement = (err, setErrorAuth) => {
   const messageCode = err.response.data.message
   const e = errorsAuth.find((err) => errorCode === err.code)
   // .map((msj) => msj.messageEmail)[0]
-  switch (messageCode.length > 1 ? messageCode : messageCode[0]) {
+  switch (messageCode) {
     case e.serverEmailMessage:
       setErrorAuth(e.messageEmail)
       break
