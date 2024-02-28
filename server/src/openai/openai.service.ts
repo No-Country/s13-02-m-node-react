@@ -161,9 +161,9 @@ export class OpenaiService {
           if (jsonObject.type === 'text') {
             const res = JSON.parse(jsonObject.text.value);
 
-            if (res.isCorrect) {
-              await this.progressThemesService.update(query.id_theme, 1);
-            }
+            // if (res.isCorrect) {
+            //   await this.progressThemesService.update(query.id_theme, 1);
+            // }
             return res;
           }
         }
