@@ -1,14 +1,15 @@
 import axios from 'axios'
 import { errorAuthManagement } from '../services/hooksAuth'
-const loginPost = async (userData, setErrorAuth, router) => {
-  setErrorAuth('')
+const loginPost = async (userData, router, setErrorAuth) => {
+  // setErrorAuth('')
   await axios
     .post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, userData)
     .then(function (res) {
+      console.log(res)
       localStorage.setItem('avatar', res.data.username[0])
       // localStorage.setItem('lives', res.data.getUser.life)
       localStorage.setItem('idKey', res.data.accessToken)
-      setErrorAuth('')
+      // setErrorAuth('')
       router.push('/')
     })
     .catch(function (err) {
