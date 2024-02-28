@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile, UseInterceptors, BadRequestException, Res, Req, UseGuards, UnauthorizedException, InternalServerErrorException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile, UseInterceptors, BadRequestException, Res, Req, UseGuards, UnauthorizedException } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ConfigService } from '@nestjs/config';
 import { Response } from 'express';
@@ -8,7 +8,6 @@ import { fileFilter, fileNamer } from './helpers';
 import { UsersService } from '../users/users.service';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth';
-import { UpdateUserDto } from 'src/users/dto/update-user.dto';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard)
@@ -62,19 +61,19 @@ async uploadAvatarImage(
     throw new BadRequestException('User ID in the URL does not match the authenticated user ID');
   }
 
-    const userEntity = await this.usersService.findUserById(user.id);
+    // const userEntity = await this.usersService.findUserById(user.id);
 
-    const updateUserDto: UpdateUserDto = {
-      username: userEntity.username,
-      role: userEntity.role,
-      life: userEntity.life,
-      totalPoints: userEntity.totalPoints,
-      challengeNotification: userEntity.challengeNotification,
-      notification: userEntity.notification,
-      avatarUrl: secureUrl,
-    };
+    // const updateUserDto: UpdateUserDto = {
+    //   username: userEntity.username,
+    //   role: userEntity.role,
+    //   life: userEntity.life,
+    //   totalPoints: userEntity.totalPoints,
+    //   challengeNotification: userEntity.challengeNotification,
+    //   notification: userEntity.notification,
+    //   avatarUrl: secureUrl,
+    // };
 
-    await this.usersService.update(user.id, updateUserDto, user);
+    await this.usersService.updateAvatar(user.id, secureUrl, user);
 
     return { avatarUrl: secureUrl };
 }
