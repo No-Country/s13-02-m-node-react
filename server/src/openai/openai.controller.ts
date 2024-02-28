@@ -4,7 +4,6 @@ import { OpenaiService } from './openai.service';
 import { GetQuestionDto } from './dto/getQuestion.dto';
 import { CorrectQuestionDto } from './dto/correctQuestion.dto';
 
-
 @Controller('openai')
 export class OpenaiController {
   constructor(private readonly openaiService: OpenaiService) {}
@@ -15,8 +14,7 @@ export class OpenaiController {
   }
 
   @Post('/correct')
-  async correctQuestion(@Body() petition:CorrectQuestionDto): Promise<object>{
-    return await this.openaiService.correctQuestion(petition)
-
+  async correctQuestion(@Body() petition: CorrectQuestionDto): Promise<object> {
+    return await this.openaiService.correctQuestion(petition);
   }
 }

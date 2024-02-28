@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import OpenAI from 'openai';
 import { Repository } from 'typeorm';
 import { GetQuestionDto } from './dto/getQuestion.dto';
@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UsersEntity } from 'src/users/entities/user.entity';
 import { ErrorManager } from 'src/utils/error.manager';
 import { CorrectQuestionDto } from './dto/correctQuestion.dto';
+import { ProgressThemesService } from 'src/progress-themes/progress-themes.service';
 
 @Injectable()
 export class OpenaiService {
@@ -14,6 +15,8 @@ export class OpenaiService {
 
   constructor(
     @InjectRepository(UsersEntity)
+    private progressThemeRepository: Repository<UsersEntity>,
+    @Inject(ProgressThemesService)
     private userRepository: Repository<UsersEntity>,
   ) {
     this.openai = new OpenAI({
@@ -22,43 +25,41 @@ export class OpenaiService {
   }
 
   /**
-   * 
+   *
    * @param query {{ theme: string, level: string, quest_number: number }} query Objeto con los parámetros.
-   * @returns  {Promise<any[]>} Un array de objetos que representan preguntas encontradas. 
+   * @returns  {Promise<any[]>} Un array de objetos que representan preguntas encontradas.
    */
   async getQuestion(query: GetQuestionDto): Promise<any> {
-    
     const message = `{
       theme:${query.theme},
       level:${query.level},
       questNumber:${query.quest_number}
     }`;
     let thread: string;
-    
+
     try {
       const assistant = await this.openai.beta.assistants.retrieve(
-        'asst_6Kac0xPgkjUuoPWR684nHWsc', 
+        'asst_6Kac0xPgkjUuoPWR684nHWsc',
       );
-      const userFound =  await this.userRepository.findOne({
-      where: {
-        id: query.id_user,
-      },
+      const userFound = await this.userRepository.findOne({
+        where: {
+          id: query.id_user,
+        },
       });
-      if(!userFound) 
+      if (!userFound)
         throw new ErrorManager({
-          type:"NOT_FOUND",
-          message:"User not found"
-        })
-      
+          type: 'NOT_FOUND',
+          message: 'User not found',
+        });
 
-      thread = userFound.identifier_ia
+      thread = userFound.identifier_ia;
 
       if (!userFound.identifier_ia) {
         const newThread = await this.openai.beta.threads.create();
         await this.userRepository.update(query.id_user, {
           identifier_ia: newThread.id,
         });
-        thread = newThread.id
+        thread = newThread.id;
       }
 
       await this.openai.beta.threads.messages.create(thread, {
@@ -66,7 +67,7 @@ export class OpenaiService {
         content: message,
       });
 
-       const run = await this.openai.beta.threads.runs.create(thread, {
+      const run = await this.openai.beta.threads.runs.create(thread, {
         assistant_id: assistant.id,
       });
 
@@ -83,91 +84,89 @@ export class OpenaiService {
         );
       }
 
-    const messages = await this.openai.beta.threads.messages.list(thread);
+      const messages = await this.openai.beta.threads.messages.list(thread);
 
-   
-    const lastMessageForRun = messages.data
-      .filter(
-        (message) => message.run_id === run.id && message.role === "assistant"
-      )
-      .pop();
+      const lastMessageForRun = messages.data
+        .filter(
+          (message) =>
+            message.run_id === run.id && message.role === 'assistant',
+        )
+        .pop();
 
       if (lastMessageForRun) {
         const messageJSON = lastMessageForRun.content[0];
         const jsonObject = messageJSON;
-        if(jsonObject.type === 'text'){
-          return JSON.parse(jsonObject.text.value)
+        if (jsonObject.type === 'text') {
+          return JSON.parse(jsonObject.text.value);
         }
-        
       }
-      
-
-     
     } catch (error) {
       console.log(error);
-      throw ErrorManager.createSignatureError(error.message)
+      throw ErrorManager.createSignatureError(error.message);
     }
   }
 
   /**
-   * 
+   *
    * @param query {{question:string, response:string}}
    * @returns  {Promise<any{}>} Un JSON { feefback: string, isCorrect: boolean }
    */
   async correctQuestion(query: CorrectQuestionDto): Promise<any> {
-    const message =`{ "question":"${query.question}" , "response":${query.response} }`
-    console.log(message)
-    if(query)
-    try {
-      const assistant = await this.openai.beta.assistants.retrieve(
-        'asst_jzuG8bl60SOqsbGwmo44ZnR5', 
-      );
+    const message = `{ "question":"${query.question}" , "response":${query.response} }`;
+    console.log(message);
+    if (query)
+      try {
+        const assistant = await this.openai.beta.assistants.retrieve(
+          'asst_jzuG8bl60SOqsbGwmo44ZnR5',
+        );
 
-      const newThread = await this.openai.beta.threads.create()
+        const newThread = await this.openai.beta.threads.create();
 
-      await this.openai.beta.threads.messages.create(newThread.id, {
-        role: 'user',
-        content: message,
-      });
+        await this.openai.beta.threads.messages.create(newThread.id, {
+          role: 'user',
+          content: message,
+        });
 
-      const run = await this.openai.beta.threads.runs.create(newThread.id, {
-        assistant_id: assistant.id,
-      });
+        const run = await this.openai.beta.threads.runs.create(newThread.id, {
+          assistant_id: assistant.id,
+        });
 
-      let runStatus = await this.openai.beta.threads.runs.retrieve(
-        newThread.id,
-        run.id,
-      );
-
-      while (runStatus.status !== 'completed') {
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        runStatus = await this.openai.beta.threads.runs.retrieve(
+        let runStatus = await this.openai.beta.threads.runs.retrieve(
           newThread.id,
           run.id,
         );
-      }
 
-    const messages = await this.openai.beta.threads.messages.list(newThread.id);
-
-   
-    const lastMessageForRun = messages.data
-      .filter(
-        (message) => message.run_id === run.id && message.role === "assistant"
-      )
-      .pop();
-
-      if (lastMessageForRun) {
-        const messageJSON = lastMessageForRun.content[0];
-        const jsonObject = messageJSON;
-        if(jsonObject.type === 'text'){
-          return JSON.parse(jsonObject.text.value)
+        while (runStatus.status !== 'completed') {
+          await new Promise((resolve) => setTimeout(resolve, 2000));
+          runStatus = await this.openai.beta.threads.runs.retrieve(
+            newThread.id,
+            run.id,
+          );
         }
-        
+
+        const messages = await this.openai.beta.threads.messages.list(
+          newThread.id,
+        );
+
+        const lastMessageForRun = messages.data
+          .filter(
+            (message) =>
+              message.run_id === run.id && message.role === 'assistant',
+          )
+          .pop();
+
+        if (lastMessageForRun) {
+          const messageJSON = lastMessageForRun.content[0];
+          const jsonObject = messageJSON;
+          if (jsonObject.type === 'text') {
+            return JSON.parse(jsonObject.text.value);
+          }
+        }
+        //   if (isCorrect) {
+        //     await this.progressThemeRepository.update(progressThemeId, 1)
+        // }
+      } catch (error) {
+        console.log(error);
       }
-
-    } catch (error) {
-      console.log(error)
-    }
-}
-
+  }
 }
