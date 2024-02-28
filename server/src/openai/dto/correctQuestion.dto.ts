@@ -1,11 +1,12 @@
-/* eslint-disable prettier/prettier */
-import { IsString } from "class-validator"
+import { IsString } from 'class-validator';
 
-export class  CorrectQuestionDto {
-@IsString()
-question:string
+export class CorrectQuestionDto {
+  @IsString()
+  question: string;
 
-@IsString()
-response:string
+  @IsString()
+  response: string;
 
+  @IsString()
+  id_theme: string;
 }
