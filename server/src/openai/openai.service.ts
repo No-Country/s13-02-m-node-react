@@ -8,6 +8,7 @@ import { UsersEntity } from 'src/users/entities/user.entity';
 import { ErrorManager } from 'src/utils/error.manager';
 import { CorrectQuestionDto } from './dto/correctQuestion.dto';
 import { ProgressThemesService } from 'src/progress-themes/progress-themes.service';
+
 @Injectable()
 export class OpenaiService {
   private openai: OpenAI;
@@ -95,8 +96,8 @@ export class OpenaiService {
       if (lastMessageForRun) {
         const messageJSON = lastMessageForRun.content[0];
         const jsonObject = messageJSON;
-        if (jsonObject.type === 'text') {
-          return JSON.parse(jsonObject.text.value);
+        if(jsonObject.type === 'text'){
+          return JSON.parse(jsonObject.text.value)
         }
       }
     } catch (error) {
@@ -106,7 +107,7 @@ export class OpenaiService {
   }
 
   /**
-   *
+   * 
    * @param query {{question:string, response:string, id_theme:string}}
    * @returns  {Promise<any{}>} Un JSON { feefback: string, isCorrect: boolean }
    */
@@ -143,6 +144,7 @@ export class OpenaiService {
           );
         }
 
+        
         const messages = await this.openai.beta.threads.messages.list(
           newThread.id,
         );

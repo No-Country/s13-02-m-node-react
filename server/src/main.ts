@@ -22,7 +22,8 @@ async function bootstrap() {
     .addTag('users')
     .addTag('auth')
     .addTag('stacks')
-    .addServer('api')
+    .addTag('themes progress')
+    .addTag('stack progress')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

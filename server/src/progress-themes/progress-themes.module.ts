@@ -14,6 +14,6 @@ import { ThemesModule } from 'src/themes/themes.module';
   ],
   controllers: [ProgressThemesController],
   providers: [ProgressThemesService],
-  exports: [ProgressThemesService],
+  exports: [ProgressThemesService, TypeOrmModule],
 })
 export class ProgressThemesModule {}
