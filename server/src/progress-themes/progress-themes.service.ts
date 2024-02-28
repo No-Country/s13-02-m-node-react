@@ -73,7 +73,7 @@ export class ProgressThemesService {
       });
 
       await this.progressThemesRepository.save(myNewProgressTheme);
-      return { message: 'Stack added to user' };
+      return { message: 'Theme added to user' };
     } catch (error) {
       console.log(error);
       throw ErrorManager.createSignatureError(error.message);

@@ -4,30 +4,18 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import * as morgan from 'morgan';
 import { corsOptions } from './config/cors';
-import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  INestApplication,
+  ValidationPipe,
+} from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   // Prefix /api/
   app.setGlobalPrefix('api');
-
-  // Documentation Swagger config
-  const config = new DocumentBuilder()
-    .addBearerAuth()
-    .setTitle('API Documentation')
-    .setDescription('API description')
-    .setVersion('1.0')
-    .addTag('themes')
-    .addTag('users')
-    .addTag('auth')
-    .addTag('stacks')
-    .addServer('api')
-    .build();
-
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/documentation', app, document);
-
+  createSwagger(app);
   // Validation
   app.useGlobalPipes(
     new ValidationPipe({
@@ -54,3 +42,22 @@ async function bootstrap() {
   console.log(`Server running on: ${await app.getUrl()}`);
 }
 bootstrap();
+
+function createSwagger(app: INestApplication) {
+  // Documentation Swagger config
+  const config = new DocumentBuilder()
+    .addBearerAuth()
+    .setTitle('API Documentation')
+    .setDescription('API description')
+    .setVersion('1.0')
+    .addTag('themes')
+    .addTag('users')
+    .addTag('auth')
+    .addTag('stacks')
+    .addTag('themes progress')
+    .addTag('stack progress')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api/documentation', app, document);
+}
