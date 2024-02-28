@@ -16,5 +16,5 @@ export class GetQuestionDto {
   id_thread?: string;
 
   @IsString()
-  id_user?: string;
+  id_user: string;
 }
