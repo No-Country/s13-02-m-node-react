@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { CreateStackDto } from './dto/create-stack.dto';
@@ -120,7 +120,7 @@ export class StacksService {
       const stack: StacksEntity = await this.stackRepository
         .createQueryBuilder('stack')
         .where({ id })
-        .leftJoinAndSelect('stack.themes', 'themes')
+        .leftJoinAndSelect('stack.themes', 'theme') // Cambiado de 'themes' a 'theme'
         .select([
           'stack',
           'theme.id',
@@ -204,6 +204,21 @@ export class StacksService {
     } catch (error) {
       throw ErrorManager.createSignatureError(error.message);
     }
+  }
+
+  // En StackService
+  async updateTotalPoints(
+    stackId: string,
+    newTotalPoints: number,
+  ): Promise<void> {
+    const stackToUpdate = await this.findOne(stackId);
+
+    if (!stackToUpdate) {
+      throw new NotFoundException(`No stack found with id: ${stackId}`);
+    }
+
+    stackToUpdate.points = newTotalPoints;
+    await this.stackRepository.save(stackToUpdate);
   }
 
   /**

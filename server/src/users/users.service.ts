@@ -1,27 +1,20 @@
-/* eslint-disable prettier/prettier */
-import { Inject, Injectable } from '@nestjs/common';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository, UpdateResult } from 'typeorm';
+import { DeleteResult, EntityManager, Repository, UpdateResult } from 'typeorm';
 import { UsersEntity } from './entities/user.entity';
-import { ErrorManager } from '../utils/error.manager';
-import { CreateProgressStackDto } from './dto/create-progress-stack.dto';
-import { ProgressStacksEntity } from './entities/progressStacks.entity';
 import { RegisterAuthDto } from '../auth/dto/register-auth.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { TSearchConditions } from '../types/types/searchConditions';
+import { TQueryPagination } from '../types/types/queryPaginations';
 import { hash } from 'bcrypt';
-import { UserQueryDto } from './dto/theme-query.dto';
-import { StacksService } from 'src/stacks/stacks.service';
+import { ErrorManager } from '../utils/error.manager';
+import { UserQueryDto } from './dto/user-query.dto';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(UsersEntity)
     private readonly userRepository: Repository<UsersEntity>,
-    @InjectRepository(ProgressStacksEntity)
-    private readonly progressStacksRepository: Repository<ProgressStacksEntity>,
-    @Inject(StacksService)
-    private stacksService: StacksService,
   ) {}
 
   /**
@@ -67,10 +60,9 @@ export class UsersService {
     }
   }
 
-  public async findAll(query: UserQueryDto): Promise<{
-    data: UsersEntity[];
-    pagination?: { totalPages: number; limit: number; page: number };
-  }> {
+  public async findAll(
+    query: UserQueryDto,
+  ): Promise<TQueryPagination<UsersEntity>> {
     try {
       const { page, limit, orderBy, order } = query;
       const queryBuilder = this.userRepository
@@ -195,6 +187,26 @@ export class UsersService {
     }
   }
 
+  public async save(user: UsersEntity) {
+    try {
+      return await this.userRepository.save(user);
+    } catch (error) {
+      throw ErrorManager.createSignatureError(error.message);
+    }
+  }
+  // public async removeLife(userId: string) {
+  //   const user: UsersEntity = await this.userRepository.findOne({
+  //     where: { id: userId },
+  //   });
+  //   user.life = user.life - 1;
+  //   if (user.life < 0) {
+  //     //perder puntos
+  //     user.life = 3;
+  //   }
+  //   await this.userRepository.update(user);
+  //   return user;
+  // }
+
   public async remove(id: string): Promise<DeleteResult | undefined> {
     try {
       const user: DeleteResult = await this.userRepository.delete(id);
@@ -210,55 +222,6 @@ export class UsersService {
     }
   }
 
-  public async addStackToUser(
-    progressStackDto: CreateProgressStackDto,
-    userAuth: { role: string; id: string },
-  ) {
-    try {
-      if (userAuth.id !== progressStackDto.user && userAuth.role !== 'ADMIN') {
-        throw new ErrorManager({
-          type: 'FORBIDDEN',
-          message: 'You have no privileges for perform this action',
-        });
-      } else {
-        const stackUser = await this.userRepository.findOne({
-          where: { id: progressStackDto.user },
-        });
-        if (!stackUser) {
-          throw new ErrorManager({
-            type: 'NOT_FOUND',
-            message: " Id User wrong or doesn't exists",
-          });
-        }
-        const stackAsigned = await this.stacksService.findOne(
-          progressStackDto.stack,
-        );
-        if (!stackAsigned) {
-          throw new ErrorManager({
-            type: 'NOT_FOUND',
-            message: " Stack wrong or doesn't exists",
-          });
-        }
-        await this.progressStacksRepository.save({
-          user: stackUser,
-          stack: stackAsigned,
-          progress: 0,
-        });
-
-        return { message: 'Stack added to user' };
-      }
-    } catch (error) {
-      throw ErrorManager.createSignatureError(error.message);
-    }
-  }
-
-  public async getOneUserStack(userId: string, stackId: string) {
-    return `agrega stack al usuario: ${userId}, ${stackId}`;
-  }
-  public async getAllUserStack(userId: string) {
-    return `agrega stack al usuario: ${userId}`;
-  }
-
   public async findUserBy(options: TSearchConditions<UsersEntity>) {
     try {
       const user: UsersEntity = await this.userRepository
@@ -271,6 +234,23 @@ export class UsersService {
         return undefined;
       }
       return user;
+    } catch (error) {
+      console.log(error);
+      throw ErrorManager.createSignatureError(error.message);
+    }
+  }
+
+  public async findOne(id: string, manager?: EntityManager) {
+    try {
+      if (manager) {
+        return await manager.findOne(UsersEntity, {
+          where: { id },
+        });
+      } else {
+        return await this.userRepository.findOne({
+          where: { id },
+        });
+      }
     } catch (error) {
       console.log(error);
       throw ErrorManager.createSignatureError(error.message);

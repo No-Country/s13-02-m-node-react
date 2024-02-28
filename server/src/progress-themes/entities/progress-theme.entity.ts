@@ -1,7 +1,7 @@
-import { BaseEntity } from '../../config/base.entity';
 import { Column, Entity, ManyToOne, Unique } from 'typeorm';
-import { ThemesEntity } from './theme.entity';
-import { ProgressStacksEntity } from '../../users/entities/progressStacks.entity';
+import { ThemesEntity } from 'src/themes/entities/theme.entity';
+import { ProgressStacksEntity } from '../../progress-stacks/entities/progress-stack.entity';
+import { BaseEntity } from '../../config/base.entity';
 
 @Entity({ name: 'progress_themes' })
 @Unique(['themeId', 'progressStackId'])

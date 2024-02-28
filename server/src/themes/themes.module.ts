@@ -3,21 +3,17 @@ import { ThemesService } from './themes.service';
 import { ThemesController } from './themes.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ThemesEntity } from './entities/theme.entity';
-import { StacksEntity } from 'src/stacks/entities/stack.entity';
+import { StacksModule } from 'src/stacks/stacks.module';
 import { UsersModule } from 'src/users/users.module';
-import { StacksService } from 'src/stacks/stacks.service';
-import { ProgressThemesEntity } from './entities/progressTheme.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([
-      ThemesEntity,
-      StacksEntity,
-      ProgressThemesEntity,
-    ]),
+    TypeOrmModule.forFeature([ThemesEntity]),
+    StacksModule,
     UsersModule,
   ],
   controllers: [ThemesController],
-  providers: [ThemesService, StacksService],
+  providers: [ThemesService],
+  exports: [ThemesService, TypeOrmModule],
 })
 export class ThemesModule {}

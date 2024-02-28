@@ -1,11 +1,11 @@
-/* eslint-disable prettier/prettier */
-import { BaseEntity } from '../../config/base.entity';
-import { ROLES } from '../../config/constants/roles';
-import { IUser } from '../../types/interfaces/user.interface';
-import { Column, Entity, JoinColumn, OneToMany } from 'typeorm';
-import { ProgressStacksEntity } from './progressStacks.entity';
-import { NOTIFICATIONFREQUENCY } from '../../config/constants/notification_frequency';
 import { Exclude } from 'class-transformer';
+import { Column, Entity, JoinColumn, OneToMany } from 'typeorm';
+import { BaseEntity } from '../../config/base.entity';
+
+import { ROLES } from '../../config/constants/roles';
+import { NOTIFICATIONFREQUENCY } from '../../config/constants/notification_frequency';
+import { IUser } from '../../types/interfaces/user.interface';
+import { ProgressStacksEntity } from '../../progress-stacks/entities/progress-stack.entity';
 
 @Entity({ name: 'users' })
 export class UsersEntity extends BaseEntity implements IUser {

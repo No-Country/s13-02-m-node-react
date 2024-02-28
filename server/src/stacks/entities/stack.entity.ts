@@ -13,7 +13,7 @@ export class StacksEntity extends BaseEntity implements IStack {
   })
   name: string;
 
-  @Column()
+  @Column({ default: 0 })
   points: number;
 
   @OneToMany(() => ThemesEntity, (themes) => themes.stack)
