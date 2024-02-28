@@ -9,8 +9,18 @@ import image3 from '/public/Group67.webp'
 import { useMediaQuery } from '@mui/material'
 import data from '@/utils/db/stackThemes'
 import Link from 'next/link'
+import { useQuestionChallenge } from '@/utils/services/handlersChallenge'
 
 const Roadmap = () => {
+  const questionsHook = useQuestionChallenge()
+  // pasar por props esta data para la pregunta(en cada tema y con los datos de estos)
+  const questionData = {
+    theme: 'variables',
+    level: 'principiante',
+    id_user: '576cfeff-905d-4b3b-bf7e-7597e71bca77',
+    quest_number: 1
+  }
+
   const getButtonMarginLeft = (index) => {
     if (index === 0) {
       return `0px`
@@ -42,7 +52,7 @@ const Roadmap = () => {
   const imagesHidden = useMediaQuery('(max-width:1230px)')
   const datajs = data.filter((item) => item.name === 'Javascript') //prueba despues cambiar generico
   const dataJavascript = datajs[0] //prueba despues cambiar generico
-
+  // console.log(questionsHook.questions)
   return (
     <>
       <div className='grid grid-cols-3'>
@@ -66,6 +76,7 @@ const Roadmap = () => {
           {dataJavascript.themes.map((data, index) => {
             return (
               <button
+                onClick={questionsHook.handlerQuestionChallengePost}
                 className={` 
                 bg-[#A87FFB] 
                 mb-4 
@@ -85,7 +96,7 @@ const Roadmap = () => {
                 }}
                 key={index}
               >
-                <Link href={'/challenges'}>{data.name}</Link>
+                {data.name}
               </button>
             )
           })}
