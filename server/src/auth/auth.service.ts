@@ -96,6 +96,7 @@ export class AuthService {
         : { username: getUser.username };
       const response = {
         accessToken: await this.signJWT(payload),
+        userid: getUser.id,
         ...userData,
       };
       return response;

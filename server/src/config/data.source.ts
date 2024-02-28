@@ -16,7 +16,7 @@ export const DataSourceConfig: DataSourceOptions = {
   database: configService.get('POSTGRES_DB'),
   entities: ['dist/**/*.entity.js'],
   synchronize: true,
-  logging: false,
+  logging: true,
   namingStrategy: new SnakeNamingStrategy(),
 };
 
