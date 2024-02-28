@@ -15,7 +15,7 @@ import { CreateStackDto } from './dto/create-stack.dto';
 import { UpdateStackDto } from './dto/update-stack.dto';
 import { PublicAccess } from '../auth/decorators/public.decorator';
 import { AuthGuard } from '../auth/guards/auth.guards';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags, ApiBody } from '@nestjs/swagger';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { ROLES } from '../config/constants/roles';
@@ -30,6 +30,7 @@ export class StacksController {
   constructor(private readonly stacksService: StacksService) {}
 
   @Roles(ROLES.ADMIN)
+  @ApiBody({ type: CreateStackDto })
   @Post()
   public async create(@Body() createStackDto: CreateStackDto) {
     try {

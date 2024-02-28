@@ -96,8 +96,8 @@ export class OpenaiService {
       if (lastMessageForRun) {
         const messageJSON = lastMessageForRun.content[0];
         const jsonObject = messageJSON;
-        if(jsonObject.type === 'text'){
-          return JSON.parse(jsonObject.text.value)
+        if (jsonObject.type === 'text') {
+          return JSON.parse(jsonObject.text.value);
         }
       }
     } catch (error) {
@@ -107,7 +107,7 @@ export class OpenaiService {
   }
 
   /**
-   * 
+   *
    * @param query {{question:string, response:string, id_theme:string}}
    * @returns  {Promise<any{}>} Un JSON { feefback: string, isCorrect: boolean }
    */
@@ -144,7 +144,6 @@ export class OpenaiService {
           );
         }
 
-        
         const messages = await this.openai.beta.threads.messages.list(
           newThread.id,
         );
@@ -171,7 +170,6 @@ export class OpenaiService {
       } catch (error) {
         console.log(error);
         throw ErrorManager.createSignatureError(error.message);
-
       }
   }
 }

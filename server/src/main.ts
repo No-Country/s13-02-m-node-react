@@ -47,7 +47,7 @@ function createSwagger(app: INestApplication) {
   // Documentation Swagger config
   const config = new DocumentBuilder()
     .addBearerAuth()
-    .setTitle('API Documentation')
+    .setTitle('Nekode Api Documentation')
     .setDescription('API description')
     .setVersion('1.0')
     .addTag('themes')
