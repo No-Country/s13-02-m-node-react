@@ -3,7 +3,7 @@ import HeartCounter from '@/components/lives-counter/HeartCounter'
 import ProgressBar from '@/components/progressBar/ProgressBar'
 import React, { useEffect, useState } from 'react'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
-import { useQuestionChallenge } from '@/utils/services/handlersChallenge'
+import { useQuestionChallenge } from '@/utils/services/hooksChallenge'
 
 // const questionsDesafios = [
 //   {
