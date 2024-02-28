@@ -52,4 +52,7 @@ export class UsersEntity extends BaseEntity implements IUser {
   @OneToMany(() => ProgressStacksEntity, (progressStack) => progressStack.user)
   @JoinColumn()
   stacks: ProgressStacksEntity[];
+  
+  @Column({ nullable: true })
+  avatarUrl?: string;
 }
