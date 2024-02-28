@@ -39,7 +39,6 @@ export class StacksController {
         value: name,
         caseInsensitive: true,
       });
-      console.log('HAY NOMBRE?', isName);
       if (isName) {
         throw new ErrorManager({
           type: 'BAD_REQUEST',

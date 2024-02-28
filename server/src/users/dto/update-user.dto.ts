@@ -1,7 +1,6 @@
 import {
   IsBoolean,
   IsEnum,
-  IsInt,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -19,16 +18,6 @@ export class UpdateUserDto {
   @IsNotEmpty()
   @IsEnum(ROLES)
   role: ROLES;
-
-  @IsOptional()
-  @IsNotEmpty()
-  @IsInt()
-  life: number;
-
-  @IsOptional()
-  @IsNotEmpty()
-  @IsInt()
-  totalPoints: number;
 
   @IsOptional()
   @IsNotEmpty()

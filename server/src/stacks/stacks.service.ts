@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { CreateStackDto } from './dto/create-stack.dto';
@@ -66,10 +66,17 @@ export class StacksService {
       // Paginate if pagination parameters are provided
       if (page && limit) {
         const totalCount = await queryBuilder.getCount();
-        totalPages = Math.ceil(totalCount / limit);
-        queryBuilder.skip((page - 1) * limit).take(limit);
+        totalPages = Math.ceil(totalCount / +limit);
+        queryBuilder.skip((page - 1) * +limit).take(limit);
         const data = await queryBuilder.getMany();
-        return { data, pagination: { totalPages, limit, page } };
+        return {
+          data,
+          pagination: {
+            totalPages,
+            limit: parseInt(limit),
+            page: parseInt(page),
+          },
+        };
       }
 
       // Return all stacks if no pagination or ordering parameters are provided
@@ -113,7 +120,7 @@ export class StacksService {
       const stack: StacksEntity = await this.stackRepository
         .createQueryBuilder('stack')
         .where({ id })
-        .leftJoinAndSelect('stack.themes', 'themes')
+        .leftJoinAndSelect('stack.themes', 'theme') // Cambiado de 'themes' a 'theme'
         .select([
           'stack',
           'theme.id',
@@ -197,6 +204,21 @@ export class StacksService {
     } catch (error) {
       throw ErrorManager.createSignatureError(error.message);
     }
+  }
+
+  // En StackService
+  async updateTotalPoints(
+    stackId: string,
+    newTotalPoints: number,
+  ): Promise<void> {
+    const stackToUpdate = await this.findOne(stackId);
+
+    if (!stackToUpdate) {
+      throw new NotFoundException(`No stack found with id: ${stackId}`);
+    }
+
+    stackToUpdate.points = newTotalPoints;
+    await this.stackRepository.save(stackToUpdate);
   }
 
   /**

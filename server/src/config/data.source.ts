@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
@@ -8,7 +7,6 @@ ConfigModule.forRoot({
 });
 
 const configService = new ConfigService();
-console.log(process.env, configService.get('POSTGRES_PASSWORD'));
 export const DataSourceConfig: DataSourceOptions = {
   type: 'postgres',
   host: configService.get('POSTGRES_HOST'),

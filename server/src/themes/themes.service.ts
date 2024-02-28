@@ -2,31 +2,19 @@ import { ConflictException, Inject, Injectable } from '@nestjs/common';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { StacksService } from 'src/stacks/stacks.service';
-import {
-  CreateThemeDto,
-  UpdateThemeDto,
-  ThemeQueryDto,
-  CreateProgressThemesDto,
-  UpdateProgressThemeDto,
-} from './dto';
-
 import { ThemesEntity } from './entities/theme.entity';
-import { ProgressThemesEntity } from './entities/progressTheme.entity';
-import { ProgressStacksEntity } from 'src/users/entities/progressStacks.entity';
-
 import { ErrorManager } from 'src/utils/error.manager';
+import { CreateThemeDto } from './dto/create-theme.dto';
+import { UpdateThemeDto } from './dto/update-theme.dto';
+import { ThemeQueryDto } from './dto/theme-query.dto';
 
 @Injectable()
 export class ThemesService {
   constructor(
     @InjectRepository(ThemesEntity)
     private themeRepository: Repository<ThemesEntity>,
-    @InjectRepository(ThemesEntity)
-    private progressThemeRepository: Repository<ProgressThemesEntity>,
     @Inject(StacksService)
     private stackService: StacksService,
-    @InjectRepository(ProgressStacksEntity)
-    private progressStackRespository: Repository<ProgressStacksEntity>,
   ) {}
 
   /**
@@ -39,18 +27,21 @@ export class ThemesService {
    */
   public async create(createThemeDto: CreateThemeDto) {
     try {
-      const stack = createThemeDto.stack;
-      const stackFound = await this.stackService.findOne(stack);
+      const stackId = createThemeDto.stack;
+      const stackFound = await this.stackService.findOne(stackId);
+
       if (!stackFound) {
         throw new ErrorManager({
           type: 'BAD_REQUEST',
-          message: `There is no stack with the id: ${stack}`,
+          message: `There is no stack with the id: ${stackId}`,
         });
       }
+
       if (!createThemeDto.order) {
-        const maxOrder = await this.getMaxOrderForStack(stack);
+        const maxOrder = await this.getMaxOrderForStack(stackId);
         createThemeDto.order = maxOrder + 1;
       }
+
       const theme = this.themeRepository.create({
         name: createThemeDto.name.toLowerCase(),
         level: createThemeDto.level,
@@ -59,14 +50,25 @@ export class ThemesService {
         description: createThemeDto.description || null,
         stack: stackFound,
       });
+
+      // Calcular el nuevo total de puntos del stack
+      const newTotalPoints = stackFound.points + createThemeDto.points;
+
+      // Actualizar el total de puntos del stack
+      await this.stackService.updateTotalPoints(stackId, newTotalPoints);
+
       const newTheme = await this.themeRepository.save(theme);
+
       return { id: newTheme.id };
     } catch (error) {
       console.error(error);
-      if (error.code === '23505')
+
+      if (error.code === '23505') {
         throw new ConflictException(
           `Theme with name '${createThemeDto.name}' already exists.`,
         );
+      }
+
       throw ErrorManager.createSignatureError(error.message);
     }
   }
@@ -95,17 +97,6 @@ export class ThemesService {
     try {
       const { page, limit, orderBy, order } = query;
       const queryBuilder = this.themeRepository.createQueryBuilder('theme');
-      //.leftJoinAndSelect('theme.stack', 'stack');
-      // .select([
-      //   'theme.id',
-      //   'theme.name',
-      //   'theme.level',
-      //   'theme.description',
-      //   'theme.points',
-      //   'theme.order',
-      //   'stack.id',
-      //   'stack.name',
-      // ]);
 
       if (order && orderBy) {
         queryBuilder.orderBy(`theme.${orderBy}`, order);
@@ -145,16 +136,6 @@ export class ThemesService {
         .createQueryBuilder('theme')
         .where({ id })
         .leftJoinAndSelect('theme.stack', 'stack')
-        // .select([
-        //   'theme.id',
-        //   'theme.name',
-        //   'theme.level',
-        //   'theme.description',
-        //   'theme.points',
-        //   'theme.order',
-        //   'stack.id',
-        //   'stack.name',
-        // ])
         .getOne();
 
       if (!theme) {
@@ -181,21 +162,19 @@ export class ThemesService {
   public async update(
     id: string,
     updateThemeDto: UpdateThemeDto,
-  ): Promise<UpdateResult | undefined> {
+  ): Promise<{ message: string } | undefined> {
     try {
-      const { stack, ...updateThemeWithoutStack } = updateThemeDto;
-      const stackEntity = await this.stackService.findStackById(stack);
       const theme: UpdateResult = await this.themeRepository.update(id, {
-        ...updateThemeWithoutStack,
-        stack: stackEntity,
+        ...updateThemeDto,
       });
+
       if (theme.affected === 0) {
         throw new ErrorManager({
           type: 'NOT_FOUND',
           message: 'Cant update - No theme found',
         });
       }
-      return theme;
+      return { message: 'Theme Updated' };
     } catch (error) {
       throw ErrorManager.createSignatureError(error.message);
     }
@@ -209,98 +188,40 @@ export class ThemesService {
    * @throws ErrorManager.createSignatureError if there is an unexpected error during the process.
    * @throws ErrorManager with type 'NOT_FOUND' if no matching Theme is found to remove.
    */
-  public async remove(id: string): Promise<DeleteResult | undefined> {
+  public async remove(id: string): Promise<{ message: string } | undefined> {
     try {
+      // Obtener el theme antes de eliminarlo
+      const themeToRemove = await this.themeRepository.findOne({
+        where: { id },
+        relations: ['stack'],
+      });
+
+      if (!themeToRemove) {
+        throw new ErrorManager({
+          type: 'NOT_FOUND',
+          message: "Can't delete - No theme found",
+        });
+      }
+
+      // Obtener el stack asociado al theme
+      const stackId = themeToRemove.stack.id;
+      // Restar los puntos del theme del total de puntos del stack
+      const newTotalPoints = themeToRemove.stack.points - themeToRemove.points;
+
+      // Actualizar el total de puntos del stack
+      await this.stackService.updateTotalPoints(stackId, newTotalPoints);
+
+      // Eliminar el theme de la base de datos
       const theme: DeleteResult = await this.themeRepository.delete(id);
+
       if (theme.affected === 0) {
         throw new ErrorManager({
           type: 'NOT_FOUND',
-          message: 'Cant delete - No theme found',
-        });
-      }
-      return theme;
-    } catch (error) {
-      throw ErrorManager.createSignatureError(error.message);
-    }
-  }
-
-  // add theme to user
-  public async addThemeToUser(
-    progressThemeDto: CreateProgressThemesDto,
-    userAuth: { role: string; id: string },
-  ) {
-    try {
-      const { theme: themeId, stack: progressStackId } = progressThemeDto;
-      // See if progressStack id exists
-      const progressStackAsigned = await this.progressStackRespository.findOne({
-        where: {
-          id: progressStackId,
-        },
-        relations: ['themes'],
-      });
-      if (!progressStackAsigned) {
-        throw new ErrorManager({
-          type: 'NOT_FOUND',
-          message: ' You must add the stack before adding a theme',
-        });
-      }
-      console.log('STACK ASSINGED PROGRESS: ', progressStackAsigned);
-
-      // See if user has permission to make the action.
-      if (
-        userAuth.id !== progressStackAsigned.userId &&
-        userAuth.role !== 'ADMIN'
-      ) {
-        throw new ErrorManager({
-          type: 'FORBIDDEN',
-          message: 'You have no privileges for perform this action',
+          message: "Can't delete - No theme found",
         });
       }
 
-      // See if theme required exists and it is a child of the stack
-      const themeRequired = await this.themeRepository.findOne({
-        where: {
-          id: themeId,
-          stackId: progressStackAsigned.stackId,
-        },
-      });
-
-      if (!themeRequired) {
-        throw new ErrorManager({
-          type: 'NOT_FOUND',
-          message:
-            " Theme wrong or doesn't exists or is not a theme from the stack",
-        });
-      }
-      console.log('THEMES ASSINGED: ', themeRequired);
-
-      const myNewProgressTheme = await this.progressThemeRepository.save({
-        progress: progressThemeDto.progress,
-        stack: progressStackAsigned,
-        theme: themeRequired,
-      });
-
-      console.log('CREATED PROGRESSTHEME: ', myNewProgressTheme);
-      return { message: 'Stack added to user' };
-    } catch (error) {
-      console.log(error);
-      throw ErrorManager.createSignatureError(error.message);
-    }
-  }
-
-  // remove theme
-
-  // add experience to theme
-  public async updateThemeProgress(
-    id: string,
-    updateProgress: UpdateProgressThemeDto,
-  ) {
-    try {
-      const themeUpdated = await this.progressThemeRepository.update(
-        id,
-        updateProgress,
-      );
-      return themeUpdated;
+      return { message: 'Theme Deleted' };
     } catch (error) {
       throw ErrorManager.createSignatureError(error.message);
     }
