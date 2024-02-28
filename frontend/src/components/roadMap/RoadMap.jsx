@@ -1,70 +1,84 @@
 /* eslint-disable @next/next/no-img-element */
-'use client'
-import React, { useEffect, useState } from 'react'
-import { useMediaQuery } from '@mui/material'
-import Link from 'next/link'
-import axios from 'axios'
+"use client";
+import React, { useEffect, useState } from "react";
+import { Typography, useMediaQuery } from "@mui/material";
+import Link from "next/link";
+import axios from "axios";
+import { CenterFocusStrong } from "@mui/icons-material";
 
-const Roadmap = ({selectedLanguageId}) => {
+const Roadmap = ({ selectedLanguageId }) => {
+  const [themes, setThemes] = useState([]);
 
-  const [themes, setThemes] = useState([])
-  
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://nekode-rqas.onrender.com/api/themes')
-        setThemes(response.data.data)
+        const response = await axios.get(
+          "https://nekode-rqas.onrender.com/api/themes"
+        );
+        setThemes(response.data.data);
       } catch (error) {
-        console.error('Error fetching data:', error)
+        console.error("Error fetching data:", error);
       }
-    }
-    
-    fetchData()
-  }, [])
-  
+    };
+
+    fetchData();
+  }, []);
+
   const getButtonMarginLeft = (index) => {
     if (index === 0) {
-      return `0px`
+      return `0px`;
     } else if (index < 5) {
-      return `${index * 50 - 100}px`
+      return `${index * 50 - 100}px`;
     } else if (index < 12) {
-      return `${(index - 6) * -30}px`
+      return `${(index - 6) * -30}px`;
     } else if (index < 18) {
-      return `${(index - 12) * 30 - 100}px`
+      return `${(index - 12) * 30 - 100}px`;
     } else {
-      return `${(index - 18) * -30}px`
+      return `${(index - 18) * -30}px`;
     }
-  }
+  };
 
-
-  const isXsOrMd = useMediaQuery('(max-width:960px)')
-  const imagesHidden = useMediaQuery('(max-width:1230px)')
- 
+  const isXsOrMd = useMediaQuery("(max-width:960px)");
+  const imagesHidden = useMediaQuery("(max-width:1230px)");
+  const filteredThemes = themes.filter(
+    (item) => item.stackId === selectedLanguageId
+  );
   return (
     <>
-     {themes?
-      <div className='grid grid-cols-3'>
-        <div className=''>
-          {imagesHidden ? null : (
-            <img
-              src='https://i.ibb.co/HT82H7W/amico.webp'
-              alt='Principiante'
-              className='w-[18%] absolute top-[350px] ml-10 '
-            />
-          )}
-          {imagesHidden ? null : (
-            <img
-              src='https://i.ibb.co/6J4K7qt/Group69.webp'
-              alt='Avanzado'
-              className='w-[75%] mt-[900px] ml-10'
-            />
-          )}
-        </div>
-        <div className={`flex flex-col items-center justify-center  `}>
-          {themes.filter((item)=> item.stackId === selectedLanguageId).map((data, index) => {
-            return (
-              <button
-                className={` 
+      {filteredThemes.length === 0 ? (
+        <Typography
+          className="text-white"
+          align="center"
+          sx={{ fontSize: "24px", 
+      }}
+          fontWeight={100}
+        >
+          More challenges coming soon
+        </Typography>
+      ) : (
+        <div className="grid grid-cols-3">
+          <div className="">
+            {imagesHidden ? null : (
+              <img
+                src="https://i.ibb.co/HT82H7W/amico.webp"
+                alt="Principiante"
+                className="w-[18%] absolute top-[350px] ml-10 "
+              />
+            )}
+            {imagesHidden ? null : (
+              <img
+                src="https://i.ibb.co/6J4K7qt/Group69.webp"
+                alt="Avanzado"
+                className="w-[75%] mt-[900px] ml-10"
+              />
+            )}
+          </div>
+          <div className={`flex flex-col items-center justify-center  `}>
+            {filteredThemes.map((data, index) => {
+              return (
+                <>
+                  <button
+                    className={` 
                 bg-[#A87FFB] 
                 mb-4 
                 md:ml-0 
@@ -78,30 +92,32 @@ const Roadmap = ({selectedLanguageId}) => {
                 hover:bg-[#A87FFA]
                 capitalize
                 `}
-                style={{
-                  marginLeft: isXsOrMd ? '0px' : getButtonMarginLeft(index)
-                }}
-                key={index}
-              >
-                <Link href={'/challenges'}>{data.name}</Link>
-              </button>
-            )
-          })}
+                    style={{
+                      marginLeft: isXsOrMd ? "0px" : getButtonMarginLeft(index),
+                    }}
+                    key={index}
+                  >
+                    <Link href={"/challenges"}>{data.name}</Link>
+                  </button>
+                </>
+              );
+            })}
+          </div>
+
+          {isXsOrMd ? null : (
+            <img
+              src="https://i.ibb.co/KrYLVP3/Group67.webp"
+              alt="Intermedio"
+              className="w-[75%] mt-[700px]"
+            />
+          )}
         </div>
-
-        {isXsOrMd ? null : (
-          <img
-            src='https://i.ibb.co/KrYLVP3/Group67.webp'
-            alt='Intermedio'
-            className='w-[75%] mt-[700px]'
-          />
-        )}
-      </div>:<p>Proximamente más challenges</p>}
+      )}
     </>
-  )
-}
+  );
+};
 
-export default Roadmap
+export default Roadmap;
 
 // 'use client'
 // import React from 'react'
