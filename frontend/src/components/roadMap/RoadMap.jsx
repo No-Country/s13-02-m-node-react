@@ -1,75 +1,82 @@
 /* eslint-disable @next/next/no-img-element */
-"use client";
-import React, { useEffect, useState } from "react";
-import { Typography, useMediaQuery } from "@mui/material";
-import Link from "next/link";
-import axios from "axios";
-import { CenterFocusStrong } from "@mui/icons-material";
+'use client'
+import React, { useEffect, useState } from 'react'
+import { Typography, useMediaQuery } from '@mui/material'
+import Link from 'next/link'
+import axios from 'axios'
+import { CenterFocusStrong } from '@mui/icons-material'
+import { useQuestionChallenge } from '@/utils/services/hooksChallenge'
 
 const Roadmap = ({ selectedLanguageId }) => {
-  const [themes, setThemes] = useState([]);
-
+  const [themes, setThemes] = useState([])
+  const questionsHook = useQuestionChallenge()
+  // pasar por props esta data para la pregunta(en cada tema y con los datos de estos)
+  const questionData = {
+    theme: 'variables',
+    level: 'principiante',
+    id_user: '576cfeff-905d-4b3b-bf7e-7597e71bca77',
+    quest_number: 1
+  }
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://nekode-rqas.onrender.com/api/themes"
-        );
-        setThemes(response.data.data);
+          'https://nekode-rqas.onrender.com/api/themes'
+        )
+        setThemes(response.data.data)
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error)
       }
-    };
+    }
 
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   const getButtonMarginLeft = (index) => {
     if (index === 0) {
-      return `0px`;
+      return `0px`
     } else if (index < 5) {
-      return `${index * 50 - 100}px`;
+      return `${index * 50 - 100}px`
     } else if (index < 12) {
-      return `${(index - 6) * -30}px`;
+      return `${(index - 6) * -30}px`
     } else if (index < 18) {
-      return `${(index - 12) * 30 - 100}px`;
+      return `${(index - 12) * 30 - 100}px`
     } else {
-      return `${(index - 18) * -30}px`;
+      return `${(index - 18) * -30}px`
     }
-  };
+  }
 
-  const isXsOrMd = useMediaQuery("(max-width:960px)");
-  const imagesHidden = useMediaQuery("(max-width:1230px)");
+  const isXsOrMd = useMediaQuery('(max-width:960px)')
+  const imagesHidden = useMediaQuery('(max-width:1230px)')
   const filteredThemes = themes.filter(
     (item) => item.stackId === selectedLanguageId
-  );
+  )
   return (
     <>
       {filteredThemes.length === 0 ? (
         <Typography
-          className="text-white"
-          align="center"
-          sx={{ fontSize: "24px", 
-      }}
+          className='text-white'
+          align='center'
+          sx={{ fontSize: '24px' }}
           fontWeight={100}
         >
           More challenges coming soon
         </Typography>
       ) : (
-        <div className="grid grid-cols-3">
-          <div className="">
+        <div className='grid grid-cols-3'>
+          <div className=''>
             {imagesHidden ? null : (
               <img
-                src="https://i.ibb.co/HT82H7W/amico.webp"
-                alt="Principiante"
-                className="w-[18%] absolute top-[350px] ml-10 "
+                src='https://i.ibb.co/HT82H7W/amico.webp'
+                alt='Principiante'
+                className='w-[18%] absolute top-[350px] ml-10 '
               />
             )}
             {imagesHidden ? null : (
               <img
-                src="https://i.ibb.co/6J4K7qt/Group69.webp"
-                alt="Avanzado"
-                className="w-[75%] mt-[900px] ml-10"
+                src='https://i.ibb.co/6J4K7qt/Group69.webp'
+                alt='Avanzado'
+                className='w-[75%] mt-[900px] ml-10'
               />
             )}
           </div>
@@ -93,31 +100,31 @@ const Roadmap = ({ selectedLanguageId }) => {
                 capitalize
                 `}
                     style={{
-                      marginLeft: isXsOrMd ? "0px" : getButtonMarginLeft(index),
+                      marginLeft: isXsOrMd ? '0px' : getButtonMarginLeft(index)
                     }}
                     key={index}
                   >
-                    <Link href={"/challenges"}>{data.name}</Link>
+                    <Link href={'/challenges'}>{data.name}</Link>
                   </button>
                 </>
-              );
+              )
             })}
           </div>
 
           {isXsOrMd ? null : (
             <img
-              src="https://i.ibb.co/KrYLVP3/Group67.webp"
-              alt="Intermedio"
-              className="w-[75%] mt-[700px]"
+              src='https://i.ibb.co/KrYLVP3/Group67.webp'
+              alt='Intermedio'
+              className='w-[75%] mt-[700px]'
             />
           )}
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
-export default Roadmap;
+export default Roadmap
 
 // 'use client'
 // import React from 'react'
