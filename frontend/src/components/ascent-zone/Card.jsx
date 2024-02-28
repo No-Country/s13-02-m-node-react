@@ -95,7 +95,10 @@ export const SkeletonCard = ({ count }) => {
   const skeleton = [];
   for (let i = 0; i < count; i++) {
     skeleton.push(
-      <div className="max-w-2xl w-full flex items-center justify-between gap-5 bg-jet-500 p-5 rounded-xl shadow-md shadow-picton-blue-800 text-indigo-500">
+      <div
+        key={i}
+        className="max-w-2xl w-full flex items-center justify-between gap-5 bg-jet-500 p-5 rounded-xl shadow-md shadow-picton-blue-800 text-indigo-500"
+      >
         <div className="w-full flex items-center gap-5">
           <Skeleton variant="circular" width={65} height={65} />
           <Skeleton variant="text" width={150} height={24} />

@@ -1,46 +1,34 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { Alert, Container, Snackbar } from "@mui/material";
+import { useState } from "react";
+import { Alert, Snackbar } from "@mui/material";
 import ChooseYourState from "@/components/CardStatus/ChooseYourState";
 import { CardHome } from "@/components/cardHome/CardHome";
 import MedalsRanks from "@/components/medals-ranks/MedalsRanks";
 import AscentZone from "@/components/ascent-zone/AscentZone";
-import axios from "axios";
+import { useUserData } from "@/utils/usersRequest/useUserData";
+import Pagination from "@/components/ascent-zone/Pagination";
 
 const PageRanks = () => {
-  const [userData, setUserData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [errorAlert, setErrorAlert] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const { userData, loading, error, pagination, setError } =
+    useUserData(currentPage);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://nekode-rqas.onrender.com/api/users"
-        );
-        setUserData(response.data.data);
-        setLoading(false);
-      } catch (error) {
-        setErrorAlert(true);
-        console.error("Error al obtener datos:", error);
-      }
-    };
-    fetchData();
-  }, []);
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setError(false);
+  };
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
 
   return (
     <>
-      <Snackbar
-        open={errorAlert}
-        autoHideDuration={6000}
-        onClose={() => {
-          setErrorAlert(false);
-        }}
-      >
+      <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
         <Alert
-          onClose={() => {
-            setErrorAlert(false);
-          }}
+          onClose={handleClose}
           severity="error"
           variant="filled"
           sx={{ width: "100%" }}
@@ -63,7 +51,18 @@ const PageRanks = () => {
               Estás a 3 puestos de la zona de descenso.
             </h4>
           </div>
-          <AscentZone dataLoaded={loading} data={userData} />
+          <AscentZone
+            dataLoaded={loading}
+            data={userData}
+            currentPage={currentPage}
+          />
+          {pagination && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={pagination.totalPages}
+              onPageChange={handlePageChange}
+            />
+          )}
         </section>
       </main>
     </>
