@@ -42,6 +42,7 @@ const Roadmap = ({selectedLanguageId}) => {
  
   return (
     <>
+     {themes?
       <div className='grid grid-cols-3'>
         <div className=''>
           {imagesHidden ? null : (
@@ -55,7 +56,7 @@ const Roadmap = ({selectedLanguageId}) => {
             <img
               src='https://i.ibb.co/6J4K7qt/Group69.webp'
               alt='Avanzado'
-              className='w-[75%] mt-[800px] ml-10'
+              className='w-[75%] mt-[900px] ml-10'
             />
           )}
         </div>
@@ -95,7 +96,7 @@ const Roadmap = ({selectedLanguageId}) => {
             className='w-[75%] mt-[700px]'
           />
         )}
-      </div>
+      </div>:<p>Proximamente más challenges</p>}
     </>
   )
 }
