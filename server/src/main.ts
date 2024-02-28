@@ -22,6 +22,8 @@ async function bootstrap() {
     .addTag('users')
     .addTag('auth')
     .addTag('stacks')
+    .addTag('themes progress')
+    .addTag('stack progress')
     .addServer('api')
     .build();
 
