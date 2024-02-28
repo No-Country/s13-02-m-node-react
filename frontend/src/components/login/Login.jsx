@@ -4,38 +4,11 @@ import React from 'react'
 import Logo from '../logo/Logo'
 import { useAuthHandler } from '@/utils/services/hooksAuth'
 
-//Agregado por vicky
-import { useDispatch } from 'react-redux'
-import { setAuthData } from '@/redux/authSlice'
-import { Provider } from 'react-redux'
-import { store } from '../../redux/store'
 
 const Login = () => {
   const authHook = useAuthHandler()
-  //Vicky
-  //const dispatch = useDispatch();
-  // const handleLogin = async (e) => {
-  //   e.preventDefault()
-  //   try {
-  //     //api para iniciar sesion?
-  //     // Suponiendo que viene token y userId de la respuesta de la API
-  //     const token = 'token'
-  //     const userId = 'user_id'
-
-  //     // guardar los datos de autenticación en el store Redux
-  //     dispatch(setAuthData({ token, userId }))
-
-  //     // guardar los datos en el local storage
-  //     localStorage.setItem('token', token)
-  //     localStorage.setItem('userId', userId)
-  //   } catch (error) {
-  //     //manejar error como?
-  //   }
-  // }
-
-
+  
   return (
-    //<Provider store={store}>
       <form
         onSubmit={authHook.loginHandler}
         className='flex flex-col gap-16 items-center justify-center w-full h-screen min-h-screen p-5  md:px-24 md:py-16 bg-rich-black-500 text-white'
@@ -86,7 +59,6 @@ const Login = () => {
           className='border-[1px] border-picton-blue-700 rounded px-4 py-2 text-picton-blue-500'
         />
       </form>
-    //</Provider>
   )
 }
 export default Login

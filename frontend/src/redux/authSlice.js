@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   token: null,
-  userId: null,
+  avatar: null,
   error: null,
 }
 
@@ -12,7 +12,7 @@ const authSlice = createSlice({
   reducers: {
     setAuthData(state, action) {
       state.token = action.payload.token
-      state.userId = action.payload.userId
+      state.avatar = action.payload.avatar
       state.error = null
     },
     setError(state, action) {
@@ -20,11 +20,14 @@ const authSlice = createSlice({
     },
     clearAuthData(state) {
       state.token = null
-      state.userId = null
+      state.avatar = null
       state.error = null
     },
+    setAvatar(state, action) {
+        state.avatar = action.payload
+    }
   },
 })
 
-export const { setAuthData, setError, clearAuthData } = authSlice.actions
+export const { setAuthData, setError, clearAuthData, setAvatar } = authSlice.actions
 export default authSlice.reducer
