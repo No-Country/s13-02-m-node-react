@@ -11,13 +11,14 @@ export class OpenaiController {
   constructor(private readonly openaiService: OpenaiService) {}
 
   @Post('/question')
-  @ApiResponse({status :HttpStatus.CREATED, description:`[{"title": "¿Cómo declararías una variable llamada 'edadUsuario'?"}]`})
+  @ApiResponse({status :HttpStatus.CREATED, description:`[{"title": "string"}]`})
   @ApiBody({type: GetQuestionDto})
   async getQuestion(@Body() petition: GetQuestionDto): Promise<string[]> {
     return await this.openaiService.getQuestion(petition);
   }
 
   @Post('/correct')
+  @ApiResponse({status :HttpStatus.CREATED, description:`{"isCorrect": Boolean,"feedback": "string"}`})
   @ApiBody({type: CorrectQuestionDto})
   async correctQuestion(@Body() petition: CorrectQuestionDto): Promise<object> {
     return await this.openaiService.correctQuestion(petition);
