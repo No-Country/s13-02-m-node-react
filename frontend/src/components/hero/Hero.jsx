@@ -26,7 +26,7 @@ const Hero = () => {
         href='/login'
         variant='outlined'
         size={isDesktop ? 'large' : 'medium'}
-        className='border border-picton-blue-500 hover:border-picton-blue-600 text-picton-blue-500 hover:text-picton-blue-600'
+        className='border border-picton-blue-500 hover:border-picton-blue-600 text-picton-blue-500 hover:text-picton-blue-600 md:mt-4'
         endIcon={<KeyboardArrowRightRoundedIcon />}
       >
         Comenzar Ahora
