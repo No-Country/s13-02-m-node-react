@@ -1,12 +1,13 @@
+import { setQuestions } from '@/redux/challengeSlice'
 import axios from 'axios'
 
-const challengeRequestPost = async (token, router, setQuestions) => {
+const challengeRequestPost = async (token, router, dispatch) => {
   setQuestions()
   await axios
     .post(
       `${process.env.NEXT_PUBLIC_API_URL}/openai/question`,
       {
-        theme: 'variables',
+        theme: 'arrays',
         level: 'principiante',
         id_user: '576cfeff-905d-4b3b-bf7e-7597e71bca77',
         quest_number: 10
@@ -16,8 +17,8 @@ const challengeRequestPost = async (token, router, setQuestions) => {
       }
     )
     .then(function (res) {
+      dispatch(setQuestions(res.data))
       router.push('/challenges')
-      setQuestions(res.data)
     })
     .catch(function (err) {
       console.log(err)

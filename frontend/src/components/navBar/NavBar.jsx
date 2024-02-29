@@ -7,29 +7,21 @@ import CloseIcon from '@mui/icons-material/Close'
 import Logo from '../logo/Logo'
 import Pet from '../pet/Pet'
 import MobileMenu from '../mobileMenu/MobileMenu'
-import {  useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 function NavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isMobileView, setIsMobileView] = useState(false)
   const [avatarLetter, setAvatarLetter] = useState('')
-  const avt = useSelector( (state) => state.auth.avatar
-  ) 
-  console.log({avt})
- 
-
+  const avt = useSelector((state) => state.auth.avatar)
   useEffect(() => {
     const handleResize = () => {
       setIsMobileView(window.innerWidth <= 768)
     }
-
     handleResize()
-
     window.addEventListener('resize', handleResize)
-
     return () => window.removeEventListener('resize', handleResize)
   }, [])
-
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
     // console.log("menu abierto");
