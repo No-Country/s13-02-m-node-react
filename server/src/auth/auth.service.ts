@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { RegisterAuthDto } from './dto/register-auth.dto';
@@ -48,7 +47,7 @@ export class AuthService {
     }
   } // Validate email and password
 
-  public async validateUser(data) {
+  public async validateUser(data: LoginAuthDto) {
     try {
       const userToValidate = await this.usersService.findUserBy({
         field: 'email',

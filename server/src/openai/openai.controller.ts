@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { OpenaiService } from './openai.service';
 import { GetQuestionDto } from './dto/getQuestion.dto';

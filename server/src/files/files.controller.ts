@@ -1,11 +1,8 @@
 import {
   Controller,
   Get,
-  Post,
-  Body,
   Patch,
   Param,
-  Delete,
   UploadedFile,
   UseInterceptors,
   BadRequestException,
@@ -16,14 +13,15 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ConfigService } from '@nestjs/config';
-import { Response } from 'express';
-import { Multer, diskStorage } from 'multer';
+import { Request, Response } from 'express';
+import { diskStorage } from 'multer';
 import { FilesService } from './files.service';
 import { fileFilter, fileNamer } from './helpers';
 import { UsersService } from '../users/users.service';
-import { ApiBearerAuth } from '@nestjs/swagger';
-import { AuthGuard } from 'src/auth';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '../auth/guards/auth.guards';
 
+@ApiTags('File Service') // add tag for swagger *MJV*
 @ApiBearerAuth()
 @UseGuards(AuthGuard)
 @Controller('files')
@@ -56,7 +54,7 @@ export class FilesController {
   async uploadAvatarImage(
     @UploadedFile() file: Express.Multer.File,
     @Param('userId') userId: string,
-    @Req() req,
+    @Req() req: Request, // Add type for req *MJV*
   ) {
     if (!file) {
       throw new BadRequestException('Make sure that the file is an image');

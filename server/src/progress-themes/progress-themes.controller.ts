@@ -13,6 +13,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateProgressThemesDto } from './dto/create-progress-theme.dto';
 import { AuthGuard } from '../auth/guards/auth.guards';
 import { RolesGuard } from '../auth/guards/roles.guard';
+import { Request } from 'express';
 
 @ApiTags('Progress Themes')
 @ApiBearerAuth()
@@ -24,7 +25,7 @@ export class ProgressThemesController {
   @Post()
   public async addUserToTheme(
     @Body() createProgressThemeDto: CreateProgressThemesDto,
-    @Req() req,
+    @Req() req: Request,
   ) {
     const { userAuth } = req;
     return this.progressThemesService.create(createProgressThemeDto, userAuth);
@@ -44,9 +45,4 @@ export class ProgressThemesController {
   async update(@Param('id') id: string, @Body() data: { points: number }) {
     return this.progressThemesService.update(id, data.points);
   }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.progressThemesService.remove(+id);
-  // }
 }

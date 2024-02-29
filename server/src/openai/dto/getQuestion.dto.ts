@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { IsNumber, IsString, IsOptional } from 'class-validator';
 
 export class GetQuestionDto {

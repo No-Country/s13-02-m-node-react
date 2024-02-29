@@ -21,6 +21,7 @@ import { AuthGuard } from '../auth/guards/auth.guards';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserQueryDto } from './dto/user-query.dto';
+import { Request } from 'express';
 
 @ApiTags('users')
 @ApiBearerAuth()
@@ -58,7 +59,7 @@ export class UsersController {
   update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
-    @Req() req,
+    @Req() req: Request,
   ) {
     const { userAuth } = req;
     return this.usersService.update(id, updateUserDto, userAuth);

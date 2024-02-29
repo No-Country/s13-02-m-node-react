@@ -1,7 +1,7 @@
 export const fileFilter = (
-  req: Express.Request,
+  _req: Express.Request, // Adding underscore to make know this parameter is not being use *MJV*.
   file: Express.Multer.File,
-  cb: Function,
+  cb: (error: Error, acceptFile: boolean) => void, // adding types *MJV*
 ) => {
   // console.log({  file })
   if (!file) return cb(new Error('File is empty'), false);

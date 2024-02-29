@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { Inject, Injectable } from '@nestjs/common';
 import OpenAI from 'openai';
 import { Repository } from 'typeorm';
