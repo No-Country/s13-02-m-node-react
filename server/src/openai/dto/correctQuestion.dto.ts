@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CorrectQuestionDto {
@@ -12,5 +12,6 @@ export class CorrectQuestionDto {
 
   @ApiProperty()
   @IsString()
-  id_theme: string;
+  @IsOptional()
+  id_theme?: string;
 }
