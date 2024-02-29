@@ -34,75 +34,22 @@ export class OpenaiService {
       level:${query.level},
       questNumber:${query.quest_number}
     }`;
-    let thread: string;
+    console.log(message)
+    const res = [
+      { title: "¿Qué es una variable en JavaScript?" },
+      { title: "¿Cómo se declara una variable en JavaScript?" },
+      { title: "¿Cuál es la diferencia entre var, let y const en JavaScript?" },
+      { title: "¿Cómo se asigna un valor a una variable en JavaScript?" },
+      { title: "¿Qué es el hoisting en JavaScript y cómo afecta a las variables?" },
+      { title: "¿Cuál es el alcance de una variable declarada con var, let y const?" },
+      { title: "¿Qué es una variable global en JavaScript?" },
+      { title: "¿Cómo se puede concatenar variables y texto en JavaScript?" },
+      { title: "¿Qué es una variable NaN en JavaScript y cómo se puede comprobar?" },
+      { title: "¿Cómo se puede convertir una variable a un número entero en JavaScript?" }
+    ]
+    return (res)
 
-    try {
-      const assistant = await this.openai.beta.assistants.retrieve(
-        'asst_6Kac0xPgkjUuoPWR684nHWsc',
-      );
-      const userFound = await this.userRepository.findOne({
-        where: {
-          id: query.id_user,
-        },
-      });
-      if (!userFound)
-        throw new ErrorManager({
-          type: 'NOT_FOUND',
-          message: 'User not found',
-        });
-
-      thread = userFound.identifier_ia;
-
-      if (!userFound.identifier_ia) {
-        const newThread = await this.openai.beta.threads.create();
-        await this.userRepository.update(query.id_user, {
-          identifier_ia: newThread.id,
-        });
-        thread = newThread.id;
-      }
-
-      await this.openai.beta.threads.messages.create(thread, {
-        role: 'user',
-        content: message,
-      });
-
-      const run = await this.openai.beta.threads.runs.create(thread, {
-        assistant_id: assistant.id,
-      });
-
-      let runStatus = await this.openai.beta.threads.runs.retrieve(
-        thread,
-        run.id,
-      );
-
-      while (runStatus.status !== 'completed') {
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        runStatus = await this.openai.beta.threads.runs.retrieve(
-          thread,
-          run.id,
-        );
-      }
-
-      const messages = await this.openai.beta.threads.messages.list(thread);
-
-      const lastMessageForRun = messages.data
-        .filter(
-          (message) =>
-            message.run_id === run.id && message.role === 'assistant',
-        )
-        .pop();
-
-      if (lastMessageForRun) {
-        const messageJSON = lastMessageForRun.content[0];
-        const jsonObject = messageJSON;
-        if (jsonObject.type === 'text') {
-          return JSON.parse(jsonObject.text.value);
-        }
-      }
-    } catch (error) {
-      console.log(error);
-      throw ErrorManager.createSignatureError(error.message);
-    }
+   
   }
 
   /**
@@ -119,32 +66,37 @@ export class OpenaiService {
           'asst_jzuG8bl60SOqsbGwmo44ZnR5',
         );
 
-        const newThread = await this.openai.beta.threads.create();
+        const newThread = "thread_fVYOlga3oBmkeG44ceIGr59K";
 
-        await this.openai.beta.threads.messages.create(newThread.id, {
+        await this.openai.beta.threads.messages.create(newThread, {
           role: 'user',
           content: message,
         });
 
-        const run = await this.openai.beta.threads.runs.create(newThread.id, {
+        const run = await this.openai.beta.threads.runs.create(newThread, {
           assistant_id: assistant.id,
         });
 
         let runStatus = await this.openai.beta.threads.runs.retrieve(
-          newThread.id,
+          newThread,
           run.id,
         );
+        
 
         while (runStatus.status !== 'completed') {
+          if(runStatus.status === "failed" ){
+            return runStatus
+          }
+          console.log(runStatus.status)
           await new Promise((resolve) => setTimeout(resolve, 2000));
           runStatus = await this.openai.beta.threads.runs.retrieve(
-            newThread.id,
+            newThread,
             run.id,
           );
         }
 
         const messages = await this.openai.beta.threads.messages.list(
-          newThread.id,
+          newThread,
         );
 
         const lastMessageForRun = messages.data
