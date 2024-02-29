@@ -7,30 +7,28 @@ import CloseIcon from '@mui/icons-material/Close'
 import Logo from '../logo/Logo'
 import Pet from '../pet/Pet'
 import MobileMenu from '../mobileMenu/MobileMenu'
+import { useSelector } from 'react-redux'
 
 function NavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isMobileView, setIsMobileView] = useState(false)
   const [avatarLetter, setAvatarLetter] = useState('')
+  const avt = useSelector((state) => state.auth.avatar)
   useEffect(() => {
     const handleResize = () => {
       setIsMobileView(window.innerWidth <= 768)
     }
-
     handleResize()
-
     window.addEventListener('resize', handleResize)
-
     return () => window.removeEventListener('resize', handleResize)
   }, [])
-
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
     // console.log("menu abierto");
   }
 
   useEffect(() => {
-    setAvatarLetter(localStorage.getItem('avatar'))
+    setAvatarLetter(avt)
   }, [])
   return (
     <AppBar position='static' className='flex bg-[#10151D]'>
@@ -60,7 +58,7 @@ function NavBar() {
               sx={{ p: 0 }}
               className='hidden md:flex' /* Solo visible en dispositivos de tamaño medio y grande */
             >
-              <Avatar className='h-12 w-12'>{avatarLetter}</Avatar>
+              <Avatar className='h-12 w-12'>{avt}</Avatar>
             </IconButton>
           )}
           {/* Contenido del menú móvil */}

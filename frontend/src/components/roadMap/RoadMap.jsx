@@ -1,27 +1,37 @@
 /* eslint-disable @next/next/no-img-element */
 'use client'
 import React, { useEffect, useState } from 'react'
-import { useMediaQuery } from '@mui/material'
+import { Typography, useMediaQuery } from '@mui/material'
 import Link from 'next/link'
 import axios from 'axios'
+import { CenterFocusStrong } from '@mui/icons-material'
+import { useQuestionChallenge } from '@/utils/services/hooksChallenge'
 
-const Roadmap = ({selectedLanguageId}) => {
+const Roadmap = ({ selectedLanguageId }) => {
+  const [themes, setThemes] = useState()
+  // pasar por props esta data para la pregunta(en cada tema y con los datos de estos)
+  const questionData = {
+    theme: 'variables',
+    level: 'principiante',
+    id_user: '576cfeff-905d-4b3b-bf7e-7597e71bca77',
+    quest_number: 1
+  }
 
-  const [themes, setThemes] = useState([])
-  
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('https://nekode-rqas.onrender.com/api/themes')
-        setThemes(response.data.data)
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/themes`
+      )
+      setThemes(response.data.data)
+    } catch (error) {
+      console.error('Error fetching data:', error)
     }
-    
+  }
+  useEffect(() => {
     fetchData()
-  }, [])
-  
+  }, [0])
+  const questionsHook = useQuestionChallenge()
+
   const getButtonMarginLeft = (index) => {
     if (index === 0) {
       return `0px`
@@ -36,34 +46,47 @@ const Roadmap = ({selectedLanguageId}) => {
     }
   }
 
-
   const isXsOrMd = useMediaQuery('(max-width:960px)')
   const imagesHidden = useMediaQuery('(max-width:1230px)')
- 
+  const filteredThemes = themes?.filter(
+    (item) => item.stackId === selectedLanguageId
+  )
   return (
     <>
-      <div className='grid grid-cols-3'>
-        <div className=''>
-          {imagesHidden ? null : (
-            <img
-              src='https://i.ibb.co/HT82H7W/amico.webp'
-              alt='Principiante'
-              className='w-[18%] absolute top-[350px] ml-10 '
-            />
-          )}
-          {imagesHidden ? null : (
-            <img
-              src='https://i.ibb.co/6J4K7qt/Group69.webp'
-              alt='Avanzado'
-              className='w-[75%] mt-[800px] ml-10'
-            />
-          )}
-        </div>
-        <div className={`flex flex-col items-center justify-center  `}>
-          {themes.filter((item)=> item.stackId === selectedLanguageId).map((data, index) => {
-            return (
-              <button
-                className={` 
+      {filteredThemes?.length === 0 ? (
+        <Typography
+          className='text-white'
+          align='center'
+          sx={{ fontSize: '24px' }}
+          fontWeight={100}
+        >
+          More challenges coming soon
+        </Typography>
+      ) : (
+        <div className='grid grid-cols-3'>
+          <div className=''>
+            {imagesHidden ? null : (
+              <img
+                src='https://i.ibb.co/HT82H7W/amico.webp'
+                alt='Principiante'
+                className='w-[18%] absolute top-[350px] ml-10 '
+              />
+            )}
+            {imagesHidden ? null : (
+              <img
+                src='https://i.ibb.co/6J4K7qt/Group69.webp'
+                alt='Avanzado'
+                className='w-[75%] mt-[900px] ml-10'
+              />
+            )}
+          </div>
+          <div className={`flex flex-col items-center justify-center  `}>
+            {filteredThemes?.map((data, index) => {
+              return (
+                <button
+                  key={index}
+                  onClick={questionsHook.handlerQuestionChallengePost}
+                  className={` 
                 bg-[#A87FFB] 
                 mb-4 
                 md:ml-0 
@@ -77,25 +100,25 @@ const Roadmap = ({selectedLanguageId}) => {
                 hover:bg-[#A87FFA]
                 capitalize
                 `}
-                style={{
-                  marginLeft: isXsOrMd ? '0px' : getButtonMarginLeft(index)
-                }}
-                key={index}
-              >
-                <Link href={'/challenges'}>{data.name}</Link>
-              </button>
-            )
-          })}
-        </div>
+                  style={{
+                    marginLeft: isXsOrMd ? '0px' : getButtonMarginLeft(index)
+                  }}
+                >
+                  {data.name}
+                </button>
+              )
+            })}
+          </div>
 
-        {isXsOrMd ? null : (
-          <img
-            src='https://i.ibb.co/KrYLVP3/Group67.webp'
-            alt='Intermedio'
-            className='w-[75%] mt-[700px]'
-          />
-        )}
-      </div>
+          {isXsOrMd ? null : (
+            <img
+              src='https://i.ibb.co/KrYLVP3/Group67.webp'
+              alt='Intermedio'
+              className='w-[75%] mt-[700px]'
+            />
+          )}
+        </div>
+      )}
     </>
   )
 }
