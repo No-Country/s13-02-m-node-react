@@ -4,12 +4,17 @@ import { EmailService } from './notification.service';
 import { EmailController } from './notification.controller';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
 import { EmailToken } from '../utils/email.token';
+
+import { UsersService } from 'src/users/users.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersEntity } from 'src/users/entities/user.entity';
+import { ProgressStacksEntity } from 'src/users/entities/progressStacks.entity';
 
 @Module({
   imports: [
     ConfigModule,
+    TypeOrmModule.forFeature([UsersEntity, ProgressStacksEntity]),
     MailerModule.forRootAsync({
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
@@ -28,24 +33,12 @@ import { EmailToken } from '../utils/email.token';
             tls: {
               ciphers: 'SSLv3'
             }
-            // auth: {
-            //   user: configService.get('MAIL_USER'),
-            //   pass: configService.get('MAIL_PASSWORD'),
-            // },
-          },
-          template: {
-            // dir: join(__dirname, 'template'),
-            dir: 'C:/Users/arago/OneDrive/Escritorio/nest-mail/src/template',
-            adapter: new EjsAdapter(),
-            options: {
-              strict: true,
-            },
-          },
+          }
         };
       },
     }),
   ],
   controllers: [EmailController],
-  providers: [EmailService],
+  providers: [EmailService, UsersService],
 })
 export class EmailsModule {}
