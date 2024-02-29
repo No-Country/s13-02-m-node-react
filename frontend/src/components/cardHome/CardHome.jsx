@@ -213,14 +213,22 @@ export const CardHome = ({ secondary }) => {
           >
             <Link href={"/ranks"}>
               <Button
-                variant="contained"
+                
                 sx={{
+                  variant: "outlined",
                   color: "#A87FFB",
                   borderRadius: "10px",
                   padding: "5px",
                   margin: "5px",
+                  width: "100%",
+                 
 
                   fontSize: "10px",
+                  "&:hover": {
+                    backgroundColor: "#A87FFB",
+                    color: "white",
+                  },
+                  
                 }}
               >
                 Jugar a las ligas

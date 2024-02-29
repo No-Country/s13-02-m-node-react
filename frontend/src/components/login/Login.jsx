@@ -7,12 +7,7 @@ import { useAuthHandler } from '@/utils/services/hooksAuth'
 
 const Login = () => {
   const authHook = useAuthHandler()
-<<<<<<< HEAD
-  console.log(authHook)
-
-=======
   
->>>>>>> origin/dev-front
   return (
       <form
         onSubmit={authHook.loginHandler}
