@@ -1,6 +1,7 @@
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import challengeRequestPost from '../challengeRequest/questionChallengePost'
+import { useDispatch } from 'react-redux'
 const questionsDesafios = [
   {
     title:
@@ -44,7 +45,7 @@ const questionsDesafios = [
   }
 ]
 export const useQuestionChallenge = () => {
-  const [questions, setQuestions] = useState([])
+  const dispatch = useDispatch()
   const [token, setToken] = useState('')
   const [questionRender, setQuestionRender] = useState()
   const [questionNumber, setQuestionNumber] = useState(0)
@@ -63,7 +64,7 @@ export const useQuestionChallenge = () => {
     break
   }
   const handlerQuestionChallengePost = () => {
-    challengeRequestPost(token, router, setQuestions)
+    challengeRequestPost(token, router, dispatch)
   }
   const goBackHandler = () => {
     router.push('/')

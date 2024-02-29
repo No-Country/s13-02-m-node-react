@@ -3,7 +3,6 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { Button, styled } from '@mui/material'
 import Stack from '@mui/material/Stack'
-import { useMediaQuery } from '@mui/material'
 const LanguageButton = styled(Button)({
   color: '#ffffff',
   borderColor: '#86198f',

@@ -1,6 +1,7 @@
+import { setQuestions } from '@/redux/challengeSlice'
 import axios from 'axios'
 
-const challengeRequestPost = async (token, router, setQuestions) => {
+const challengeRequestPost = async (token, router, dispatch) => {
   setQuestions()
   await axios
     .post(
@@ -16,8 +17,8 @@ const challengeRequestPost = async (token, router, setQuestions) => {
       }
     )
     .then(function (res) {
+      dispatch(setQuestions(res.data))
       router.push('/challenges')
-      setQuestions(res.data)
     })
     .catch(function (err) {
       console.log(err)
