@@ -35,7 +35,7 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://nekode-rqas.onrender.com/api/stacks')
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/stacks`)
         setStacks(response.data)
       } catch (error) {
         console.error('Error fetching data:', error)

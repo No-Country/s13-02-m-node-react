@@ -21,7 +21,7 @@ const Roadmap = ({ selectedLanguageId }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          'https://nekode-rqas.onrender.com/api/themes'
+          `${process.env.NEXT_PUBLIC_API_URL}/themes`
         )
         setThemes(response.data.data)
       } catch (error) {
@@ -84,6 +84,7 @@ const Roadmap = ({ selectedLanguageId }) => {
             {filteredThemes.map((data, index) => {
               return (
                 <>
+                <Link href={'/challenges'}>
                   <button
                     className={` 
                 bg-[#A87FFB] 
@@ -104,8 +105,9 @@ const Roadmap = ({ selectedLanguageId }) => {
                     }}
                     key={index}
                   >
-                    <Link href={'/challenges'}>{data.name}</Link>
+                    {data.name}
                   </button>
+                    </Link>
                 </>
               )
             })}
