@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   token: null,
-  avatar: null,
+  avatar: localStorage.getItem('avatar') || null,
   error: null,
 }
 
