@@ -75,7 +75,7 @@ export const Card = ({ data, dataLoaded }) => {
               anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
               variant="dot"
             >
-              <Avatar src={""} {...stringAvatar(data.username)} />
+              <Avatar src={data.avatar} {...stringAvatar(data.username)} />
             </StyledBadge>
             <span className="absolute top-2 right-0 inline-flex items-center justify-center w-7 h-7 p-2 transform translate-x-1/2 -translate-y-1/2 bg-white border shadow-md rounded-t-full rounded-r-full">
               💻
