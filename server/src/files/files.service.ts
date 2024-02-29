@@ -3,16 +3,14 @@ import { join } from 'path';
 
 import { Injectable } from '@nestjs/common';
 
-
 @Injectable()
 export class FilesService {
-    getStaticAvatarImage( imageName: string ) {
+  getStaticAvatarImage(imageName: string) {
+    const path = join(__dirname, '../../static/avatars', imageName);
 
-        const path = join( __dirname, '../../static/avatars', imageName );
+    if (!existsSync(path))
+      throw new Error(`No avatar found with image ${imageName}`);
 
-        if( !existsSync(path) )
-            throw new Error(`No avatar found with image ${ imageName }`);
-        
-        return path;
-    }
+    return path;
+  }
 }
