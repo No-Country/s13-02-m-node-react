@@ -6,8 +6,9 @@ import { errorsAuth } from '../errors/errorsAuth'
 import { useDispatch } from 'react-redux'
 
 export const useAuthHandler = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const [errorAuth, setErrorAuth] = useState('')
+
   const router = useRouter()
   const loginHandler = (e) => {
     e.preventDefault()
@@ -36,10 +37,10 @@ export const errorAuthManagement = (err, setErrorAuth) => {
     case e?.serverEmailMessage:
       setErrorAuth(e?.messageEmail)
       break
-    case e?.serverUsernameMessage: // foo es 0, por lo tanto se cumple la condición y se ejecutara el siguiente bloque
+    case e?.serverUsernameMessage:
       setErrorAuth(e?.messageUsername)
       break
-    case e?.serverPasswordMessage: // foo es 0, por lo tanto se cumple la condición y se ejecutara el siguiente bloque
+    case e?.serverPasswordMessage:
       setErrorAuth(e?.messagePassword)
       break
     default:

@@ -8,8 +8,7 @@ import { CenterFocusStrong } from '@mui/icons-material'
 import { useQuestionChallenge } from '@/utils/services/hooksChallenge'
 
 const Roadmap = ({ selectedLanguageId }) => {
-  const [themes, setThemes] = useState([])
-  const questionsHook = useQuestionChallenge()
+  const [themes, setThemes] = useState()
   // pasar por props esta data para la pregunta(en cada tema y con los datos de estos)
   const questionData = {
     theme: 'variables',
@@ -17,20 +16,21 @@ const Roadmap = ({ selectedLanguageId }) => {
     id_user: '576cfeff-905d-4b3b-bf7e-7597e71bca77',
     quest_number: 1
   }
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/themes`
-        )
-        setThemes(response.data.data)
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
-    }
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/themes`
+      )
+      setThemes(response.data.data)
+    } catch (error) {
+      console.error('Error fetching data:', error)
+    }
+  }
+  useEffect(() => {
     fetchData()
-  }, [])
+  }, [0])
+  const questionsHook = useQuestionChallenge()
 
   const getButtonMarginLeft = (index) => {
     if (index === 0) {
@@ -48,12 +48,12 @@ const Roadmap = ({ selectedLanguageId }) => {
 
   const isXsOrMd = useMediaQuery('(max-width:960px)')
   const imagesHidden = useMediaQuery('(max-width:1230px)')
-  const filteredThemes = themes.filter(
+  const filteredThemes = themes?.filter(
     (item) => item.stackId === selectedLanguageId
   )
   return (
     <>
-      {filteredThemes.length === 0 ? (
+      {filteredThemes?.length === 0 ? (
         <Typography
           className='text-white'
           align='center'
@@ -81,12 +81,12 @@ const Roadmap = ({ selectedLanguageId }) => {
             )}
           </div>
           <div className={`flex flex-col items-center justify-center  `}>
-            {filteredThemes.map((data, index) => {
+            {filteredThemes?.map((data, index) => {
               return (
-                <>
-                <Link href={'/challenges'}>
-                  <button
-                    className={` 
+                <button
+                  key={index}
+                  onClick={questionsHook.handlerQuestionChallengePost}
+                  className={` 
                 bg-[#A87FFB] 
                 mb-4 
                 md:ml-0 
@@ -100,15 +100,12 @@ const Roadmap = ({ selectedLanguageId }) => {
                 hover:bg-[#A87FFA]
                 capitalize
                 `}
-                    style={{
-                      marginLeft: isXsOrMd ? '0px' : getButtonMarginLeft(index)
-                    }}
-                    key={index}
-                  >
-                    {data.name}
-                  </button>
-                    </Link>
-                </>
+                  style={{
+                    marginLeft: isXsOrMd ? '0px' : getButtonMarginLeft(index)
+                  }}
+                >
+                  {data.name}
+                </button>
               )
             })}
           </div>

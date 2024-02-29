@@ -12,6 +12,7 @@ import Footer from '@/components/footer/Footer'
 import NavBar from '@/components/navBar/NavBar'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+
 //Agregado por vicky
 // import { Provider } from 'react-redux'
 // import {store} from '../redux/store'
@@ -81,6 +82,7 @@ export default function Home() {
                 </div>
                 <Languages data={stacks} onLanguageSelect={handleLanguageSelect} />
                 <CardDefLenguajeHome />
+           
                 <Roadmap selectedLanguageId={selectedLanguageId ? selectedLanguageId : "616c8a2c-1c9b-4b4d-a0ab-6bd7f962bf0d"} />
               </section>
             </main>

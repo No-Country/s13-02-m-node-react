@@ -7,29 +7,22 @@ import CloseIcon from '@mui/icons-material/Close'
 import Logo from '../logo/Logo'
 import Pet from '../pet/Pet'
 import MobileMenu from '../mobileMenu/MobileMenu'
-import {  useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
+import Link from 'next/link'
 
 function NavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isMobileView, setIsMobileView] = useState(false)
   const [avatarLetter, setAvatarLetter] = useState('')
-  const avt = useSelector( (state) => state.auth.avatar
-  ) 
-  console.log({avt})
- 
-
+  const avt = useSelector((state) => state.auth.avatar)
   useEffect(() => {
     const handleResize = () => {
       setIsMobileView(window.innerWidth <= 768)
     }
-
     handleResize()
-
     window.addEventListener('resize', handleResize)
-
     return () => window.removeEventListener('resize', handleResize)
   }, [])
-
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
     // console.log("menu abierto");
@@ -55,6 +48,7 @@ function NavBar() {
           {/* Botón de menú móvil (reemplaza al Avatar) */}
           {isMobileView ? (
             <IconButton
+            color='inherit'
               sx={{ p: 0 }}
               className='md:hidden text-white'
               onClick={toggleMobileMenu}
@@ -62,12 +56,14 @@ function NavBar() {
               {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
             </IconButton>
           ) : (
+            <Link href={"/profiles"}>
             <IconButton
               sx={{ p: 0 }}
               className='hidden md:flex' /* Solo visible en dispositivos de tamaño medio y grande */
             >
               <Avatar className='h-12 w-12'>{avt}</Avatar>
             </IconButton>
+            </Link>
           )}
           {/* Contenido del menú móvil */}
           {isMobileMenuOpen && (
