@@ -6,6 +6,7 @@ import { useAuthHandler } from '@/utils/services/hooksAuth'
 
 const Login = () => {
   const authHook = useAuthHandler()
+  console.log(authHook)
 
   return (
     <form
