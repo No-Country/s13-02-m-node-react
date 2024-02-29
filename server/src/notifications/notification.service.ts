@@ -11,7 +11,7 @@ import Handlebars from 'handlebars';
 import * as fs from 'fs';
 
 @Injectable()
-export class EmailService {
+export class NotificationsService {
 
   constructor(
     private readonly mailerService: MailerService,
@@ -82,7 +82,7 @@ export class EmailService {
         }
       });
     });
-    // */5 * * * * * ==> every 5 seconds
+    // */5 * * * * * ==> every 5 seconds 
     const dailyReminder = new cron.CronJob('0 0 * * *', async () => {
       emailsToSend.daily.forEach(async (email) => {
         await this.sendEmail(email).then((res) => { console.log(res); });

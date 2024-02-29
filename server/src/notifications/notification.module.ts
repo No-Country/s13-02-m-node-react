@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
-import { EmailService } from './notification.service';
-import { EmailController } from './notification.controller';
+import { NotificationsService } from './notification.service';
+import { NotificationController } from './notification.controller';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EmailToken } from '../utils/email.token';
@@ -38,7 +38,7 @@ import { ProgressStacksEntity } from 'src/users/entities/progressStacks.entity';
       },
     }),
   ],
-  controllers: [EmailController],
-  providers: [EmailService, UsersService],
+  controllers: [NotificationController],
+  providers: [NotificationsService, UsersService],
 })
-export class EmailsModule {}
+export class NotificationsModule {}

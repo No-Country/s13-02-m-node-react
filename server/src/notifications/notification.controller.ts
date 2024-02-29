@@ -1,15 +1,15 @@
 /* eslint-disable prettier/prettier */
 import { Body, Controller, Post } from '@nestjs/common';
-import { EmailService } from './notification.service';
+import { NotificationsService } from './notification.service';
 import { MailDto } from './dto/mail.dto';
 
 @Controller('emails')
-export class EmailController {
-  constructor(private readonly emailService: EmailService) {}
+export class NotificationController {
+  constructor(private readonly notificationsService: NotificationsService) {}
 
   @Post()
   async sendEmail(@Body() mailDto: MailDto){
-    return this.emailService.sendEmail(mailDto);
+    return this.notificationsService.sendEmail(mailDto);
   }
 }
 
