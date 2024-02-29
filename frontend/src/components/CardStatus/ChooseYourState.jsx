@@ -9,7 +9,8 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import GridStatues from "./GridStatues";
-import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 function stringToColor(string) {
   let hash = 0;
@@ -71,6 +72,12 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 const ChooseYourState = ({ dataLoaded }) => {
+  const [name, setName] = useState("");
+  const avatar = useSelector((state) => state.auth.avatar);
+  useEffect(() => {
+    setName(avatar);
+  }, [avatar]);
+
   const statusData = [
     "💻",
     "🤘🏼",
@@ -118,10 +125,7 @@ const ChooseYourState = ({ dataLoaded }) => {
                 anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                 variant="dot"
               >
-                <Avatar
-                  src={"Cristian Vásquez"}
-                  {...stringAvatar("Cristian Vásquez")}
-                />
+                <Avatar src={"Cristian Vásquez"} {...stringAvatar(name)} />
               </StyledBadge>
               <span className="absolute top-2 -right-2 inline-flex items-center justify-center w-9 h-9 transform translate-x-1/2 -translate-y-1/2 bg-jet-500 border border-rich-black-500 rounded-t-full rounded-r-full">
                 💻
