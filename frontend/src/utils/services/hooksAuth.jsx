@@ -29,13 +29,13 @@ export const errorAuthManagement = (err, setErrorAuth) => {
   const e = errorsAuth.find((err) => errorCode === err.code)
   // .map((msj) => msj.messageEmail)[0]
   switch (messageCode) {
-    case e?.serverEmailMessage:
+    case e.serverEmailMessage:
       setErrorAuth(e.messageEmail)
       break
-    case e.serverUsernameMessage: // foo es 0, por lo tanto se cumple la condición y se ejecutara el siguiente bloque
+    case e.serverUsernameMessage:
       setErrorAuth(e.messageUsername)
       break
-    case e.serverPasswordMessage: // foo es 0, por lo tanto se cumple la condición y se ejecutara el siguiente bloque
+    case e.serverPasswordMessage:
       setErrorAuth(e.messagePassword)
       break
     default:
