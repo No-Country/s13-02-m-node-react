@@ -6,6 +6,7 @@ import { ProgressThemesModule } from 'src/progress-themes/progress-themes.module
 
 @Module({
   imports: [UsersModule, ProgressThemesModule],
+
   controllers: [OpenaiController],
   providers: [OpenaiService],
 })

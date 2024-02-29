@@ -14,9 +14,9 @@ export class OpenaiService {
 
   constructor(
     @InjectRepository(UsersEntity)
-    private progressThemeRepository: Repository<UsersEntity>,
-    @Inject(ProgressThemesService)
     private userRepository: Repository<UsersEntity>,
+    @Inject(ProgressThemesService)
+    private readonly progressThemesService: ProgressThemesService,
   ) {
     this.openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
@@ -107,12 +107,12 @@ export class OpenaiService {
 
   /**
    *
-   * @param query {{question:string, response:string}}
+   * @param query {{question:string, response:string, id_theme:string}}
    * @returns  {Promise<any{}>} Un JSON { feefback: string, isCorrect: boolean }
    */
   async correctQuestion(query: CorrectQuestionDto): Promise<any> {
     const message = `{ "question":"${query.question}" , "response":${query.response} }`;
-    console.log(message);
+    // console.log(message);
     if (query)
       try {
         const assistant = await this.openai.beta.assistants.retrieve(
@@ -158,14 +158,17 @@ export class OpenaiService {
           const messageJSON = lastMessageForRun.content[0];
           const jsonObject = messageJSON;
           if (jsonObject.type === 'text') {
-            return JSON.parse(jsonObject.text.value);
+            const res = JSON.parse(jsonObject.text.value);
+
+            // if (res.isCorrect) {
+            //   await this.progressThemesService.update(query.id_theme, 1);
+            // }
+            return res;
           }
         }
-        //   if (isCorrect) {
-        //     await this.progressThemeRepository.update(progressThemeId, 1)
-        // }
       } catch (error) {
         console.log(error);
+        throw ErrorManager.createSignatureError(error.message);
       }
   }
 }
