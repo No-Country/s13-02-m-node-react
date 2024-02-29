@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux'
 export const useAuthHandler = () => {
   const dispatch = useDispatch()
   const [errorAuth, setErrorAuth] = useState('')
+
   const router = useRouter()
   const loginHandler = (e) => {
     e.preventDefault()

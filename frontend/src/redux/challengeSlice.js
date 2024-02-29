@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  questions: []
+  questions: undefined
 }
 
 const challengeSlice = createSlice({
