@@ -77,10 +77,10 @@ export class OpenaiService {
 
       while (runStatus.status !== 'completed') {
         await new Promise((resolve) => setTimeout(resolve, 2000));
-        if(runStatus.status === "failed" ){
-          return runStatus
+        if (runStatus.status === 'failed') {
+          return runStatus;
         }
-        console.log(runStatus.status)
+        console.log(runStatus.status);
         runStatus = await this.openai.beta.threads.runs.retrieve(
           thread,
           run.id,
@@ -123,7 +123,7 @@ export class OpenaiService {
           'asst_ULSyRhxS5NK0P2vbRUYnx64S',
         );
 
-        const newThread = "thread_fVYOlga3oBmkeG44ceIGr59K";
+        const newThread = 'thread_fVYOlga3oBmkeG44ceIGr59K';
 
         await this.openai.beta.threads.messages.create(newThread, {
           role: 'user',
@@ -138,13 +138,12 @@ export class OpenaiService {
           newThread,
           run.id,
         );
-        
 
         while (runStatus.status !== 'completed') {
-          if(runStatus.status === "failed" ){
-            return runStatus
+          if (runStatus.status === 'failed') {
+            return runStatus;
           }
-          console.log(runStatus.status)
+          console.log(runStatus.status);
           await new Promise((resolve) => setTimeout(resolve, 2000));
           runStatus = await this.openai.beta.threads.runs.retrieve(
             newThread,
@@ -152,9 +151,8 @@ export class OpenaiService {
           );
         }
 
-        const messages = await this.openai.beta.threads.messages.list(
-          newThread,
-        );
+        const messages =
+          await this.openai.beta.threads.messages.list(newThread);
 
         const lastMessageForRun = messages.data
           .filter(
