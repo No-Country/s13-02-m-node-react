@@ -8,17 +8,19 @@ import {
   Delete,
   UseGuards,
   Query,
+  ValidationPipe,
 } from '@nestjs/common';
 import { StacksService } from './stacks.service';
 import { CreateStackDto } from './dto/create-stack.dto';
 import { UpdateStackDto } from './dto/update-stack.dto';
 import { PublicAccess } from '../auth/decorators/public.decorator';
 import { AuthGuard } from '../auth/guards/auth.guards';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags, ApiBody } from '@nestjs/swagger';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { ROLES } from '../config/constants/roles';
 import { ErrorManager } from 'src/utils/error.manager';
+import { StackQueryDto } from './dto/query-stack.dto';
 
 @ApiTags('stacks')
 @ApiBearerAuth()
@@ -28,6 +30,7 @@ export class StacksController {
   constructor(private readonly stacksService: StacksService) {}
 
   @Roles(ROLES.ADMIN)
+  @ApiBody({ type: CreateStackDto })
   @Post()
   public async create(@Body() createStackDto: CreateStackDto) {
     try {
@@ -37,7 +40,6 @@ export class StacksController {
         value: name,
         caseInsensitive: true,
       });
-      console.log('HAY NOMBRE?', isName);
       if (isName) {
         throw new ErrorManager({
           type: 'BAD_REQUEST',
@@ -53,11 +55,9 @@ export class StacksController {
   @PublicAccess()
   @Get()
   findAll(
-    @Query('page') page?: number,
-    @Query('limit') limit?: number,
-    @Query('order') order?: 'ASC' | 'DESC',
+    @Query(new ValidationPipe({ transform: true })) query: StackQueryDto,
   ) {
-    return this.stacksService.findAll(page, limit, order);
+    return this.stacksService.findAll(query);
   }
 
   @PublicAccess()

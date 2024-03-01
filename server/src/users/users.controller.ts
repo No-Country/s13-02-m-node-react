@@ -6,18 +6,22 @@ import {
   Patch,
   Param,
   Delete,
-  Post,
   UseGuards,
+  Query,
+  ValidationPipe,
+  Req,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { ProgressStackDto } from './dto/progress-stack.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from '../auth/guards/auth.guards';
 import { PublicAccess } from '../auth/decorators/public.decorator';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { UsersService } from './users.service';
+import { ROLES } from '../config/constants/roles';
+import { ErrorManager } from '../utils/error.manager';
+import { AuthGuard } from '../auth/guards/auth.guards';
 import { RolesGuard } from '../auth/guards/roles.guard';
-import { ROLES } from 'src/config/constants/roles';
-import { Roles } from 'src/auth/decorators/roles.decorator';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { UserQueryDto } from './dto/user-query.dto';
+import { Request } from 'express';
 
 @ApiTags('users')
 @ApiBearerAuth()
@@ -26,43 +30,39 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post('add-stack')
-  public async create(@Body() progressStackDto: ProgressStackDto) {
-    return this.usersService.addStack(progressStackDto);
+  @Get('me')
+  async findMe(@Req() req) {
+    const user = req.userAuth;
+    return this.usersService.findUserById(user.id);
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    const user = await this.usersService.findUserById(id);
+    if (!user) {
+      throw new ErrorManager({
+        type: 'NOT_FOUND',
+        message: 'No user found',
+      });
+    }
+    return this.usersService.findUserById(id);
   }
 
   @Get()
   @PublicAccess()
-  findAll() {
-    return this.usersService.findAll();
+  findAll(@Query(new ValidationPipe({ transform: true })) query: UserQueryDto) {
+    return this.usersService.findAll(query);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findUserById(id);
-  }
-
-  @Get(':userid/stack/all')
-  public async findUserStacks(@Param('userid') userId: string) {
-    return this.usersService.getAllUserStack(userId);
-  }
-
-  @Get(':userid/stack/:id')
-  public async findOneUsertStack(
-    @Param('userid') userId: string,
-    @Param('id') stackId: string,
-  ) {
-    return this.usersService.getOneUserStack(userId, stackId);
-  }
-
-  @Post('stack')
-  public async addUserStack(@Body() progressStackDto: ProgressStackDto) {
-    return this.usersService.addStack(progressStackDto);
-  }
-
+  // modifiy username, avatar, notification, notificationchallenge
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(id, updateUserDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+    @Req() req: Request,
+  ) {
+    const { userAuth } = req;
+    return this.usersService.update(id, updateUserDto, userAuth);
   }
 
   @Roles(ROLES.ADMIN)

@@ -4,30 +4,23 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import * as morgan from 'morgan';
 import { corsOptions } from './config/cors';
-import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  INestApplication,
+  ValidationPipe,
+} from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
-  // Documentation Swagger config
-  const config = new DocumentBuilder()
-    .addBearerAuth()
-    .setTitle('API Documentation')
-    .setDescription('API description')
-    .setVersion('1.0')
-    .addTag('themes')
-    .addTag('users')
-    .addTag('auth')
-    .addTag('stacks')
-    .build();
-
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('documentation', app, document);
-
+  // Prefix /api/
+  app.setGlobalPrefix('api');
+  createSwagger(app);
   // Validation
   app.useGlobalPipes(
     new ValidationPipe({
+      whitelist: true, // Solo validar los campos definidos en la clase del DTO
+      forbidNonWhitelisted: true, // Rechazar cualquier campo no definido en la clase del DTO
       transformOptions: {
         enableImplicitConversion: true,
       },
@@ -40,9 +33,6 @@ async function bootstrap() {
   // Log
   app.use(morgan('dev'));
 
-  // Prefix /api/
-  app.setGlobalPrefix('api');
-
   // Cors
   app.enableCors(corsOptions);
 
@@ -52,3 +42,23 @@ async function bootstrap() {
   console.log(`Server running on: ${await app.getUrl()}`);
 }
 bootstrap();
+
+function createSwagger(app: INestApplication) {
+  // Documentation Swagger config
+  const config = new DocumentBuilder()
+    .addBearerAuth()
+    .setTitle('Nekode Api Documentation')
+    .setDescription('API description')
+    .setVersion('1.0')
+    .addTag('themes')
+    .addTag('users')
+    .addTag('auth')
+    .addTag('stacks')
+    .addTag('Progress Themes')
+    .addTag('Progress Stacks')
+    .addTag('OpenAI')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api/documentation', app, document);
+}

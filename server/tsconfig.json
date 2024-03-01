@@ -13,15 +13,12 @@
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
+    "moduleResolution": "node",
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "types": ["node", "express"],
-    "typeRoots": ["/*/**/types", "./node_modules/@types"]
+    "typeRoots": ["/*/**/types", "./types", "./node_modules/@types"]
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-  ]
+  "exclude": ["node_modules", "dist"]
 }

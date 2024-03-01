@@ -1,16 +1,20 @@
-/* eslint-disable prettier/prettier */
-import { IsString } from 'class-validator';
+import { IsNumber, IsString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class GetQuestionDto {
+  @ApiProperty()
   @IsString()
   theme: string;
 
+  @ApiProperty()
   @IsString()
   level: string;
 
-  @IsString()
-  id_thread?: string;
+  @ApiProperty()
+  @IsNumber()
+  quest_number: number;
 
+  @ApiProperty()
   @IsString()
-  id_user?: string;
+  id_user: string;
 }

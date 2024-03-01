@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { CreateStackDto } from './dto/create-stack.dto';
@@ -6,6 +6,7 @@ import { UpdateStackDto } from './dto/update-stack.dto';
 import { StacksEntity } from './entities/stack.entity';
 import { ErrorManager } from '../utils/error.manager';
 import { TSearchConditions } from '../types/types/searchConditions';
+import { StackQueryDto } from './dto/query-stack.dto';
 
 @Injectable()
 export class StacksService {
@@ -27,47 +28,112 @@ export class StacksService {
     }
   }
 
-  async findAll(
-    page?: number,
-    limit?: number,
-    order?: 'ASC' | 'DESC',
-  ): Promise<
+  /**
+   * @service : Searches and retrieves all Stacks entities with pagination and ordering options.
+   * @param query Object containing query options such as limit, page, order, and orderBy.
+   * @returns StacksEntity[] - An array of StacksEntity[] or an object containing the array of StacksEntity[] along with pagination information.
+   * If limit and page are provided in the query object, an object is returned containing data (array of StacksEntity[]) and pagination (pagination information).
+   * If limit and page are not provided, an array of StacksEntity[] is returned directly.
+   * @throws ErrorManager.createSignatureError in case of an error.
+   */
+  async findAll(query: StackQueryDto): Promise<
     | StacksEntity[]
     | {
         data: StacksEntity[];
-        pagination: { totalPages: number; limit: number; page: number };
+        pagination?: { totalPages: number; limit: number; page: number };
       }
   > {
     try {
-      const queryBuilder = this.stackRepository.createQueryBuilder('stack');
-      let totalPages;
-      if (order) {
-        queryBuilder.orderBy('stack.name', order);
-      }
-      if (page && limit) {
-        const totalCount = await queryBuilder.getCount();
-        totalPages = Math.ceil(totalCount / limit);
-        queryBuilder.skip((page - 1) * limit).take(limit);
-        const data = await queryBuilder.getMany();
-        return { data, pagination: { totalPages, limit, page } };
+      const { limit, page, order, orderBy } = query;
+      const queryBuilder = this.stackRepository
+        .createQueryBuilder('stack')
+        .leftJoinAndSelect('stack.themes', 'theme') // Cambiado de 'themes' a 'theme'
+        .select([
+          'stack',
+          'theme.id',
+          'theme.name',
+          'theme.level',
+          'theme.order',
+          'theme.points',
+        ]);
+      //.loadRelationCountAndMap('stack.themeQuantity', 'stack.themes'); // carga el recuento de temas en 'stack'
+      let totalPages: number;
+
+      // Sort if ordering parameters are provided
+      if (order && orderBy) {
+        queryBuilder.orderBy(`theme.${orderBy}`, order);
       }
 
-      return await queryBuilder.getMany();
+      // Paginate if pagination parameters are provided
+      if (page && limit) {
+        const totalCount = await queryBuilder.getCount();
+        totalPages = Math.ceil(totalCount / +limit);
+        queryBuilder.skip((+page - 1) * +limit).take(+limit);
+        const data = await queryBuilder.getMany();
+        return {
+          data,
+          pagination: {
+            totalPages,
+            limit: +limit,
+            page: +page,
+          },
+        };
+      }
+
+      // Return all stacks if no pagination or ordering parameters are provided
+      const data = await queryBuilder.getMany();
+
+      return data;
     } catch (error) {
       console.error(error);
       throw ErrorManager.createSignatureError(error.message);
     }
   }
 
-  public async findStackById(id: string): Promise<StacksEntity> {
+  // To intern purposes
+  async findOne(id: string): Promise<StacksEntity> {
     try {
+      // Query to retrieve the Stack entity by ID, including associated Themes through a left join
       const stack: StacksEntity = await this.stackRepository
         .createQueryBuilder('stack')
         .where({ id })
-        .leftJoinAndSelect('stack.themes', 'themes')
         .getOne();
+
+      // Check if the Stack entity is not found and throw an error if so
       if (!stack) {
-        console.log('id recibida ', id);
+        return undefined;
+      }
+      return stack;
+    } catch (error) {
+      throw ErrorManager.createSignatureError(error.message);
+    }
+  }
+
+  /**
+   * @function: Finds and retrieves a Stack entity by its ID, including its associated Themes through a left join.
+   * @param id<string> The ID of the Stack entity to be retrieved.
+   * @returns StackEntity - A StacksEntity representing the found stack, including associated Themes through a left join.
+   * @throws ErrorManager.createSignatureError if there is an error during the process.
+   */
+  public async findStackById(id: string): Promise<StacksEntity> {
+    try {
+      // Query to retrieve the Stack entity by ID, including associated Themes through a left join
+      const stack: StacksEntity = await this.stackRepository
+        .createQueryBuilder('stack')
+        .where({ id })
+        .leftJoinAndSelect('stack.themes', 'theme') // Cambiado de 'themes' a 'theme'
+        .select([
+          'stack',
+          'theme.id',
+          'theme.name',
+          'theme.level',
+          'theme.order',
+          'theme.points',
+        ])
+        .getOne();
+
+      // Check if the Stack entity is not found and throw an error if so
+      if (!stack) {
         throw new ErrorManager({
           type: 'NOT_FOUND',
           message: 'No stack found',
@@ -79,6 +145,13 @@ export class StacksService {
     }
   }
 
+  /**
+   * @service : Finds and retrieves a Stack entity based on specified search conditions.
+   * @param options<TSearchConditions<StackEntity> - An object containing search conditions for finding a Stack entity.
+   * @returns StackEntity - A StacksEntity representing the found stack based on the provided search conditions.
+   * If no matching stack is found, returns undefined.
+   * @throws ErrorManager.createSignatureError if there is an error during the process.
+   */
   public async findStackBy(options: TSearchConditions<StacksEntity>) {
     try {
       const queryBuilder = this.stackRepository.createQueryBuilder('stack');
@@ -104,6 +177,14 @@ export class StacksService {
     }
   }
 
+  /**
+   * @service Updates a Stack entity with the provided data based on its ID.
+   * @param id The ID of the Stack entity to be updated.
+   * @param updateStackDto An object containing the data to update the Stack entity.
+   * @returns An UpdateResult representing the outcome of the update operation.
+   * If no matching stack is found to update, returns undefined.
+   * @throws ErrorManager.createSignatureError if there is an error during the process.
+   */
   public async update(
     id: string,
     updateStackDto: UpdateStackDto,
@@ -125,6 +206,28 @@ export class StacksService {
     }
   }
 
+  // En StackService
+  async updateTotalPoints(
+    stackId: string,
+    newTotalPoints: number,
+  ): Promise<void> {
+    const stackToUpdate = await this.findOne(stackId);
+
+    if (!stackToUpdate) {
+      throw new NotFoundException(`No stack found with id: ${stackId}`);
+    }
+
+    stackToUpdate.points = newTotalPoints;
+    await this.stackRepository.save(stackToUpdate);
+  }
+
+  /**
+   * @service Removes a Stack entity based on its ID.
+   * @param id The ID of the Stack entity to be removed.
+   * @returns A DeleteResult representing the outcome of the removal operation.
+   * If no matching stack is found to remove, returns undefined.
+   * @throws ErrorManager.createSignatureError if there is an error during the process.
+   */
   public async remove(id: string): Promise<DeleteResult | undefined> {
     try {
       const stack: DeleteResult = await this.stackRepository.delete(id);
