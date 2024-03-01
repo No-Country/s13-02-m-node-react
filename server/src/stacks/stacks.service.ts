@@ -6,6 +6,7 @@ import { UpdateStackDto } from './dto/update-stack.dto';
 import { StacksEntity } from './entities/stack.entity';
 import { ErrorManager } from '../utils/error.manager';
 import { TSearchConditions } from '../types/types/searchConditions';
+import { StackQueryDto } from './dto/query-stack.dto';
 
 @Injectable()
 export class StacksService {
@@ -35,7 +36,7 @@ export class StacksService {
    * If limit and page are not provided, an array of StacksEntity[] is returned directly.
    * @throws ErrorManager.createSignatureError in case of an error.
    */
-  async findAll(query): Promise<
+  async findAll(query: StackQueryDto): Promise<
     | StacksEntity[]
     | {
         data: StacksEntity[];
@@ -56,7 +57,7 @@ export class StacksService {
           'theme.points',
         ]);
       //.loadRelationCountAndMap('stack.themeQuantity', 'stack.themes'); // carga el recuento de temas en 'stack'
-      let totalPages;
+      let totalPages: number;
 
       // Sort if ordering parameters are provided
       if (order && orderBy) {
@@ -67,14 +68,14 @@ export class StacksService {
       if (page && limit) {
         const totalCount = await queryBuilder.getCount();
         totalPages = Math.ceil(totalCount / +limit);
-        queryBuilder.skip((page - 1) * +limit).take(limit);
+        queryBuilder.skip((+page - 1) * +limit).take(+limit);
         const data = await queryBuilder.getMany();
         return {
           data,
           pagination: {
             totalPages,
-            limit: parseInt(limit),
-            page: parseInt(page),
+            limit: +limit,
+            page: +page,
           },
         };
       }
@@ -133,7 +134,6 @@ export class StacksService {
 
       // Check if the Stack entity is not found and throw an error if so
       if (!stack) {
-        console.log('id recibida ', id);
         throw new ErrorManager({
           type: 'NOT_FOUND',
           message: 'No stack found',

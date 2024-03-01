@@ -54,8 +54,9 @@ function createSwagger(app: INestApplication) {
     .addTag('users')
     .addTag('auth')
     .addTag('stacks')
-    .addTag('themes progress')
-    .addTag('stack progress')
+    .addTag('Progress Themes')
+    .addTag('Progress Stacks')
+    .addTag('OpenAI')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

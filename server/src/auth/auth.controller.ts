@@ -14,7 +14,7 @@ export class AuthController {
     summary: 'Registro de usuario',
     description: 'Se encarga de la creación de la cuenta de usuario.',
   })
-  @ApiBody({type:RegisterAuthDto})
+  @ApiBody({ type: RegisterAuthDto })
   public async register(@Body() registerAuthDto: RegisterAuthDto) {
     return this.authService.register(registerAuthDto);
   }
@@ -24,7 +24,7 @@ export class AuthController {
     summary: 'Login de usuario',
     description: 'Se encarga de loguear al usuario.',
   })
-  @ApiBody({type:LoginAuthDto})
+  @ApiBody({ type: LoginAuthDto })
   public async login(@Body() loginAuthDto: LoginAuthDto) {
     return this.authService.login(loginAuthDto);
   }

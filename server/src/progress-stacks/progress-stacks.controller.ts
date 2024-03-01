@@ -13,6 +13,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/guards/auth.guards';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { CreateProgressStackDto } from './dto/create-progress-stack.dto';
+import { Request } from 'express';
 
 @ApiTags('Progress Stacks')
 @ApiBearerAuth()
@@ -23,7 +24,7 @@ export class ProgressStacksController {
 
   @Post('add') // Correct decorator with method name
   async addStackToUser(
-    @Req() req,
+    @Req() req: Request,
     @Body() createProgressStack: CreateProgressStackDto,
   ) {
     const userAuth = req.userAuth;

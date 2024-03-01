@@ -8,5 +8,8 @@ declare namespace NodeJs {
     POSTGERS_PORT: number;
     JWTAUTH_SECRET: string;
     JWTAUTH_EXPIRESIN: string;
+    OPENAI_API_KEY: string;
+    ADMIN_EMAIL: string;
+    ADMIN_PASSWORD: string;
   }
 }

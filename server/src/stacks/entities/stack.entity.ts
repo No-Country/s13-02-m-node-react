@@ -13,6 +13,9 @@ export class StacksEntity extends BaseEntity implements IStack {
   })
   name: string;
 
+  @Column({ nullable: true, type: 'varchar' })
+  description: string;
+
   @Column({ default: 0 })
   points: number;
 

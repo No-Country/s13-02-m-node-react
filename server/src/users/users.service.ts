@@ -171,6 +171,10 @@ export class UsersService {
           message: 'You have no privileges for perform this action',
         });
       }
+      if (updateUserDto.avatarUrl) {
+        userFound.avatarUrl = updateUserDto.avatarUrl;
+      }
+
       const user: UpdateResult = await this.userRepository.update(
         id,
         updateUserDto,
@@ -187,6 +191,45 @@ export class UsersService {
     }
   }
 
+  public async updateAvatar(
+    id: string,
+    avatarUrl: string,
+    userAuth: { role: string; id: string },
+  ): Promise<UpdateResult | undefined> {
+    try {
+      // Verifica si el usuario autenticado tiene permiso para actualizar el usuario
+      const userFound: UsersEntity = await this.userRepository.findOne({
+        where: { id }, // Aquí estamos pasando un objeto con la propiedad 'where'
+      });
+      if (!userFound) {
+        throw new ErrorManager({
+          type: 'NOT_FOUND',
+          message: 'User not found',
+        });
+      }
+      if (userAuth.id !== userFound.id && userAuth.role !== 'ADMIN') {
+        throw new ErrorManager({
+          type: 'FORBIDDEN',
+          message: 'You have no privileges for perform this action',
+        });
+      }
+
+      // Actualiza el avatarUrl del usuario
+      const updateResult: UpdateResult = await this.userRepository.update(id, {
+        avatarUrl,
+      });
+      if (updateResult.affected === 0) {
+        throw new ErrorManager({
+          type: 'NOT_FOUND',
+          message: 'Cant update - No user found',
+        });
+      }
+      return updateResult;
+    } catch (error) {
+      throw ErrorManager.createSignatureError(error.message);
+    }
+  }
+
   public async save(user: UsersEntity) {
     try {
       return await this.userRepository.save(user);
@@ -194,18 +237,6 @@ export class UsersService {
       throw ErrorManager.createSignatureError(error.message);
     }
   }
-  // public async removeLife(userId: string) {
-  //   const user: UsersEntity = await this.userRepository.findOne({
-  //     where: { id: userId },
-  //   });
-  //   user.life = user.life - 1;
-  //   if (user.life < 0) {
-  //     //perder puntos
-  //     user.life = 3;
-  //   }
-  //   await this.userRepository.update(user);
-  //   return user;
-  // }
 
   public async remove(id: string): Promise<DeleteResult | undefined> {
     try {
