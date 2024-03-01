@@ -10,6 +10,7 @@ import racingflag from "/public/racingflag.svg";
 import Image from "next/image";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
+import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 
 export const CardHome = ({ secondary }) => {
   return (
@@ -158,18 +159,18 @@ export const CardHome = ({ secondary }) => {
           sx={{
             //card whit glassmorphism
             // height: '180px',
-            width: "300px",
+            width: "100%",
             backgroundColor: "#333333",
             borderRadius: "10px",
-            margin: "10px",
-            marginTop: "0px",
+            // margin: "10px",
+            // marginTop: "0px",
             boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
             backdropFilter: "blur(4px)",
             WebkitBackdropFilter: "blur(4px)",
             border: "1px solid rgba( 255, 255, 255, 0.18 )",
             borderRadius: "10px",
             // position: "sticky",
-            top: "100px",
+            // top: "100px",
           }}
         >
           <Grid
@@ -213,22 +214,16 @@ export const CardHome = ({ secondary }) => {
           >
             <Link href={"/ranks"}>
               <Button
+                variant="outlined"
+                endIcon={<KeyboardArrowRightRoundedIcon />}
                 sx={{
-                  variant: "outlined",
-                  color: "#A87FFB",
-                  borderRadius: "10px",
-                  padding: "5px",
                   margin: "5px",
                   width: "100%",
 
                   fontSize: "10px",
-                  "&:hover": {
-                    backgroundColor: "#A87FFB",
-                    color: "white",
-                  },
                 }}
               >
-                Jugar a las ligas
+                Ingresa a los rangos
               </Button>
             </Link>
           </Grid>
