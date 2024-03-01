@@ -15,6 +15,7 @@ function NavBar() {
   const [isMobileView, setIsMobileView] = useState(false)
   const [avatarLetter, setAvatarLetter] = useState('')
   const avt = useSelector((state) => state.auth.avatar)
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobileView(window.innerWidth <= 768)
@@ -23,6 +24,7 @@ function NavBar() {
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
+
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
     // console.log("menu abierto");
@@ -31,6 +33,7 @@ function NavBar() {
   useEffect(() => {
     setAvatarLetter(avt)
   }, [])
+  
   return (
     <AppBar position='static' className='flex bg-[#10151D]'>
       <Container maxWidth='xl' className='bg-[#10151D] h-20'>
@@ -40,9 +43,13 @@ function NavBar() {
         >
           <div className='flex w-74 h-14 sm:w-1/6 '>
             {isMobileView ? (
-              <Pet className='ml-0' />
+              <Link href={'/'}>
+                <Pet className='ml-0' />
+              </Link>
             ) : (
-              <Logo size='text-2xl w-10 h-12 p-2' space='space-x-2' />
+              <Link href={'/'}>
+                <Logo size='text-2xl w-10 h-12 p-2' space='space-x-2' />
+              </Link>
             )}
           </div>
           {/* Botón de menú móvil (reemplaza al Avatar) */}
