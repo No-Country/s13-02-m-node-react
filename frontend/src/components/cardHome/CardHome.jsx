@@ -19,17 +19,17 @@ export const CardHome = ({ secondary }) => {
           sx={{
             //card whit glassmorphism
 
-            width: "300px",
+            width: "100%",
             backgroundColor: "#333333",
             borderRadius: "10px",
-            margin: "10px",
+            // margin: "10px",
             boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
             backdropFilter: "blur(4px)",
             WebkitBackdropFilter: "blur(4px)",
             border: "1px solid rgba( 255, 255, 255, 0.18 )",
             borderRadius: "10px",
             // position: 'sticky',
-            top: "290px",
+            // top: "290px",
           }}
         >
           <Grid
@@ -213,7 +213,6 @@ export const CardHome = ({ secondary }) => {
           >
             <Link href={"/ranks"}>
               <Button
-                
                 sx={{
                   variant: "outlined",
                   color: "#A87FFB",
@@ -221,14 +220,12 @@ export const CardHome = ({ secondary }) => {
                   padding: "5px",
                   margin: "5px",
                   width: "100%",
-                 
 
                   fontSize: "10px",
                   "&:hover": {
                     backgroundColor: "#A87FFB",
                     color: "white",
                   },
-                  
                 }}
               >
                 Jugar a las ligas
