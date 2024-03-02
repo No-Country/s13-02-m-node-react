@@ -23,7 +23,7 @@ export class FilesService {
   }
 
   remove(filename: string) {
-    const filePath = join(__dirname, '..', '..', 'static', 'avatar', filename);
+    const filePath = join(__dirname, '..', '..', 'static', 'avatars', filename);
     try {
       fs.access(filePath, fs.constants.R_OK, (err) => {
         if (err) {

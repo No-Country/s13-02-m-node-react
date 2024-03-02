@@ -4,6 +4,7 @@ import {
   IsEnum,
   IsInt,
   IsNotEmpty,
+  IsOptional,
   IsString,
   IsStrongPassword,
 } from 'class-validator';
@@ -40,4 +41,8 @@ export class UserDto {
 
   @IsBoolean()
   notification: boolean;
+
+  @IsString()
+  @IsOptional()
+  avatarUrl: string;
 }

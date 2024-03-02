@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, EntityManager, Repository, UpdateResult } from 'typeorm';
 import { UsersEntity } from './entities/user.entity';
@@ -9,13 +9,15 @@ import { TQueryPagination } from '../types/types/queryPaginations';
 import { hash } from 'bcrypt';
 import { ErrorManager } from '../utils/error.manager';
 import { UserQueryDto } from './dto/user-query.dto';
-import { join } from 'path';
+import { FilesService } from 'src/files/files.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(UsersEntity)
     private readonly userRepository: Repository<UsersEntity>,
+    @Inject(FilesService)
+    private readonly filesService: FilesService,
   ) {}
 
   /**
@@ -155,6 +157,7 @@ export class UsersService {
     id: string,
     updateUserDto: UpdateUserDto,
     userAuth: { role: string; id: string },
+    avatar?: Express.Multer.File,
   ): Promise<UpdateResult | undefined> {
     try {
       if (updateUserDto.role && userAuth.role !== 'ADMIN') {
@@ -163,73 +166,56 @@ export class UsersService {
           message: 'You have no privileges for perform this action',
         });
       }
+
       const userFound: UsersEntity = await this.userRepository.findOne({
         where: { id },
       });
+
       if (userAuth.id !== userFound.id && userAuth.role !== 'ADMIN') {
         throw new ErrorManager({
           type: 'FORBIDDEN',
           message: 'You have no privileges for perform this action',
         });
       }
-      if (updateUserDto.avatarUrl) {
-        userFound.avatarUrl = updateUserDto.avatarUrl;
+
+      // Adding new filename to avatar
+      if (avatar) {
+        updateUserDto.avatarUrl = avatar.filename;
       }
 
       const user: UpdateResult = await this.userRepository.update(
         id,
         updateUserDto,
       );
+
       if (user.affected === 0) {
+        // Remove new avatar image if update fail.
+        if (avatar) {
+          const deletedFile = this.filesService.remove(avatar.filename);
+          if (!deletedFile) {
+            console.log(
+              `Coudn't delete ${avatar.filename} file, you should remove it manually`,
+            );
+          }
+        }
+
         throw new ErrorManager({
           type: 'NOT_FOUND',
           message: 'Cant update - No user found',
         });
       }
+
+      // Removing older image
+      if (avatar && userFound.avatarUrl) {
+        const deletedFile = this.filesService.remove(userFound.avatarUrl);
+        if (!deletedFile) {
+          console.log(
+            `Coudn't delete ${userFound.avatarUrl} file, you should remove it manually`,
+          );
+        }
+      }
+
       return user;
-    } catch (error) {
-      throw ErrorManager.createSignatureError(error.message);
-    }
-  }
-
-  public async updateAvatar(
-    id: string,
-    avatarUrl: string,
-    userAuth: { role: string; id: string },
-  ): Promise<UpdateResult | undefined> {
-    try {
-      // Verifica si el usuario autenticado tiene permiso para actualizar el usuario
-      const userFound: UsersEntity = await this.userRepository.findOne({
-        where: { id },
-      });
-      if (!userFound) {
-        throw new ErrorManager({
-          type: 'NOT_FOUND',
-          message: 'User not found',
-        });
-      }
-      if (userAuth.id !== userFound.id && userAuth.role !== 'ADMIN') {
-        throw new ErrorManager({
-          type: 'FORBIDDEN',
-          message: 'You have no privileges for perform this action',
-        });
-      }
-      
-      // Elimina la imagen de avatar anterior del sistema de archivos
-      const currentAvatarPath = userFound.avatarUrl;
-      deleteFilefromFS(join(__dirname, '..', '..', 'static', 'avatars', currentAvatarPath));
-
-      // Actualiza el avatarUrl del usuario
-      const updateResult: UpdateResult = await this.userRepository.update(id, {
-        avatarUrl,
-      });
-      if (updateResult.affected === 0) {
-        throw new ErrorManager({
-          type: 'NOT_FOUND',
-          message: 'Cant update - No user found',
-        });
-      }
-      return updateResult;
     } catch (error) {
       throw ErrorManager.createSignatureError(error.message);
     }
@@ -245,18 +231,23 @@ export class UsersService {
 
   public async remove(id: string): Promise<DeleteResult | undefined> {
     try {
-      const userId = await this.findUserById(id);
-      const avatarPath = userId.avatarUrl;
+      const userFound = await this.findUserById(id);
+      const avatarPath = userFound.avatarUrl;
 
-       // Elimina el archivo de imagen del sistema de archivos
-      deleteFilefromFS(join(__dirname, '..', '..', 'static', 'avatars', avatarPath));
-    
       const user: DeleteResult = await this.userRepository.delete(id);
       if (user.affected === 0) {
         throw new ErrorManager({
           type: 'NOT_FOUND',
           message: 'Cant delete - No user found',
         });
+      }
+      if (userFound.avatarUrl) {
+        const deletedFile = this.filesService.remove(avatarPath);
+        if (!deletedFile) {
+          console.log(
+            `Coudn't delete ${avatarPath} file, you should remove it manually`,
+          );
+        }
       }
       return user;
     } catch (error) {
