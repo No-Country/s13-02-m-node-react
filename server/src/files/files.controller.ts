@@ -10,6 +10,7 @@ import {
   Req,
   UseGuards,
   UnauthorizedException,
+  Post,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ConfigService } from '@nestjs/config';
@@ -41,7 +42,7 @@ export class FilesController {
     return path;
   }
 
-  @Patch(':userId/avatar')
+  @Post(':userId/avatar')
   @UseInterceptors(
     FileInterceptor('file', {
       fileFilter: fileFilter,
@@ -63,7 +64,7 @@ export class FilesController {
     const secureUrl = `${this.configService.get('HOST_API')}/files/avatar/${file.filename}`;
 
     const user = req.userAuth;
-    // console.log(user)
+    console.log(user)
     if (!user) {
       console.log('User is not authenticated');
       throw new UnauthorizedException('User is not authenticated');

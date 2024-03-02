@@ -9,6 +9,24 @@ import { TQueryPagination } from '../types/types/queryPaginations';
 import { hash } from 'bcrypt';
 import { ErrorManager } from '../utils/error.manager';
 import { UserQueryDto } from './dto/user-query.dto';
+import fs from 'fs';
+import { join } from 'path';
+
+const deleteFilefromFS = (filepath: string) => {
+  fs.access(filepath, fs.constants.R_OK, (err) => {
+     if (err) {
+       console.error("No Read access");
+     } else {
+       fs.unlink(filepath, (error) => {
+         if (error) {
+           console.error("Error deleting file:", error);
+         } else {
+           console.log("File deleted successfully:", filepath);
+         }
+       });
+     }
+  });
+ };
 
 @Injectable()
 export class UsersService {
@@ -199,7 +217,7 @@ export class UsersService {
     try {
       // Verifica si el usuario autenticado tiene permiso para actualizar el usuario
       const userFound: UsersEntity = await this.userRepository.findOne({
-        where: { id }, // Aquí estamos pasando un objeto con la propiedad 'where'
+        where: { id },
       });
       if (!userFound) {
         throw new ErrorManager({
@@ -213,6 +231,10 @@ export class UsersService {
           message: 'You have no privileges for perform this action',
         });
       }
+      
+      // Elimina la imagen de avatar anterior del sistema de archivos
+      const currentAvatarPath = userFound.avatarUrl;
+      deleteFilefromFS(join(__dirname, '..', '..', 'static', 'avatars', currentAvatarPath));
 
       // Actualiza el avatarUrl del usuario
       const updateResult: UpdateResult = await this.userRepository.update(id, {
@@ -240,6 +262,12 @@ export class UsersService {
 
   public async remove(id: string): Promise<DeleteResult | undefined> {
     try {
+      const userId = await this.findUserById(id);
+      const avatarPath = userId.avatarUrl;
+
+       // Elimina el archivo de imagen del sistema de archivos
+      deleteFilefromFS(join(__dirname, '..', '..', 'static', 'avatars', avatarPath));
+    
       const user: DeleteResult = await this.userRepository.delete(id);
       if (user.affected === 0) {
         throw new ErrorManager({
