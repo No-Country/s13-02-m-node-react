@@ -60,7 +60,8 @@ export class ProgressThemesService {
 
       // check if the theme is already linked to progressStack
       const isAlreadyLinked = await this.progressThemesRepository.findOne({
-        where: { themeId, progressStackId }});
+        where: { themeId, progressStackId },
+      });
 
       if (isAlreadyLinked) {
         throw new ErrorManager({

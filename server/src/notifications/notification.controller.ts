@@ -8,8 +8,7 @@ export class NotificationController {
   constructor(private readonly notificationsService: NotificationsService) {}
 
   @Post()
-  async sendEmail(@Body() mailDto: MailDto){
+  async sendEmail(@Body() mailDto: MailDto) {
     return this.notificationsService.sendEmail(mailDto);
   }
 }
-

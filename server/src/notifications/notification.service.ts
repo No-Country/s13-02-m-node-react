@@ -12,18 +12,17 @@ import * as fs from 'fs';
 
 @Injectable()
 export class NotificationsService {
-
   constructor(
     private readonly mailerService: MailerService,
     private readonly configService: ConfigService,
-    private readonly usersService: UsersService
+    private readonly usersService: UsersService,
   ) {
     this.setUpNotificationSchedule();
   }
 
-  public async sendEmail(mailDto: MailDto): Promise<string>{
+  public async sendEmail(mailDto: MailDto): Promise<string> {
     try {
-      const { email, name, subject, message} = mailDto;
+      const { email, name, subject, message } = mailDto;
       const templatePath = 'src/notifications/template/index.hbs';
 
       if (!fs.existsSync(templatePath)) {
@@ -32,16 +31,16 @@ export class NotificationsService {
 
       const emailTemplateSource = fs.readFileSync(templatePath, 'utf8');
       const template = Handlebars.compile(emailTemplateSource);
-      
+
       await this.mailerService.sendMail({
         from: `Nekode 📧🐈‍⬛ <${this.configService.get('MAIL_USERNAME')}>`,
         to: email,
         subject: subject,
         html: template({ name, message }),
       });
-      
-      return "Email sent successfully! 📧🐈‍⬛👍🏼";
-    } catch(error) {
+
+      return 'Email sent successfully! 📧🐈‍⬛👍🏼';
+    } catch (error) {
       console.log(error);
       throw ErrorManager.createSignatureError(error.message);
     }
@@ -55,46 +54,59 @@ export class NotificationsService {
       email: '',
       name: '',
       subject: 'Daily Challenge Reminder 📅',
-      message: 'This is a reminder to complete your daily challenge!'
+      message: 'This is a reminder to complete your daily challenge!',
     };
 
     const emailsToSend = {
       daily: [],
-      weekly: []
+      weekly: [],
     };
-
 
     await this.usersService.findAll().then((users) => {
       users.data.forEach((user) => {
         const { challengeNotification } = user;
-        
+
         if (challengeNotification === 1) {
           defaultNotification.email = user.email;
           defaultNotification.name = user.username;
           emailsToSend.daily.push(defaultNotification);
-        }
-        else if (challengeNotification === 7) {
+        } else if (challengeNotification === 7) {
           defaultNotification.email = user.email;
           defaultNotification.name = user.username;
           defaultNotification.subject = 'Weekly Challenge Reminder 🐈‍⬛📅';
-          defaultNotification.message = 'This is a reminder to complete your weekly challenge!';
+          defaultNotification.message =
+            'This is a reminder to complete your weekly challenge!';
           emailsToSend.weekly.push(defaultNotification);
         }
       });
     });
-    // */5 * * * * * ==> every 5 seconds 
+    // */5 * * * * * ==> every 5 seconds
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const dailyReminder = new cron.CronJob('0 0 * * *', async () => {
-      emailsToSend.daily.forEach(async (email) => {
-        await this.sendEmail(email).then((res) => { console.log(res); });
-      });
-    }, null, true, 'UTC');
+    const dailyReminder = new cron.CronJob(
+      '0 0 * * *',
+      async () => {
+        emailsToSend.daily.forEach(async (email) => {
+          await this.sendEmail(email).then((res) => {
+            console.log(res);
+          });
+        });
+      },
+      null,
+      true,
+      'UTC',
+    );
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const weeklyReminder = new cron.CronJob('0 0 * * 1', async () => {
-      emailsToSend.weekly.forEach(async (email) => {
-        await this.sendEmail(email);
-      });
-    }, null, true, 'UTC');
+    const weeklyReminder = new cron.CronJob(
+      '0 0 * * 1',
+      async () => {
+        emailsToSend.weekly.forEach(async (email) => {
+          await this.sendEmail(email);
+        });
+      },
+      null,
+      true,
+      'UTC',
+    );
   }
 }
