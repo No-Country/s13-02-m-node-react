@@ -41,6 +41,12 @@ export class ProgressThemesService {
         });
       }
 
+      console.log(
+        'user Auth ',
+        userAuth.id,
+        ' user stack asigned ',
+        progressStackAsigned.userId,
+      );
       // See if user has permission to make the action.
       if (
         userAuth.id !== progressStackAsigned.userId &&
@@ -52,6 +58,16 @@ export class ProgressThemesService {
         });
       }
 
+      // check if the theme is already linked to progressStack
+      const isAlreadyLinked = await this.progressThemesRepository.findOne({
+        where: { themeId, progressStackId }});
+
+      if (isAlreadyLinked) {
+        throw new ErrorManager({
+          type: 'UNPROCESSABLE_ENTITY',
+          message: 'Theme already linked to this stack',
+        });
+      }
       // See if theme required exists and it is a child of the stack
       const themeRequired = await this.themeRepository.findOne({
         where: {

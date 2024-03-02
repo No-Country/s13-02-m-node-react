@@ -260,7 +260,7 @@ export class UsersService {
         .addSelect('user.password')
         .where({ [options.field]: options.value })
         .getOne();
-      console.log('user:', user);
+
       if (!user) {
         return undefined;
       }

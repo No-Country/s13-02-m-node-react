@@ -46,10 +46,12 @@ export class ProgressStacksService {
             message: " Stack wrong or doesn't exists",
           });
         }
-        return await this.progressStackRepository.save({
+        const newProgressStack = await this.progressStackRepository.save({
           user: stackUser,
           stack: stackAsigned,
         });
+
+        return { id: newProgressStack.id };
       }
     } catch (error) {
       throw ErrorManager.createSignatureError(error.message);
