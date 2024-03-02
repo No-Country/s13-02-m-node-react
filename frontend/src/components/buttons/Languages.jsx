@@ -76,7 +76,6 @@ const Languages = ({ data, onLanguageSelect,progressStacks,stackProgressId, setS
     }
   };
   
-  console.log(stackProgressId);
 
 
   return (
