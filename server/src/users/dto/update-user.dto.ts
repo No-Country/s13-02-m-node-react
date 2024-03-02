@@ -29,5 +29,8 @@ export class UpdateUserDto {
   @IsBoolean()
   notification: boolean;
 
-  avatarUrl?: string;
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  avatarUrl: string;
 }

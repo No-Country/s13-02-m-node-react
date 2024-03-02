@@ -9,24 +9,7 @@ import { TQueryPagination } from '../types/types/queryPaginations';
 import { hash } from 'bcrypt';
 import { ErrorManager } from '../utils/error.manager';
 import { UserQueryDto } from './dto/user-query.dto';
-import fs from 'fs';
 import { join } from 'path';
-
-const deleteFilefromFS = (filepath: string) => {
-  fs.access(filepath, fs.constants.R_OK, (err) => {
-     if (err) {
-       console.error("No Read access");
-     } else {
-       fs.unlink(filepath, (error) => {
-         if (error) {
-           console.error("Error deleting file:", error);
-         } else {
-           console.log("File deleted successfully:", filepath);
-         }
-       });
-     }
-  });
- };
 
 @Injectable()
 export class UsersService {
