@@ -1,4 +1,14 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { RegisterAuthDto } from './register-auth.dto';
+import { IsEmail, IsNotEmpty, IsStrongPassword } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class LoginAuthDto extends PartialType(RegisterAuthDto) {}
+export class LoginAuthDto {
+  @IsNotEmpty()
+  @IsEmail()
+  @ApiProperty()
+  email: string;
+
+  @IsNotEmpty()
+  @IsStrongPassword()
+  @ApiProperty()
+  password: string;
+}

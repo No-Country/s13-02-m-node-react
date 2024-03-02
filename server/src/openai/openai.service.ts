@@ -38,7 +38,7 @@ export class OpenaiService {
 
     try {
       const assistant = await this.openai.beta.assistants.retrieve(
-        'asst_6Kac0xPgkjUuoPWR684nHWsc',
+        'asst_L0XYqBVounZIk5nKV5BFVAj3',
       );
       const userFound = await this.userRepository.findOne({
         where: {
@@ -77,6 +77,10 @@ export class OpenaiService {
 
       while (runStatus.status !== 'completed') {
         await new Promise((resolve) => setTimeout(resolve, 2000));
+        if (runStatus.status === 'failed') {
+          return runStatus;
+        }
+        console.log(runStatus.status);
         runStatus = await this.openai.beta.threads.runs.retrieve(
           thread,
           run.id,
@@ -116,36 +120,39 @@ export class OpenaiService {
     if (query)
       try {
         const assistant = await this.openai.beta.assistants.retrieve(
-          'asst_jzuG8bl60SOqsbGwmo44ZnR5',
+          'asst_ULSyRhxS5NK0P2vbRUYnx64S',
         );
 
-        const newThread = await this.openai.beta.threads.create();
+        const newThread = 'thread_fVYOlga3oBmkeG44ceIGr59K';
 
-        await this.openai.beta.threads.messages.create(newThread.id, {
+        await this.openai.beta.threads.messages.create(newThread, {
           role: 'user',
           content: message,
         });
 
-        const run = await this.openai.beta.threads.runs.create(newThread.id, {
+        const run = await this.openai.beta.threads.runs.create(newThread, {
           assistant_id: assistant.id,
         });
 
         let runStatus = await this.openai.beta.threads.runs.retrieve(
-          newThread.id,
+          newThread,
           run.id,
         );
 
         while (runStatus.status !== 'completed') {
+          if (runStatus.status === 'failed') {
+            return runStatus;
+          }
+          console.log(runStatus.status);
           await new Promise((resolve) => setTimeout(resolve, 2000));
           runStatus = await this.openai.beta.threads.runs.retrieve(
-            newThread.id,
+            newThread,
             run.id,
           );
         }
 
-        const messages = await this.openai.beta.threads.messages.list(
-          newThread.id,
-        );
+        const messages =
+          await this.openai.beta.threads.messages.list(newThread);
 
         const lastMessageForRun = messages.data
           .filter(
@@ -160,9 +167,9 @@ export class OpenaiService {
           if (jsonObject.type === 'text') {
             const res = JSON.parse(jsonObject.text.value);
 
-            // if (res.isCorrect) {
-            //   await this.progressThemesService.update(query.id_theme, 1);
-            // }
+            if (res.isCorrect) {
+              await this.progressThemesService.update(query.id_theme, 1);
+            }
             return res;
           }
         }
