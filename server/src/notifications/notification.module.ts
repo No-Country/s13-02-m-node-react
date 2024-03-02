@@ -31,9 +31,9 @@ import { ProgressStacksEntity } from '../progress-stacks/entities/progress-stack
               accessToken: configService.get('ACCESS_TOKEN'),
             },
             tls: {
-              ciphers: 'SSLv3'
-            }
-          }
+              ciphers: 'SSLv3',
+            },
+          },
         };
       },
     }),

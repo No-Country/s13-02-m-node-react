@@ -19,6 +19,16 @@ export class AuthService {
   public async register(registerAuthDto: RegisterAuthDto) {
     try {
       registerAuthDto.email = registerAuthDto.email.toLowerCase();
+      const user = await this.usersService.findUserBy({
+        field: 'email',
+        value: registerAuthDto.email,
+      });
+      if (user) {
+        throw new ErrorManager({
+          type: 'UNPROCESSABLE_ENTITY',
+          message: 'User already exists',
+        });
+      }
       return this.usersService.create(registerAuthDto);
     } catch (error) {
       console.log(error);
