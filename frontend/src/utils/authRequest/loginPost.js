@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { errorAuthManagement } from '../services/hooksAuth'
 import { setAuthData, setAvatar } from '@/redux/authSlice'
+import { jwtDecode } from 'jwt-decode'
 
 const loginPost = async (userData, router, dispatch, setErrorAuth) => {
   // setErrorAuth('')
@@ -13,6 +14,8 @@ const loginPost = async (userData, router, dispatch, setErrorAuth) => {
 
       // localStorage.setItem('lives', res.data.getUser.life)
       localStorage.setItem('idKey', res.data.accessToken)
+      localStorage.setItem('idUser', jwtDecode(res.data.accessToken).user.id)
+
       // setErrorAuth('')
       router.push('/')
     })
