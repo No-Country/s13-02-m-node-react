@@ -65,7 +65,7 @@ export class NotificationsService {
 
 
     await this.usersService.findAll().then((users) => {
-      users.forEach((user) => {
+      users.data.forEach((user) => {
         const { challengeNotification } = user;
         
         if (challengeNotification === 1) {
@@ -83,12 +83,14 @@ export class NotificationsService {
       });
     });
     // */5 * * * * * ==> every 5 seconds 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const dailyReminder = new cron.CronJob('0 0 * * *', async () => {
       emailsToSend.daily.forEach(async (email) => {
         await this.sendEmail(email).then((res) => { console.log(res); });
       });
     }, null, true, 'UTC');
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const weeklyReminder = new cron.CronJob('0 0 * * 1', async () => {
       emailsToSend.weekly.forEach(async (email) => {
         await this.sendEmail(email);

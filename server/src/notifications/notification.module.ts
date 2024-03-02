@@ -6,10 +6,10 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EmailToken } from '../utils/email.token';
 
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../users/users.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersEntity } from 'src/users/entities/user.entity';
-import { ProgressStacksEntity } from 'src/users/entities/progressStacks.entity';
+import { UsersEntity } from '../users/entities/user.entity';
+import { ProgressStacksEntity } from '../progress-stacks/entities/progress-stack.entity';
 
 @Module({
   imports: [

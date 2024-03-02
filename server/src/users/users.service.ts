@@ -61,10 +61,10 @@ export class UsersService {
   }
 
   public async findAll(
-    query: UserQueryDto,
+    query?: UserQueryDto,
   ): Promise<TQueryPagination<UsersEntity>> {
     try {
-      const { page, limit, orderBy, order } = query;
+      const { page, limit, orderBy, order } = { ...query };
       const queryBuilder = this.userRepository
         .createQueryBuilder('user')
         .leftJoinAndSelect('user.stacks', 'stacks') // Relación en UsersEntity
