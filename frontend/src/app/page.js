@@ -40,7 +40,6 @@ export default function Home() {
     setSelectedLanguageId(languageId);
   };
 
-
   return (
     //Provider agregado por vicky
     //<Provider store={store}>

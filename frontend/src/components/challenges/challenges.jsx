@@ -76,7 +76,7 @@ const Challenges = () => {
           <input name='theme' defaultValue={'arrays'} type='text' hidden />
           <textarea
             name='question'
-            className='max-w-[1224px] min-h-[270px] w-full bg-jet-500 rounded-md text-white px-10 py-4 resize-none outline-none'
+            className='max-w-[1224px] min-h-auto w-full bg-jet-500 rounded-md text-white px-10 py-4 resize-none outline-none'
             defaultValue={questionsHook.questionRender}
             readOnly
           />
