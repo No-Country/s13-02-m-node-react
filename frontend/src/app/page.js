@@ -5,21 +5,27 @@ import CardDefLenguajeHome from '@/components/cardDefLenguajeHome/CardDefLenguaj
 import HeartCounter from '@/components/lives-counter/HeartCounter'
 import ProgressBar from '@/components/progressBar/ProgressBar'
 import Roadmap from '@/components/roadMap/RoadMap'
-import { Container } from '@mui/material'
 import { useMediaQuery } from '@mui/material'
-// import data from '@/utils/db/stackThemes'
 import Footer from '@/components/footer/Footer'
 import NavBar from '@/components/navBar/NavBar'
-import axios from 'axios'
 import { useEffect, useState } from 'react'
+import { useGetStacks, useGetProgressStack } from '@/utils/services/progressRequest/getStacks.jsx'
+import { useGetProgressThemes } from '@/utils/services/progressRequest/themesHooks'
 
-//Agregado por vicky
-// import { Provider } from 'react-redux'
-// import {store} from '../redux/store'
 
 export default function Home() {
-  const isXsOrMd = useMediaQuery("(max-width:768px)");
 
+  
+  
+  
+  const {stacks} = useGetStacks()
+  const {progressStacks} = useGetProgressStack()
+
+  
+  
+  const [selectedLanguageId, setSelectedLanguageId] = useState(null);
+  const [stackProgressId, setStackProgressId] = useState(null);
+ 
   // Simulacion de la carga de datos en 3 segundos
   const [dataLoaded, setDataLoaded] = useState(false);
   useEffect(() => {
@@ -29,22 +35,6 @@ export default function Home() {
   }, []);
 
 
-  const [stacks, setStacks] = useState([])
-  const [selectedLanguageId, setSelectedLanguageId] = useState(null);
-
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/stacks`)
-        setStacks(response.data)
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
-    }
-
-    fetchData()
-  }, [])
 
   const handleLanguageSelect = (languageId) => {
     setSelectedLanguageId(languageId);
@@ -80,10 +70,16 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-                <Languages data={stacks} onLanguageSelect={handleLanguageSelect} />
+                 <Languages
+        data={stacks}
+        onLanguageSelect={handleLanguageSelect}
+        progressStacks={progressStacks}
+        stackProgressId={stackProgressId}
+        setStackProgressId={setStackProgressId}
+      />
                 <CardDefLenguajeHome />
            
-                <Roadmap selectedLanguageId={selectedLanguageId ? selectedLanguageId : "616c8a2c-1c9b-4b4d-a0ab-6bd7f962bf0d"} />
+                <Roadmap progressStackId={stackProgressId} selectedLanguageId={selectedLanguageId ? selectedLanguageId : "616c8a2c-1c9b-4b4d-a0ab-6bd7f962bf0d"} />
               </section>
             </main>
           </div>
