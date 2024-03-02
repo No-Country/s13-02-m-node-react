@@ -10,6 +10,9 @@ import { UsersService } from '../users/users.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersEntity } from '../users/entities/user.entity';
 import { ProgressStacksEntity } from '../progress-stacks/entities/progress-stack.entity';
+import { UsersModule } from 'src/users/users.module';
+import { FilesService } from 'src/files/files.service';
+import { FilesModule } from 'src/files/files.module';
 
 @Module({
   imports: [
@@ -37,8 +40,10 @@ import { ProgressStacksEntity } from '../progress-stacks/entities/progress-stack
         };
       },
     }),
+    UsersModule,
+    FilesModule,
   ],
   controllers: [NotificationController],
-  providers: [NotificationsService, UsersService],
+  providers: [NotificationsService, UsersService, FilesService],
 })
 export class NotificationsModule {}

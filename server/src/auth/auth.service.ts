@@ -101,8 +101,8 @@ export class AuthService {
       const payload: IJWTPayload = {
         user: { role: getUser.role, id: getUser.id },
       };
-      const userData = getUser.avatar
-        ? { avatar: getUser.avatar }
+      const userData = getUser.avatarUrl
+        ? { avatar: getUser.avatarUrl }
         : { username: getUser.username };
       const response = {
         accessToken: await this.signJWT(payload),
