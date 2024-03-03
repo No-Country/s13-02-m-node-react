@@ -3,7 +3,7 @@ import React from 'react'
 import { Card, CardContent, Typography } from '@mui/material'
 import { useMediaQuery } from '@mui/material'
 
-const CardDefLenguajeHome = () => {
+const CardDefLenguajeHome = ({stack}) => {
   const isXsOrMd = useMediaQuery('(max-width:768px)')
 
   return (
@@ -26,16 +26,14 @@ const CardDefLenguajeHome = () => {
           className='mb-1'
           sx={{ fontSize: isXsOrMd ? '16px' : '20px' }}
         >
-          JavaScript
+          {stack.name}
         </Typography>
         <Typography
           variant='body2'
           color='#FFFFFF'
           sx={{ fontSize: isXsOrMd ? '10px' : '12px' }}
         >
-          JavaScript is a programming language used in web development to add
-          interactivity to web pages. Its simple syntax and extensive ecosystem
-          of tools make it essential in creating dynamic user experiences.
+           {stack.description}
         </Typography>
       </CardContent>
     </Card>

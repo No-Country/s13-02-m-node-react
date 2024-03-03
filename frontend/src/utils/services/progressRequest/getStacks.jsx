@@ -23,6 +23,25 @@ export const useGetStacks = () => {
   return {stacks}
   
 };
+export const useGetStacksById = (stackId) => {
+  const [stackById, setStacksById] = useState([])
+
+
+  useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/stacks/${stackId}`)
+      setStacksById(response.data)
+    } catch (error) {
+      console.error('Error fetching data:', error)
+    }
+  }
+  fetchData();
+},[setStacksById, stackId])
+
+  return {stackById}
+  
+};
 
 
 
@@ -51,6 +70,33 @@ export const useGetProgressStack=()=>{
     fetchData();
   }, [token,userId]);
   return {progressStacks}
+}
+
+export const useGetProgressStackById=(stackId)=>{
+  const userId=localStorage.getItem("idUser")
+  const token=localStorage.getItem("idKey")
+  
+
+    const [progressStacksById, setProgressStacksById] = useState([]);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/progress-stacks/${stackId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` }
+          }
+        );
+        setProgressStacksById(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    };
+    fetchData();
+  }, [stackId, token]);
+  return {progressStacksById}
 }
 
 

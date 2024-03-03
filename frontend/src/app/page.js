@@ -9,7 +9,7 @@ import { useMediaQuery } from '@mui/material'
 import Footer from '@/components/footer/Footer'
 import NavBar from '@/components/navBar/NavBar'
 import { useEffect, useState } from 'react'
-import { useGetStacks, useGetProgressStack } from '@/utils/services/progressRequest/getStacks.jsx'
+import { useGetStacks, useGetProgressStack, useGetProgressStackById, useGetStacksById } from '@/utils/services/progressRequest/getStacks.jsx'
 import { useGetProgressThemes } from '@/utils/services/progressRequest/themesHooks'
 
 
@@ -20,12 +20,12 @@ export default function Home() {
   
   const {stacks} = useGetStacks()
   const {progressStacks} = useGetProgressStack()
-
-  
-  
   const [selectedLanguageId, setSelectedLanguageId] = useState(null);
   const [stackProgressId, setStackProgressId] = useState(null);
- 
+  
+  const{stackById}=useGetStacksById(selectedLanguageId)
+  const {progressStacksById}=useGetProgressStackById(stackProgressId)
+  
   // Simulacion de la carga de datos en 3 segundos
   const [dataLoaded, setDataLoaded] = useState(false);
   useEffect(() => {
@@ -60,8 +60,9 @@ export default function Home() {
                 <div className="w-full sticky top-20 z-40 bg-rich-black-500">
                   <div className="w-full flex items-center justify-center relative">
                     <ProgressBar
-                      value={50}
-                      data={"50%"}
+                      value={progressStacksById.progress*10}
+                      defaultValue={0}
+                      data={progressStacksById.progress?`${progressStacksById.progress*10}%`:'0%'}
                       title={"Tu progreso de hoy"}
                     />
                     <div className="absolute right-0 hidden lg:block">
@@ -76,7 +77,7 @@ export default function Home() {
         stackProgressId={stackProgressId}
         setStackProgressId={setStackProgressId}
       />
-                <CardDefLenguajeHome />
+                <CardDefLenguajeHome stack={stackById} />
            
                 <Roadmap progressStackId={stackProgressId} selectedLanguageId={selectedLanguageId ? selectedLanguageId : "616c8a2c-1c9b-4b4d-a0ab-6bd7f962bf0d"} />
               </section>

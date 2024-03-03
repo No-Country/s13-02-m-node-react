@@ -13,18 +13,10 @@ const LanguageButton = styled(Button)({
   },
 });
 
-const GreyLanguageButton = styled(Button)({
-  color: '#ffffff',
-  borderColor: '#86198f',
-  '&:hover': {
-    borderColor: '#d946ef',
-    backgroundColor: '#d946ef',
-  },
-  backgroundColor: '#525252',
-});
+
 
 const Languages = ({ data, onLanguageSelect,progressStacks,stackProgressId, setStackProgressId}) => {
-  const [selectedLanguage, setSelectedLanguage] = useState();
+  const [selectedLanguage, setSelectedLanguage] = useState(data[0]?.id);
   const userId = localStorage.getItem('idUser');
   const token = localStorage.getItem('idKey');
 
@@ -75,7 +67,11 @@ const Languages = ({ data, onLanguageSelect,progressStacks,stackProgressId, setS
       setStackProgressId(stackProgressId);
     }
   };
-  
+  useEffect(() => {
+    if (data && data.length > 0) {
+      handleButtonClick(data[0].id);
+    }
+  }, [data]);
 
 
   return (
@@ -87,8 +83,8 @@ const Languages = ({ data, onLanguageSelect,progressStacks,stackProgressId, setS
             key={res.id}
             variant='outlined'
             onClick={() => handleButtonClick(res.id)}
-            style={{
-              backgroundColor: hasProgressForLanguage ? '#d946ef' : (hasProgress(progressStacks, res.id) ? '' : '#525252'),
+            sx={{
+              backgroundColor: hasProgressForLanguage && selectedLanguage === res.id ? '#d946ef' : (hasProgress(progressStacks, res.id) ? '' : '#525252') && !hasProgressForLanguage && selectedLanguage === res.id ?'#d946ef' : '' ,
             }}
           >
             {res.name}
