@@ -45,7 +45,15 @@ export const useQuestionChallenge = () => {
   }
   const handlerResponseChallengePost = (e) => {
     e.preventDefault()
-    challengeResponsePost(token, setFeedback)
+    const data = Object.fromEntries(new FormData(e.currentTarget))
+    challengeResponsePost(
+      {
+        ...data,
+        id_theme: 'd8614141-aa62-4206-9a34-09cbf12e66aa'
+      },
+      token,
+      setFeedback
+    )
   }
   return {
     goBackHandler,

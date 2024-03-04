@@ -9,7 +9,7 @@ const challengeRequestPost = async (token, router, dispatch) => {
       {
         theme: 'arrays',
         level: 'principiante',
-        id_user: '576cfeff-905d-4b3b-bf7e-7597e71bca77',
+        id_user: 'baf51002-9a3e-4ffe-add1-e096139d9381',
         quest_number: 10
       },
       {
@@ -17,6 +17,7 @@ const challengeRequestPost = async (token, router, dispatch) => {
       }
     )
     .then(function (res) {
+      console.log(res.data)
       dispatch(setQuestions(res.data))
       router.push('/challenges')
     })

@@ -49,6 +49,7 @@ import { useQuestionChallenge } from '@/utils/services/hooksChallenge'
 // ]
 const Challenges = () => {
   const questionsHook = useQuestionChallenge()
+  // const question= questionsHook.questionRender
 
   return (
     <main className='flex flex-col w-full h-full mt-[100px] justify-center items-center'>
@@ -72,8 +73,8 @@ const Challenges = () => {
           onReset={questionsHook.questionVisible}
           onSubmit={questionsHook.handlerResponseChallengePost}
         >
-          <input name='pointsWin' defaultValue={2} type='text' hidden />
-          <input name='theme' defaultValue={'arrays'} type='text' hidden />
+          {/* <input name='pointsWin' defaultValue={2} type='text' hidden />
+          <input name='theme' defaultValue={'arrays'} type='text' hidden /> */}
           <textarea
             name='question'
             className='max-w-[1224px] min-h-[270px] w-full bg-jet-500 rounded-md text-white px-10 py-4 resize-none outline-none'
@@ -87,21 +88,21 @@ const Challenges = () => {
             className='max-w-[1224px] min-h-[170px] w-full bg-jet-500 rounded-md text-white px-10 py-4 resize-none focus:outline-none focus:ring focus:border-picton-blue-700'
           />
 
-          {/* {questionsHook.feedback ? ( */}
-          <input
-            type='reset'
-            value='Siguiente'
-            className='border-[1px] border-picton-blue-700 rounded px-4 py-2 text-picton-blue-500 sef-center'
-          />
-          {/* ) : (
+          {questionsHook.feedback ? (
+            <input
+              type='reset'
+              value='Siguiente'
+              className='border-[1px] border-picton-blue-700 rounded px-4 py-2 text-picton-blue-500 sef-center'
+            />
+          ) : (
             <input
               type='submit'
               value='Enviar'
               className='border-[1px] border-picton-blue-700 rounded px-4 py-2 text-picton-blue-500 sef-center'
             />
-          )} */}
+          )}
         </form>
-        <span>{questionsHook.feedback}</span>
+        <span className='text-white'>{questionsHook.feedback}</span>
       </section>
     </main>
   )
