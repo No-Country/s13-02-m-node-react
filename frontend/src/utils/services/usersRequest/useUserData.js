@@ -15,7 +15,7 @@ export const useUserData = (page) => {
           {
             params: {
               orderBy: "totalPoints",
-              order: "ASC",
+              order: "DESC",
               page: page,
               limit: 10,
             },
