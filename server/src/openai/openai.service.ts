@@ -123,7 +123,7 @@ export class OpenaiService {
           'asst_ULSyRhxS5NK0P2vbRUYnx64S',
         );
 
-        const newThread = 'thread_fVYOlga3oBmkeG44ceIGr59K';
+        const newThread = 'thread_va5GcllQW2ZVxuAxya9YlfBN';
 
         await this.openai.beta.threads.messages.create(newThread, {
           role: 'user',
