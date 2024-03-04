@@ -10,11 +10,14 @@ const loginPost = async (userData, router, dispatch, setErrorAuth) => {
     .then(function (res) {
       console.log(res)
       localStorage.setItem('avatar', res.data.username[0])
+     
       dispatch(setAvatar(localStorage.getItem('avatar')))
 
       // localStorage.setItem('lives', res.data.getUser.life)
       localStorage.setItem('idKey', res.data.accessToken)
       localStorage.setItem('idUser', jwtDecode(res.data.accessToken).user.id)
+
+      
 
       // setErrorAuth('')
       router.push('/')
@@ -23,6 +26,7 @@ const loginPost = async (userData, router, dispatch, setErrorAuth) => {
       console.log(err)
       errorAuthManagement(err, setErrorAuth)
     })
+   
 }
 
 export default loginPost
