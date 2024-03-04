@@ -4,33 +4,34 @@ import React, { useEffect, useState } from 'react'
 import { Typography, useMediaQuery } from '@mui/material'
 import Link from 'next/link'
 import axios from 'axios'
-import { CenterFocusStrong } from '@mui/icons-material'
 import { useQuestionChallenge } from '@/utils/services/hooksChallenge'
+import { AddThemeProgress, useGetProgressThemes, useGetThemes } from '@/utils/services/progressRequest/themesHooks'
 
-const Roadmap = ({ selectedLanguageId }) => {
-  const [themes, setThemes] = useState()
-  // pasar por props esta data para la pregunta(en cada tema y con los datos de estos)
-  const questionData = {
-    theme: 'variables',
-    level: 'principiante',
-    id_user: '576cfeff-905d-4b3b-bf7e-7597e71bca77',
-    quest_number: 1
-  }
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/themes`
-      )
-      setThemes(response.data.data)
-    } catch (error) {
-      console.error('Error fetching data:', error)
-    }
-  }
-  useEffect(() => {
-    fetchData()
-  }, [0])
+const Roadmap = ({ selectedLanguageId,progressStackId }) => {
   const questionsHook = useQuestionChallenge()
+  
+  const{themes}=useGetThemes()
+  const { progressThemes } = useGetProgressThemes(progressStackId) 
+
+
+
+  
+   const checkIfThemeExists = () => {
+  
+    if (!Array.isArray(progressThemes) || progressThemes.length === 0) {
+      return false
+    }
+    const progressThemeIds = progressThemes.map(progressTheme => progressTheme.themeId)
+    const hasCommonThemeId = themes.some(theme => progressThemeIds.includes(theme.id))
+    return hasCommonThemeId
+  }
+
+  useEffect(() => {
+    if(checkIfThemeExists()) {
+      console.log(true)
+    }
+  }, [progressThemes, themes])
+
 
   const getButtonMarginLeft = (index) => {
     if (index === 0) {
@@ -51,6 +52,25 @@ const Roadmap = ({ selectedLanguageId }) => {
   const filteredThemes = themes?.filter(
     (item) => item.stackId === selectedLanguageId
   )
+
+  const handleButtonClick = async (themeId, progressStackId,data) => {
+    const questionData = {
+      theme: data.name,
+      level: data.level,
+      id_user: localStorage.getItem('idUser'),
+      quest_number: 1
+    } 
+
+  questionsHook.handlerQuestionChallengePost()
+    try {
+      if (!Array.isArray(progressThemes) || !progressThemes.some(progressTheme => progressTheme.themeId === themeId)) {
+        const response = await AddThemeProgress(themeId, progressStackId)
+        console.log('Theme added to progress:', response.data)
+      }
+    } catch (error) {
+      console.error('Error adding theme to progress:', error)
+    }
+  }
   return (
     <>
       {filteredThemes?.length === 0 ? (
@@ -82,12 +102,15 @@ const Roadmap = ({ selectedLanguageId }) => {
           </div>
           <div className={`flex flex-col items-center justify-center  `}>
             {filteredThemes?.map((data, index) => {
-              return (
+               const buttonClass = Array.isArray(progressThemes) && progressThemes.some(progressTheme => progressTheme.themeId === data.id) ? 'bg-[#A87FFB]' : 'bg-[#707070]'
+              // pasar por props esta data para la pregunta(en cada tema y con los datos de estos)
+            
+               return (
                 <button
                   key={index}
-                  onClick={questionsHook.handlerQuestionChallengePost}
+                  onClick={() => handleButtonClick(data.id, progressStackId,data)}
                   className={` 
-                bg-[#A87FFB] 
+                  ${buttonClass} 
                 mb-4 
                 md:ml-0 
                 text-white 

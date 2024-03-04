@@ -40,7 +40,7 @@ export default function MobileMenu() {
         </MenuItem>
         <MenuItem className='gap-4'>
           <PersonIcon />
-          <Link href={'/account'}>Perfil</Link>
+          <Link href={'/profiles'}>Perfil</Link>
         </MenuItem>
         <Divider />
         <MenuItem className=''>

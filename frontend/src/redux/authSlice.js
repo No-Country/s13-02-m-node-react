@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   token: null,
-  avatar: null,
+  avatar: localStorage.getItem('avatar') || null,
   error: null,
 }
 
@@ -28,6 +28,9 @@ const authSlice = createSlice({
     }
   },
 })
+
+
+
 
 export const { setAuthData, setError, clearAuthData, setAvatar } = authSlice.actions
 export default authSlice.reducer
