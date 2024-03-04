@@ -21,8 +21,10 @@ export default function Home() {
   const {stacks} = useGetStacks()
   const {progressStacks} = useGetProgressStack()
   const [selectedLanguageId, setSelectedLanguageId] = useState(null);
-  const [stackProgressId, setStackProgressId] = useState(null);
-  
+  const [stackProgressId, setStackProgressId] = useState(progressStacks[0]?.id);
+  const stackProgressIdJs=progressStacks[0]?.id
+  // console.log(progressStacks[0]?.id)
+
   const{stackById}=useGetStacksById(selectedLanguageId)
   const {progressStacksById}=useGetProgressStackById(stackProgressId)
   
@@ -79,7 +81,7 @@ export default function Home() {
       />
                 <CardDefLenguajeHome stack={stackById} />
            
-                <Roadmap progressStackId={stackProgressId} selectedLanguageId={selectedLanguageId ? selectedLanguageId : "616c8a2c-1c9b-4b4d-a0ab-6bd7f962bf0d"} />
+                <Roadmap progressStackId={stackProgressId?stackProgressId:stackProgressIdJs} selectedLanguageId={selectedLanguageId ? selectedLanguageId : "616c8a2c-1c9b-4b4d-a0ab-6bd7f962bf0d"} />
               </section>
             </main>
           </div>
