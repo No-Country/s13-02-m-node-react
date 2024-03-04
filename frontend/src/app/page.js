@@ -1,25 +1,25 @@
-'use client'
-import { CardHome } from '@/components/cardHome/CardHome'
-import Languages from '@/components/buttons/Languages'
-import CardDefLenguajeHome from '@/components/cardDefLenguajeHome/CardDefLenguajeHome'
-import HeartCounter from '@/components/lives-counter/HeartCounter'
-import ProgressBar from '@/components/progressBar/ProgressBar'
-import Roadmap from '@/components/roadMap/RoadMap'
-import { useMediaQuery } from '@mui/material'
-import Footer from '@/components/footer/Footer'
-import NavBar from '@/components/navBar/NavBar'
-import { useEffect, useState } from 'react'
-import { useGetStacks, useGetProgressStack, useGetProgressStackById, useGetStacksById } from '@/utils/services/progressRequest/getStacks.jsx'
-import { useGetProgressThemes } from '@/utils/services/progressRequest/themesHooks'
-
+"use client";
+import { CardHome } from "@/components/cardHome/CardHome";
+import Languages from "@/components/buttons/Languages";
+import CardDefLenguajeHome from "@/components/cardDefLenguajeHome/CardDefLenguajeHome";
+import HeartCounter from "@/components/lives-counter/HeartCounter";
+import ProgressBar from "@/components/progressBar/ProgressBar";
+import Roadmap from "@/components/roadMap/RoadMap";
+import { useMediaQuery } from "@mui/material";
+import Footer from "@/components/footer/Footer";
+import NavBar from "@/components/navBar/NavBar";
+import { useEffect, useState } from "react";
+import {
+  useGetStacks,
+  useGetProgressStack,
+  useGetProgressStackById,
+  useGetStacksById,
+} from "@/utils/services/progressRequest/getStacks.jsx";
+import { useGetProgressThemes } from "@/utils/services/progressRequest/themesHooks";
 
 export default function Home() {
-
-  
-  
-  
-  const {stacks} = useGetStacks()
-  const {progressStacks} = useGetProgressStack()
+  const { stacks } = useGetStacks();
+  const { progressStacks } = useGetProgressStack();
   const [selectedLanguageId, setSelectedLanguageId] = useState(null);
   const [stackProgressId, setStackProgressId] = useState(progressStacks[0]?.id);
   const stackProgressIdJs=progressStacks[0]?.id
@@ -35,8 +35,6 @@ export default function Home() {
       setDataLoaded(true);
     }, 3000);
   }, []);
-
-
 
   const handleLanguageSelect = (languageId) => {
     setSelectedLanguageId(languageId);
