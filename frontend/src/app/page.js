@@ -23,7 +23,7 @@ export default function Home() {
   const [selectedLanguageId, setSelectedLanguageId] = useState(null);
   const [stackProgressId, setStackProgressId] = useState(progressStacks[0]?.id);
   const stackProgressIdJs=progressStacks[0]?.id
-  // console.log(progressStacks[0]?.id)
+ 
 
   const{stackById}=useGetStacksById(selectedLanguageId)
   const {progressStacksById}=useGetProgressStackById(stackProgressId)
