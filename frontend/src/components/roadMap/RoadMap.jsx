@@ -14,7 +14,6 @@ const Roadmap = ({ selectedLanguageId,progressStackId }) => {
   const { progressThemes } = useGetProgressThemes(progressStackId) 
 
 
-
   
    const checkIfThemeExists = () => {
   
