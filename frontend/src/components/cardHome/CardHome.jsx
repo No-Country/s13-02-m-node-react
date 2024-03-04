@@ -171,6 +171,7 @@ export const CardHome = ({ secondary }) => {
             borderRadius: "10px",
             // position: "sticky",
             // top: "100px",
+            marginBottom: "10px",
           }}
         >
           <Grid
