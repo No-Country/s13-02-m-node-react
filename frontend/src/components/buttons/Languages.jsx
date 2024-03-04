@@ -19,10 +19,8 @@ const Languages = ({ data, onLanguageSelect,progressStacks,stackProgressId, setS
   const [selectedLanguage, setSelectedLanguage] = useState(data[0]?.id);
   const userId = localStorage.getItem('idUser');
   const token = localStorage.getItem('idKey');
-
   const [hasProgressMap, setHasProgressMap] = useState(new Map());
  
-
   const hasProgress = (progressStacks, languageId) => {
     return progressStacks.some((progressStack) => progressStack.stackId === languageId);
   };
