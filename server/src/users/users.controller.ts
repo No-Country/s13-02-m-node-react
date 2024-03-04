@@ -10,6 +10,8 @@ import {
   Query,
   ValidationPipe,
   Req,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { PublicAccess } from '../auth/decorators/public.decorator';
@@ -22,6 +24,11 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserQueryDto } from './dto/user-query.dto';
 import { Request } from 'express';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { join } from 'path';
+import { fileFilter } from 'src/files/helpers/fileFilter.helper';
+import { fileNamer } from 'src/files/helpers/fileNamer.helper';
 
 @ApiTags('users')
 @ApiBearerAuth()
@@ -56,13 +63,23 @@ export class UsersController {
 
   // modifiy username, avatar, notification, notificationchallenge
   @Patch(':id')
+  @UseInterceptors(
+    FileInterceptor('avatar', {
+      storage: diskStorage({
+        destination: join(__dirname, '..', '..', 'static', 'avatars'),
+        filename: fileNamer,
+      }),
+      fileFilter: fileFilter,
+    }),
+  )
   update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
+    @UploadedFile() avatar: Express.Multer.File,
     @Req() req: Request,
   ) {
     const { userAuth } = req;
-    return this.usersService.update(id, updateUserDto, userAuth);
+    return this.usersService.update(id, updateUserDto, userAuth, avatar);
   }
 
   @Roles(ROLES.ADMIN)

@@ -1,12 +1,14 @@
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 import { FilesService } from './files.service';
-import { FilesController } from './files.controller';
-import { UsersModule } from '../users/users.module';
-
+import { MulterModule } from '@nestjs/platform-express';
+import { join } from 'path';
 @Module({
-  controllers: [FilesController],
-  providers: [FilesService, ConfigService],
-  imports: [ConfigModule, UsersModule],
+  imports: [
+    MulterModule.register({
+      dest: join(__dirname, '..', '..', 'static'),
+    }),
+  ],
+  controllers: [],
+  providers: [FilesService],
 })
 export class FilesModule {}
