@@ -17,7 +17,7 @@ import { ProgressStacksModule } from './progress-stacks/progress-stacks.module';
 import { AdminService } from './admin/admin.service';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
-console.log(join(__dirname, '../static/avatars'))
+const isProduction = process.env.NODE_ENV === '.env';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -26,7 +26,7 @@ console.log(join(__dirname, '../static/avatars'))
     }),
     ServeStaticModule.forRoot({
       serveRoot: '/static/avatars',
-      rootPath: join(__dirname, '../static/avatars'),
+      rootPath: join(__dirname, isProduction ? '../static/avatars' : '../../static/avatars'),
     }),
     TypeOrmModule.forRoot(DataSourceConfig),
     UsersModule,
