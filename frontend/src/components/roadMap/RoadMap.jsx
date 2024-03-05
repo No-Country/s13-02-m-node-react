@@ -5,32 +5,36 @@ import { Typography, useMediaQuery } from '@mui/material'
 import Link from 'next/link'
 import axios from 'axios'
 import { useQuestionChallenge } from '@/utils/services/hooksChallenge'
-import { AddThemeProgress, useGetProgressThemes, useGetThemes } from '@/utils/services/progressRequest/themesHooks'
+import {
+  AddThemeProgress,
+  useGetProgressThemes,
+  useGetThemes
+} from '@/utils/services/progressRequest/themesHooks'
 
-const Roadmap = ({ selectedLanguageId,progressStackId }) => {
+const Roadmap = ({ selectedLanguageId, progressStackId }) => {
   const questionsHook = useQuestionChallenge()
-  
-  const{themes}=useGetThemes()
-  const { progressThemes } = useGetProgressThemes(progressStackId) 
 
+  const { themes } = useGetThemes()
+  const { progressThemes } = useGetProgressThemes(progressStackId)
 
-  
-   const checkIfThemeExists = () => {
-  
+  const checkIfThemeExists = () => {
     if (!Array.isArray(progressThemes) || progressThemes.length === 0) {
       return false
     }
-    const progressThemeIds = progressThemes.map(progressTheme => progressTheme.themeId)
-    const hasCommonThemeId = themes.some(theme => progressThemeIds.includes(theme.id))
+    const progressThemeIds = progressThemes.map(
+      (progressTheme) => progressTheme.themeId
+    )
+    const hasCommonThemeId = themes.some((theme) =>
+      progressThemeIds.includes(theme.id)
+    )
     return hasCommonThemeId
   }
 
   useEffect(() => {
-    if(checkIfThemeExists()) {
+    if (checkIfThemeExists()) {
       console.log(true)
     }
   }, [progressThemes, themes])
-
 
   const getButtonMarginLeft = (index) => {
     if (index === 0) {
@@ -52,17 +56,22 @@ const Roadmap = ({ selectedLanguageId,progressStackId }) => {
     (item) => item.stackId === selectedLanguageId
   )
 
-  const handleButtonClick = async (themeId, progressStackId,data) => {
+  const handleButtonClick = async (themeId, progressStackId, data) => {
     const questionData = {
       theme: data.name,
       level: data.level,
       id_user: localStorage.getItem('idUser'),
       quest_number: 1
-    } 
+    }
 
-  questionsHook.handlerQuestionChallengePost()
+    questionsHook.handlerQuestionChallengePost(questionData)
     try {
-      if (!Array.isArray(progressThemes) || !progressThemes.some(progressTheme => progressTheme.themeId === themeId)) {
+      if (
+        !Array.isArray(progressThemes) ||
+        !progressThemes.some(
+          (progressTheme) => progressTheme.themeId === themeId
+        )
+      ) {
         const response = await AddThemeProgress(themeId, progressStackId)
         console.log('Theme added to progress:', response.data)
       }
@@ -101,13 +110,21 @@ const Roadmap = ({ selectedLanguageId,progressStackId }) => {
           </div>
           <div className={`flex flex-col items-center justify-center  `}>
             {filteredThemes?.map((data, index) => {
-               const buttonClass = Array.isArray(progressThemes) && progressThemes.some(progressTheme => progressTheme.themeId === data.id) ? 'bg-[#A87FFB]' : 'bg-[#707070]'
+              const buttonClass =
+                Array.isArray(progressThemes) &&
+                progressThemes.some(
+                  (progressTheme) => progressTheme.themeId === data.id
+                )
+                  ? 'bg-[#A87FFB]'
+                  : 'bg-[#707070]'
               // pasar por props esta data para la pregunta(en cada tema y con los datos de estos)
-            
-               return (
+
+              return (
                 <button
                   key={index}
-                  onClick={() => handleButtonClick(data.id, progressStackId,data)}
+                  onClick={() =>
+                    handleButtonClick(data.id, progressStackId, data)
+                  }
                   className={` 
                   ${buttonClass} 
                 mb-4 

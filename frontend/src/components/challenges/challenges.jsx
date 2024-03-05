@@ -4,53 +4,13 @@ import ProgressBar from '@/components/progressBar/ProgressBar'
 import React, { useEffect, useState } from 'react'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import { useQuestionChallenge } from '@/utils/services/hooksChallenge'
+import Pet from '../pet/Pet'
+import { useRouter } from 'next/navigation'
 
-// const questionsDesafios = [
-//   {
-//     title:
-//       "Declara una variable llamada 'platoFavorito' y asígnale el valor 'pizza'."
-//   },
-//   {
-//     title:
-//       "Crea una variable llamada 'estaciónDelAño' y asígnale el valor 'otoño'."
-//   },
-//   {
-//     title:
-//       "Declara una variable llamada 'deporteFavorito' y asígnale el valor 'baloncesto'."
-//   },
-//   {
-//     title:
-//       "Crea una variable llamada 'ciudadSoñada' y asígnale el valor 'Nueva York'."
-//   },
-//   {
-//     title:
-//       "Declara una variable llamada 'marcaDeRopa' y asígnale el valor 'Nike'."
-//   },
-//   {
-//     title:
-//       "Crea una variable llamada 'actorFavorito' y asígnale el valor 'Leonardo DiCaprio'."
-//   },
-//   {
-//     title:
-//       "Declara una variable llamada 'libroPreferido' y asígnale el valor '1984'."
-//   },
-//   {
-//     title:
-//       "Crea una variable llamada 'redSocialPreferida' y asígnale el valor 'Instagram'."
-//   },
-//   {
-//     title:
-//       "Declara una variable llamada 'instrumentoMusical' y asígnale el valor 'piano'."
-//   },
-//   {
-//     title:
-//       "Crea una variable llamada 'bebidaFriaPreferida' y asígnale el valor 'limonada'."
-//   }
-// ]
 const Challenges = () => {
+  const route = useRouter()
   const questionsHook = useQuestionChallenge()
-  // const question= questionsHook.questionRender
-
+  // questionsHook.questionRender ? route.push('/') : {}
   return (
     <main className='flex flex-col w-full h-full mt-[100px] justify-center items-center'>
       <section className='flex items-center max-w-[1136px] w-full gap-8 justify-center'>
@@ -88,12 +48,26 @@ const Challenges = () => {
             className='max-w-[1224px] min-h-[170px] w-full bg-jet-500 rounded-md text-white px-10 py-4 resize-none focus:outline-none focus:ring focus:border-picton-blue-700'
           />
 
-          {questionsHook.feedback ? (
-            <input
-              type='reset'
-              value='Siguiente'
-              className='border-[1px] border-picton-blue-700 rounded px-4 py-2 text-picton-blue-500 sef-center'
-            />
+          {questionsHook.feedback.feedback ? (
+            <>
+              <input
+                type='reset'
+                value='Siguiente'
+                className='border-[1px] border-picton-blue-700 rounded px-4 py-2 text-picton-blue-500 sef-center'
+              />
+              <article
+                className={`flex gap-5 w-full max-w-[380px] min-h-[124px] border-transparent absolute 
+                right-5 mt-[24px] bg-jet-500 rounded-[16px] p-5 items-center text-white text-wrap border-2 aspect-auto 
+      ${
+        questionsHook.feedback.isCorrect
+          ? 'shadow-shadowTrueFeedbackAlert'
+          : 'shadow-shadowFalseFeedbackAlert'
+      } animate-feedback`}
+              >
+                <Pet className='w-[86px]' />
+                <span>{questionsHook.feedback.feedback}</span>
+              </article>
+            </>
           ) : (
             <input
               type='submit'
@@ -102,7 +76,6 @@ const Challenges = () => {
             />
           )}
         </form>
-        <span className='text-white'>{questionsHook.feedback}</span>
       </section>
     </main>
   )

@@ -7,6 +7,16 @@ module.exports = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        wiggle: {
+          '0%, 100%': { transform: 'rotate(-3deg)' },
+          '50%': { transform: 'rotate(3deg)' }
+        },
+        alertFeedback: {
+          '0%': { transform: 'translateX(380px)' },
+          '100%': { transform: 'translateX(0px)' }
+        }
+      },
       colors: {
         jet: {
           100: '#d6d6d6',
@@ -71,7 +81,13 @@ module.exports = {
       },
       boxShadow: {
         shadowAuth: ' 2px 2px 5px #0f425d',
-        shadowProgressBar: ' 0px 0px 5px #1976d2'
+        shadowProgressBar: ' 0px 0px 5px #1976d2',
+        shadowTrueFeedbackAlert: ' 0px 0px 5px #22c55e',
+        shadowFalseFeedbackAlert: ' 0px 0px 5px #ef4444'
+      },
+      animation: {
+        wiggle: 'wiggle 1s ease-in-out infinite',
+        feedback: 'alertFeedback 1s ease-in'
       }
     }
   },
