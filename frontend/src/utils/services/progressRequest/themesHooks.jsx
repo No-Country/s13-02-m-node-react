@@ -26,6 +26,27 @@ export const useGetThemes = () => {
   
 };
 
+export const useGetThemesById = () => {
+    const [themesById, setThemesById] = useState()
+;
+
+  useEffect(() => {
+    const fetchData = async (themeId) => {
+        try {
+          const response = await axios.get(
+            `${process.env.NEXT_PUBLIC_API_URL}themes/${themeId}`
+          )
+          setThemesById(response.data.data)
+        } catch (error) {
+          console.error('Error fetching data:', error)
+        }
+      }
+  fetchData();
+},[])
+
+  return {themesById}
+  
+};
 
 export const useGetProgressThemes=(progressStackId)=>{
     // const userId=localStorage.getItem("idUser")

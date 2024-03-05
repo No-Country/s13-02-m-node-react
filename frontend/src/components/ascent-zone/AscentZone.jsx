@@ -6,6 +6,8 @@ const AscentZone = ({ data, dataLoaded, currentPage }) => {
   const nextTwo = data.slice(3, 5);
   const remainingData = data.slice(5);
 
+  const hasUserWithPoints = data.some((user) => user.totalPoints > 0);
+
   return (
     <div className="w-full flex flex-col gap-5 items-center justify-center">
       {dataLoaded && <SkeletonCard count={3} />}
@@ -14,7 +16,7 @@ const AscentZone = ({ data, dataLoaded, currentPage }) => {
           <Card key={item.id} data={item} dataLoaded={dataLoaded} />
         ))}
 
-      {currentPage === 1 && data.totalPoints > 0 && (
+      {hasUserWithPoints && currentPage === 1 && (
         <LabelRanking>ZONA DE ASCENSO</LabelRanking>
       )}
 
@@ -24,7 +26,7 @@ const AscentZone = ({ data, dataLoaded, currentPage }) => {
           <Card key={item.id} data={item} dataLoaded={dataLoaded} />
         ))}
 
-      {currentPage === 1 && data.totalPoints > 0 && (
+      {hasUserWithPoints && currentPage === 1 && (
         <LabelRanking>ZONA DE DESCENSO</LabelRanking>
       )}
 
