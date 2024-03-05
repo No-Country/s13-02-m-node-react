@@ -75,10 +75,7 @@ export class UsersController {
   @UseInterceptors(
     FileInterceptor('avatar', {
       storage: diskStorage({
-        destination: join(
-          __dirname,
-          isProduction ? '../../static/avatars' : '../../../static/avatars',
-        ),
+        destination: join(__dirname, '..', '..', 'static', 'avatars'),
         filename: fileNamer,
       }),
       fileFilter: fileFilter,
@@ -90,9 +87,6 @@ export class UsersController {
     @UploadedFile() avatar: Express.Multer.File,
     @Req() req: Request,
   ) {
-    console.log("ruta", __dirname)
-    console.log("ruta imagen",  join(
-          __dirname, '../../static/avatars'))
     const { userAuth } = req;
     return this.usersService.update(id, updateUserDto, userAuth, avatar);
   }

@@ -15,7 +15,6 @@ import { FilesModule } from './files/files.module';
 import { ProgressThemesModule } from './progress-themes/progress-themes.module';
 import { ProgressStacksModule } from './progress-stacks/progress-stacks.module';
 import { AdminService } from './admin/admin.service';
-import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 const isProduction = process.env.NODE_ENV === '.env';
 // console.log(join(__dirname, isProduction ? '../static/avatars' : '../../static/avatars'))
