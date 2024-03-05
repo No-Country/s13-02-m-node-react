@@ -39,7 +39,7 @@ async function bootstrap() {
   app.enableCors(corsOptions);
 
   //Images
-  app.useStaticAssets(join(__dirname, '..', 'static'), {
+  app.useStaticAssets(join(__dirname, '..','static'), {
     index: false,
     prefix: '/static',
   });

@@ -16,7 +16,7 @@ import { ProgressThemesModule } from './progress-themes/progress-themes.module';
 import { ProgressStacksModule } from './progress-stacks/progress-stacks.module';
 import { AdminService } from './admin/admin.service';
 import { join } from 'path';
-const isProduction = process.env.NODE_ENV === '.env';
+// const isProduction = process.env.NODE_ENV === '.env';
 // console.log(join(__dirname, isProduction ? '../static/avatars' : '../../static/avatars'))
 @Module({
   imports: [
@@ -24,10 +24,10 @@ const isProduction = process.env.NODE_ENV === '.env';
       envFilePath: `${process.env.NODE_ENV}`,
       isGlobal: true,
     }),
-    ServeStaticModule.forRoot({
-      serveRoot: '/static/avatars',
-      rootPath: join(__dirname, isProduction ? '../static/avatars' : '../../static/avatars'),
-    }),
+    // ServeStaticModule.forRoot({
+    //   serveRoot: '/static/avatars',
+    //   rootPath: join(__dirname, isProduction ? '../static/avatars' : '../../static/avatars'),
+    // }),
     TypeOrmModule.forRoot(DataSourceConfig),
     UsersModule,
     NotificationsModule,
