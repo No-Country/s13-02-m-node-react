@@ -29,6 +29,15 @@ import { diskStorage } from 'multer';
 import { join } from 'path';
 import { fileFilter } from 'src/files/helpers/fileFilter.helper';
 import { fileNamer } from 'src/files/helpers/fileNamer.helper';
+const isProduction = process.env.NODE_ENV === '.env';
+// console.log(isProduction)
+
+// console.log(
+//   join(
+//     __dirname,
+//     isProduction ? '../../static/avatars' : '../../../static/avatars',
+//   ),
+// );
 
 @ApiTags('users')
 @ApiBearerAuth()
@@ -66,7 +75,10 @@ export class UsersController {
   @UseInterceptors(
     FileInterceptor('avatar', {
       storage: diskStorage({
-        destination: join(__dirname, '..', '..', 'static', 'avatars'),
+        destination: join(
+          __dirname,
+          isProduction ? '../../static/avatars' : '../../../static/avatars',
+        ),
         filename: fileNamer,
       }),
       fileFilter: fileFilter,
