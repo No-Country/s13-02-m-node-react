@@ -15,13 +15,18 @@ import { FilesModule } from './files/files.module';
 import { ProgressThemesModule } from './progress-themes/progress-themes.module';
 import { ProgressStacksModule } from './progress-stacks/progress-stacks.module';
 import { AdminService } from './admin/admin.service';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
-console.log(process.env.NODE_ENV);
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: `${process.env.NODE_ENV}`,
       isGlobal: true,
+    }),
+    ServeStaticModule.forRoot({
+      serveRoot:'/static/avatars',
+      rootPath: join(__dirname,'../../static/avatars')
     }),
     TypeOrmModule.forRoot(DataSourceConfig),
     UsersModule,
