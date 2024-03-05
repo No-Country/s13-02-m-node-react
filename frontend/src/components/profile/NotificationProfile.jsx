@@ -22,6 +22,8 @@ const NotificationProfile = ({ notification, userData, setUserData }) => {
             setUserData(res.data);
         } catch (err) {
             console.error(err);
+        } finally {
+            console.log('Notificación actualizada');
         }
     };
   

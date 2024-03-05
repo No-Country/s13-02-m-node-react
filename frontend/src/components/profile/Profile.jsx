@@ -17,6 +17,7 @@ import { data } from 'autoprefixer'
 import UpdateProfile from './UpdateProfile'
 import NotificationProfile from './NotificationProfile'
 import EditNoteIcon from '@mui/icons-material/EditNote';
+import InputFileUpload from './InputFileUpload'
 
 
 
@@ -30,7 +31,8 @@ const Profile = () => {
     const [userData, setUserData] = useState('')
     const [editar, setEditar] = useState(false)
     const [updateName, setUpdateName] = useState('')
- 
+    const [selectedFile, setSelectedFile] = useState(null);
+
   const avt = useSelector((state) => state.auth.avatar)
   let token = localStorage.getItem('idKey');
 
@@ -42,32 +44,29 @@ const Profile = () => {
 
 
 // Asumiendo que ahora pasas el userId como argumento a la función.
+
+
 const getUserData = async (userId) => {
-    try {
-      // Asegúrate de que el token está correctamente definido aquí.
-    
-  
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-        setUserData(res.data)
-  
-    
-     
-    } catch (err) {
-      console.error(err);
-    }
-  };
- 
-  
-  // Ejemplo de cómo llamar a getUserData con un userId específico.
-  const userId = decodedToken.user.id;
-  useEffect(() => {
-    getUserData(userId);
-    }, [decodedToken]);
-   
+  try {
+    let token = localStorage.getItem('idKey'); // Declare the 'token' variable using the 'let' keyword
+
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    setUserData(res.data);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// Ejemplo de cómo llamar a getUserData con un userId específico.
+const userId = decodedToken.user.id;
+useEffect(() => {
+  getUserData(userId);
+}, []);
+   console.log(userData)
 
   
     const dataCardPrimary = [{
@@ -104,35 +103,42 @@ const getUserData = async (userId) => {
         data: '2/10',
     }
   ]
-  useEffect(() => {
-    setAvatarLetter(avt)
-  }, [])
-
-
  
 
-   
-    const upDateUser = async () => {
-      try {
-        // Asegúrate de que el token está correctamente definido aquí.
-        const res = await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/users/${userId}`, {
-          username: updateName,
-        }, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setUserData(res.data)
-        
-      } catch (err) {
-        console.error(err);
-      }finally{
-        setEditar(!editar)
-      }
-    };
 
-    
-      
+ const handleFileSelect = (file) => {
+  setSelectedFile(file);
+};
+
+   
+const upDateUser = async () => {
+  try {
+    const formData = new FormData();
+    if (selectedFile) {
+      formData.append('avatar', selectedFile);
+    }
+    if (updateName) {
+      formData.append('username', updateName);
+    }
+
+    const res = await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/users/${userId}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    setUserData(res.data);
+    setSelectedFile(null); // Limpiar el archivo seleccionado después de la carga
+    setEditar(false); // Opcional: cerrar el modo de edición
+  } catch (err) {
+    console.error(err);
+  } finally {
+    getUserData(userId); // Actualizar los datos del usuario después de la carga
+  }
+};
+
+ 
   
   
 
@@ -212,13 +218,9 @@ const getUserData = async (userId) => {
                     
                     {
                         editar? 
-                        <> 
-                        {/*  crear subir imagen de perfil   */}
-                        sunir imagen
-                        
-
-                        
-                         </> :  <Avatar
+                     
+                <InputFileUpload onFileSelect={handleFileSelect} />
+                        :  <Avatar
                         alt="Remy Sharp"
                         src={'j'}
                         sx={{ width: 150, height: 150 }}
