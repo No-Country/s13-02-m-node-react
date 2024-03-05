@@ -24,60 +24,25 @@ import { ConnectingAirportsOutlined } from '@mui/icons-material'
 import { data } from 'autoprefixer'
 import UpdateProfile from './UpdateProfile'
 import NotificationProfile from './NotificationProfile'
-import EditNoteIcon from '@mui/icons-material/EditNote';
-import InputFileUpload from './InputFileUpload'
-
-
-
- 
-
-
-
+import EditNoteIcon from '@mui/icons-material/EditNote'
 
 const Profile = () => {
-    const [avatarLetter, setAvatarLetter] = useState('')
-    const [userData, setUserData] = useState('')
-    const [editar, setEditar] = useState(false)
-    const [updateName, setUpdateName] = useState('')
-    const [selectedFile, setSelectedFile] = useState(null);
+  const [avatarLetter, setAvatarLetter] = useState('')
+  const [userData, setUserData] = useState('')
+  const [editar, setEditar] = useState(false)
+  const [updateName, setUpdateName] = useState('')
 
   const avt = useSelector((state) => state.auth.avatar)
-  const [token, setToken] = useState('')
-  const [userId, setUserId] = useState('')
-  useEffect(() => {
-    setUserId(localStorage.getItem('idUser'))
-    setToken(localStorage.getItem('idKey'))
-  }, [])
+  let token = localStorage.getItem('idKey')
 
   const decodedToken = jwtDecode(token)
 
   // hacer un get a la api para obtener los datos del usuario pasando el token
 
-
-
-// Asumiendo que ahora pasas el userId como argumento a la función.
-
-
-const getUserData = async (userId) => {
-  try {
-
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    setUserData(res.data);
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-// Ejemplo de cómo llamar a getUserData con un userId específico.
-const userId = decodedToken.user.id;
-useEffect(() => {
-  getUserData(userId);
-}, []);
-   console.log(userData)
+  // Asumiendo que ahora pasas el userId como argumento a la función.
+  const getUserData = async (userId) => {
+    try {
+      // Asegúrate de que el token está correctamente definido aquí.
 
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}`,
@@ -88,6 +53,12 @@ useEffect(() => {
         }
       )
       setUserData(res.data)
+      res.data.avatarUrl
+        ? localStorage.setItem(
+            'avatar',
+            `https://nekode-rqas.onrender.com/static/avatars/${res.data.avatarUrl}`
+          )
+        : {}
     } catch (err) {
       console.error(err)
     }
@@ -135,7 +106,6 @@ useEffect(() => {
       data: '2/10'
     }
   ]
-<<<<<<< HEAD
   useEffect(() => {
     setAvatarLetter(avt)
   }, [])
@@ -165,51 +135,6 @@ useEffect(() => {
   return (
     <Container
       sx={{
-=======
- 
-
-
- const handleFileSelect = (file) => {
-  setSelectedFile(file);
-};
-
-   
-const upDateUser = async () => {
-  try {
-    const formData = new FormData();
-    if (selectedFile) {
-      formData.append('avatar', selectedFile);
-    }
-    if (updateName) {
-      formData.append('username', updateName);
-    }
-
-    const res = await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/users/${userId}`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    setUserData(res.data);
-    setSelectedFile(null); // Limpiar el archivo seleccionado después de la carga
-    setEditar(false); // Opcional: cerrar el modo de edición
-  } catch (err) {
-    console.error(err);
-  } finally {
-    getUserData(userId); // Actualizar los datos del usuario después de la carga
-  }
-};
-
- 
-  
-  
-
-
-    return (
-       <Container
-       sx={{
->>>>>>> b3accfa56f7f62c154f24ea8cd939c467e000fe1
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -276,14 +201,21 @@ const upDateUser = async () => {
           </Grid>
         </Grid>
 
-<<<<<<< HEAD
         {editar ? (
           <>
             {/*  crear subir imagen de perfil   */}
             sunir imagen
           </>
         ) : (
-          <Avatar alt='Remy Sharp' src={'j'} sx={{ width: 150, height: 150 }}>
+          <Avatar
+            alt='Remy Sharp'
+            src={
+              userData.avatarUrl
+                ? `https://nekode-rqas.onrender.com/static/avatars/${userData.avatarUrl}`
+                : avt
+            }
+            sx={{ width: 150, height: 150 }}
+          >
             {avt}
           </Avatar>
         )}
@@ -292,86 +224,6 @@ const upDateUser = async () => {
       <Grid spacing={2} container>
         {dataCardPrimary.map((item, index) => {
           return (
-=======
-              }}
-              >
-                <Grid item xs={12} md={6} >
-                  
-                    <Grid>
-                      <Typography color={"white"} variant="h3">Profile</Typography>
-                    { editar? <TextField
-                  
-                     InputProps={{
-                        
-                   
-                        style: { color: 'white' }, 
-                      }}
-                      InputLabelProps={{
-                        shrink: true,
-                      
-                        style: { color: 'white' }, 
-                      }}
-                       
-                       id="standard-basic"
-                       variant="standard"
-                        label="Cambia tu nombre de usuario"
-                        defaultValue={userData.username}
-                        name='updateName'
-                        onChange={(e) => setUpdateName(e.target.value)}
-                     /> :  <Typography color={"white"} variant="body1">User Name:   {userData.username}</Typography>}
-                      <Typography color={"white"} variant="body1">Email:  {userData.email}</Typography>
-                      <NotificationProfile notification={userData.notification} 
-                      userData={userData}
-                      setUserData={setUserData}
-                      />
-                     
-              { editar? <><Button color="error"
-                onClick={() => setEditar(!editar)}
-              >Cancelar</Button>
-                <Button  onClick={upDateUser}>Actualizar</Button></> :  <Button
-                onClick={() => setEditar(!editar)}
-                >
-              edit <EditNoteIcon />
-          </Button>}
-             
-              
-               
-                      </Grid>
-                 
-                  
-                </Grid>
-               
-                      
-                    
-                    {
-                        editar? 
-                     
-                <InputFileUpload onFileSelect={handleFileSelect} />
-                        :  <Avatar
-                        alt="Remy Sharp"
-                        src={'j'}
-                        sx={{ width: 150, height: 150 }}
-                      >
-                        {avt}
-                        </Avatar>
-                 
-                    }
-                  
-                </Grid>
-            
-                
-                <Grid spacing={2}
-                container
-               
-                >
-
-                     
-               
-
-{
-    dataCardPrimary.map((item, index) => {
-        return (
->>>>>>> b3accfa56f7f62c154f24ea8cd939c467e000fe1
             <Grid item xs={12} md={6} key={index}>
               <Paper
                 sx={{

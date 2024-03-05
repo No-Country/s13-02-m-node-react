@@ -64,7 +64,7 @@ const Challenges = () => {
           : 'shadow-shadowFalseFeedbackAlert'
       } animate-feedback`}
               >
-                <Pet className='w-[86px]' />
+                <Pet className='min-w-[86px] w-full' />
                 <span>{questionsHook.feedback.feedback}</span>
               </article>
             </>

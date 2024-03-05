@@ -33,7 +33,7 @@ function NavBar() {
   useEffect(() => {
     setAvatarLetter(avt)
   }, [])
-  
+
   return (
     <AppBar position='static' className='flex bg-[#10151D]'>
       <Container maxWidth='xl' className='bg-[#10151D] h-20'>
@@ -55,7 +55,7 @@ function NavBar() {
           {/* Botón de menú móvil (reemplaza al Avatar) */}
           {isMobileView ? (
             <IconButton
-            color='inherit'
+              color='inherit'
               sx={{ p: 0 }}
               className='md:hidden text-white'
               onClick={toggleMobileMenu}
@@ -63,13 +63,13 @@ function NavBar() {
               {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
             </IconButton>
           ) : (
-            <Link href={"/profiles"}>
-            <IconButton
-              sx={{ p: 0 }}
-              className='hidden md:flex' /* Solo visible en dispositivos de tamaño medio y grande */
-            >
-              <Avatar className='h-12 w-12'>{avt}</Avatar>
-            </IconButton>
+            <Link href={'/profiles'}>
+              <IconButton
+                sx={{ p: 0 }}
+                className='hidden md:flex' /* Solo visible en dispositivos de tamaño medio y grande */
+              >
+                <Avatar src={avt} className='h-12 w-12'></Avatar>
+              </IconButton>
             </Link>
           )}
           {/* Contenido del menú móvil */}
