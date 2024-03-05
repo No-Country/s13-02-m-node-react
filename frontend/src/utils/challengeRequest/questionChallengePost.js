@@ -8,6 +8,7 @@ const challengeRequestPost = async (questionData, token, router, dispatch) => {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then(function (res) {
+      console.log(res)
       dispatch(setQuestions(res.data))
       router.push('/challenges')
     })

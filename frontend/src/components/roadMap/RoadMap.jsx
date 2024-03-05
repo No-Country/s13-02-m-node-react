@@ -61,10 +61,13 @@ const Roadmap = ({ selectedLanguageId, progressStackId }) => {
       theme: data.name,
       level: data.level,
       id_user: localStorage.getItem('idUser'),
-      quest_number: 1
+      quest_number: 10
     }
-
-    questionsHook.handlerQuestionChallengePost(questionData)
+    //pregunta challenge
+    progressThemes
+      ? questionsHook.handlerQuestionChallengePost(questionData)
+      : {}
+    //si existe el progressTheme
     try {
       if (
         !Array.isArray(progressThemes) ||
