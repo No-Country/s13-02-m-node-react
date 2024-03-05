@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import Link from 'next/link'
+
 import axios from 'axios'
 import {
   Box,
@@ -12,20 +12,19 @@ import {
   Container,
   TextField
 } from '@mui/material'
-import { errorAuthManagement } from '../../utils/services/hooksAuth'
-import { useRouter } from 'next/router'
+
 import ProgressBar from '../progressBar/ProgressBar'
 import Image from 'next/image'
 import fire from '/public/fire.svg'
 import { useSelector } from 'react-redux'
 import { useState, useEffect } from 'react'
-import { jwtDecode } from 'jwt-decode'
-import { ConnectingAirportsOutlined } from '@mui/icons-material'
-import { data } from 'autoprefixer'
-import UpdateProfile from './UpdateProfile'
+
+
+
 import NotificationProfile from './NotificationProfile'
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import InputFileUpload from './InputFileUpload'
+import { Cards } from './Cards'
 
 
 
@@ -57,9 +56,23 @@ const Profile = () => {
 
 // Asumiendo que ahora pasas el userId como argumento a la función.
 
+     
+
+  useEffect(() => {
+    let token = localStorage.getItem('idKey');
+    let userId= localStorage.getItem('idUser');
+  
+    getUserData( token, userId);
+  }, []);
+  
+
 
 const getUserData = async (userId) => {
   try {
+const getUserData = async (token,userId) => {
+ 
+  try {
+
 
     const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users/${userId}`, {
       headers: {
@@ -72,11 +85,9 @@ const getUserData = async (userId) => {
   }
 };
 
-// Ejemplo de cómo llamar a getUserData con un userId específico.
-const userId = decodedToken.user.id;
-useEffect(() => {
-  getUserData(userId);
-}, []);
+
+
+
    console.log(userData)
 
       const res = await axios.get(
@@ -167,6 +178,7 @@ useEffect(() => {
       sx={{
 =======
  
+  
 
 
  const handleFileSelect = (file) => {
@@ -174,7 +186,7 @@ useEffect(() => {
 };
 
    
-const upDateUser = async () => {
+const upDateUser = async (userId) => {
   try {
     const formData = new FormData();
     if (selectedFile) {
@@ -328,7 +340,7 @@ const upDateUser = async () => {
               { editar? <><Button color="error"
                 onClick={() => setEditar(!editar)}
               >Cancelar</Button>
-                <Button  onClick={upDateUser}>Actualizar</Button></> :  <Button
+                <Button  onClick={upDateUser(userId)}>Actualizar</Button></> :  <Button
                 onClick={() => setEditar(!editar)}
                 >
               edit <EditNoteIcon />
@@ -349,10 +361,10 @@ const upDateUser = async () => {
                 <InputFileUpload onFileSelect={handleFileSelect} />
                         :  <Avatar
                         alt="Remy Sharp"
-                        src={'j'}
+                       src={`https://nekode-rqas.onrender.com/static/avatars/${userData.avatarUrl}`}
                         sx={{ width: 150, height: 150 }}
                       >
-                        {avt}
+                     
                         </Avatar>
                  
                     }
@@ -447,5 +459,13 @@ const upDateUser = async () => {
     </Container>
   )
 }
+                <Cards  />
+            
+
+              </Container>
+
+      
+    )
+    }
 
 export default Profile
