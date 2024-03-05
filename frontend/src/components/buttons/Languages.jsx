@@ -17,8 +17,14 @@ const LanguageButton = styled(Button)({
 
 const Languages = ({ data, onLanguageSelect,progressStacks,stackProgressId, setStackProgressId}) => {
   const [selectedLanguage, setSelectedLanguage] = useState(data[0]?.id);
-  const userId = localStorage.getItem('idUser');
-  const token = localStorage.getItem('idKey');
+  const [userId, setUserId] = useState("")
+  const [token, setToken] = useState("")
+  
+  useEffect(() => {
+    setUserId(localStorage.getItem("idUser"))
+    setToken(localStorage.getItem('idKey'))
+  }, [])
+  
   const [hasProgressMap, setHasProgressMap] = useState(new Map());
  
   const hasProgress = (progressStacks, languageId) => {
@@ -38,7 +44,7 @@ const Languages = ({ data, onLanguageSelect,progressStacks,stackProgressId, setS
         setStackProgressId(progressStack.id);
       }
     }
-  }, [progressStacks,setStackProgressId]);
+  }, []);
 
 
   const handleButtonClick = async (languageId) => {
