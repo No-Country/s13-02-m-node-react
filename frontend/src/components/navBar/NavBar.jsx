@@ -27,13 +27,16 @@ function NavBar() {
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
-    // console.log("menu abierto");
   }
 
   useEffect(() => {
     setAvatarLetter(avt)
   }, [])
-  
+
+  // const handlePetClick = () => {
+  //   window.location.href = '/' // Redirige a la página de inicio cuando se hace clic en Pet
+  // }
+
   return (
     <AppBar position='static' className='flex bg-[#10151D]'>
       <Container maxWidth='xl' className='bg-[#10151D] h-20'>
@@ -43,11 +46,9 @@ function NavBar() {
         >
           <div className='flex w-74 h-14 sm:w-1/6 '>
             {isMobileView ? (
-              <Link href={'/'}>
-                <Pet className='ml-0' />
-              </Link>
+                <Pet  /> 
             ) : (
-              <Link href={'/'}>
+              <Link href={'/'} passHref>
                 <Logo size='text-2xl w-10 h-12 p-2' space='space-x-2' />
               </Link>
             )}
