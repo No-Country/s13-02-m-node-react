@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useState } from "react";
 import {
   Avatar,
   Badge,
@@ -10,7 +11,6 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import GridStatues from "./GridStatues";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 
 function stringToColor(string) {
   let hash = 0;
@@ -42,41 +42,25 @@ function stringAvatar(name) {
   };
 }
 
-const StyledBadge = styled(Badge)(({ theme }) => ({
-  "& .MuiBadge-badge": {
-    backgroundColor: "#44b700",
-    color: "#44b700",
-    boxShadow: `0 0 0 2px #10151d`,
-    "&::after": {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      borderRadius: "50%",
-      animation: "ripple 1.2s infinite ease-in-out",
-      border: "1px solid #44b700",
-      content: '""',
-    },
-  },
-  "@keyframes ripple": {
-    "0%": {
-      transform: "scale(.8)",
-      opacity: 1,
-    },
-    "100%": {
-      transform: "scale(2.4)",
-      opacity: 0,
-    },
-  },
-}));
-
 const ChooseYourState = ({ dataLoaded }) => {
   const [name, setName] = useState("");
+  const [selectedButton, setSelectedButton] = useState(null);
   const avatar = useSelector((state) => state.auth.avatar);
+
   useEffect(() => {
+    const storedIcon = localStorage.getItem("selectedStatusIcon");
+    if (storedIcon) {
+      setSelectedButton(storedIcon);
+    } else {
+      setSelectedButton("💻");
+    }
     setName(avatar);
   }, [avatar]);
+
+  const handleButtonClick = (content) => {
+    setSelectedButton(content);
+    localStorage.setItem("selectedStatusIcon", content);
+  };
 
   const statusData = [
     "💻",
@@ -120,15 +104,9 @@ const ChooseYourState = ({ dataLoaded }) => {
             <Skeleton variant="circular" width={65} height={65} />
           ) : (
             <div className="relative inline-block">
-              <StyledBadge
-                overlap="circular"
-                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                variant="dot"
-              >
-                <Avatar src={"Cristian Vásquez"} {...stringAvatar(name)} />
-              </StyledBadge>
+              <Avatar src={"Cristian Vásquez"} {...stringAvatar(name)} />
               <span className="absolute top-2 -right-2 inline-flex items-center justify-center w-9 h-9 transform translate-x-1/2 -translate-y-1/2 bg-jet-500 border border-rich-black-500 rounded-t-full rounded-r-full">
-                💻
+                {selectedButton}
               </span>
             </div>
           )}
@@ -136,7 +114,7 @@ const ChooseYourState = ({ dataLoaded }) => {
         {dataLoaded ? (
           <Skeleton variant="rectangular" width={280} height={80} />
         ) : (
-          <GridStatues data={statusData} />
+          <GridStatues data={statusData} onClick={handleButtonClick} />
         )}
         <div className="w-full flex items-center justify-center md:hidden">
           {dataLoaded ? (
