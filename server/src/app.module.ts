@@ -17,7 +17,7 @@ import { ProgressStacksModule } from './progress-stacks/progress-stacks.module';
 import { AdminService } from './admin/admin.service';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
-
+console.log(join(__dirname, '../static/avatars'))
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -25,8 +25,8 @@ import { join } from 'path';
       isGlobal: true,
     }),
     ServeStaticModule.forRoot({
-      serveRoot:'/static/avatars',
-      rootPath: join(__dirname,'../../static/avatars')
+      serveRoot: '/static/avatars',
+      rootPath: join(__dirname, '../static/avatars'),
     }),
     TypeOrmModule.forRoot(DataSourceConfig),
     UsersModule,
