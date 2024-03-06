@@ -88,7 +88,6 @@ export const useGetProgressStackById = (stackId) => {
         }
       )
       //aca
-      console.log(response)
       setProgressStacksById(response.data)
     } catch (error) {
       console.error('Error fetching data:', error)
