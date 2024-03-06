@@ -42,12 +42,12 @@ export const useGetStacksById = (stackId) => {
 }
 
 export const useGetProgressStack = () => {
-  const [userId, setUserId] = useState("")
-  const [token, setToken] = useState("")
+  const [userId, setUserId] = useState('')
+  const [token, setToken] = useState('')
   useEffect(() => {
-    setUserId(localStorage.getItem("idUser"));
-    setToken(localStorage.getItem("idKey"));
-  }, []);
+    setUserId(localStorage.getItem('idUser'))
+    setToken(localStorage.getItem('idKey'))
+  }, [])
   const [progressStacks, setProgressStacks] = useState([])
 
   useEffect(() => {
@@ -65,37 +65,42 @@ export const useGetProgressStack = () => {
       }
     }
     if (userId && token) {
-      fetchData();
+      fetchData()
     }
-  }, [userId, token]);
+  }, [userId, token])
   return { progressStacks }
 }
 
 export const useGetProgressStackById = (stackId) => {
-  const [token, setToken] = useState("")
-  useEffect(() => {
-    setToken(localStorage.getItem("idKey"));
-  }, []);
+  const [token, setToken] = useState('')
   const [progressStacksById, setProgressStacksById] = useState([])
-
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/progress-stacks/${stackId}`,
-          {
-            headers: { Authorization: `Bearer ${token}` }
-          }
-        )
-        setProgressStacksById(response.data)
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
+    setToken(localStorage.getItem('idKey'))
+    setProgressStacksById(progressStacksById)
+  }, [])
+
+  const fetchData = async (stackId) => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/progress-stacks/${stackId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      )
+      //aca
+      console.log(response)
+      setProgressStacksById(response.data)
+    } catch (error) {
+      console.error('Error fetching data:', error)
     }
-    if (token) {
-      fetchData();
-    }
-  }, [token]);
+  }
+
+  !progressStacksById?.id || progressStacksById.id != stackId
+    ? token && stackId
+      ? fetchData(stackId)
+      : {}
+    : {}
+
   return { progressStacksById }
 }
 

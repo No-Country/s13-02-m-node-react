@@ -1,7 +1,7 @@
-"use client";
-import React from "react";
+'use client'
+import React from 'react'
 
-import axios from "axios";
+import axios from 'axios'
 import {
   Box,
   Grid,
@@ -10,40 +10,40 @@ import {
   Button,
   Avatar,
   Container,
-  TextField,
-} from "@mui/material";
+  TextField
+} from '@mui/material'
 
-import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
+import { useSelector } from 'react-redux'
+import { useState, useEffect } from 'react'
 
-import NotificationProfile from "./NotificationProfile";
-import EditNoteIcon from "@mui/icons-material/EditNote";
-import InputFileUpload from "./InputFileUpload";
-import { Cards } from "./Cards";
-import { useGetUserData } from "../../utils/services/hookProfileUser";
+import NotificationProfile from './NotificationProfile'
+import EditNoteIcon from '@mui/icons-material/EditNote'
+import InputFileUpload from './InputFileUpload'
+import { Cards } from './Cards'
+import { useGetUserData } from '../../utils/services/hookProfileUser'
 
 const Profile = () => {
-  const [editar, setEditar] = useState(false);
-  const [updateName, setUpdateName] = useState("");
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [editar, setEditar] = useState(false)
+  const [updateName, setUpdateName] = useState('')
+  const [selectedFile, setSelectedFile] = useState(null)
 
-  const data = useGetUserData();
+  const data = useGetUserData()
 
   const handleFileSelect = (file) => {
-    setSelectedFile(file);
-  };
+    setSelectedFile(file)
+  }
 
   const upDateUser = async () => {
-    let token = localStorage.getItem("idKey");
-    let userId = localStorage.getItem("idUser");
+    let token = localStorage.getItem('idKey')
+    let userId = localStorage.getItem('idUser')
 
     try {
-      const formData = new FormData();
+      const formData = new FormData()
       if (selectedFile) {
-        formData.append("avatar", selectedFile);
+        formData.append('avatar', selectedFile)
       }
       if (updateName) {
-        formData.append("username", updateName);
+        formData.append('username', updateName)
       }
 
       const res = await axios.patch(
@@ -51,69 +51,69 @@ const Profile = () => {
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`
+          }
         }
-      );
+      )
 
-      data.setUserData(res.data);
-      setSelectedFile(null);
-      setEditar(false);
+      data.setUserData(res.data)
+      setSelectedFile(null)
+      setEditar(false)
     } catch (err) {
-      console.error(err);
+      console.error(err)
     } finally {
-      window.location.reload();
+      window.location.reload()
     }
-  };
-  console.log(data.userData);
+  }
+  console.log(data.userData)
 
   return (
     <Container
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
       }}
     >
       <Grid
         container
         spacing={2}
         sx={{
-          justifyContent: "space-between",
-          marginTop: "20px",
-          marginBottom: "25px",
+          justifyContent: 'space-between',
+          marginTop: '20px',
+          marginBottom: '25px'
         }}
       >
         <Grid item xs={12} md={6}>
           <Grid>
-            <Typography color={"white"} variant="h3">
+            <Typography color={'white'} variant='h3'>
               Profile
             </Typography>
             {editar ? (
               <TextField
                 InputProps={{
-                  style: { color: "white" },
+                  style: { color: 'white' }
                 }}
                 InputLabelProps={{
                   shrink: true,
 
-                  style: { color: "white" },
+                  style: { color: 'white' }
                 }}
-                id="standard-basic"
-                variant="standard"
-                label="Cambia tu nombre de usuario"
+                id='standard-basic'
+                variant='standard'
+                label='Cambia tu nombre de usuario'
                 defaultValue={data.userData.username}
-                name="updateName"
+                name='updateName'
                 onChange={(e) => setUpdateName(e.target.value)}
               />
             ) : (
-              <Typography color={"white"} variant="body1">
+              <Typography color={'white'} variant='body1'>
                 User Name: {data.userData.username}
               </Typography>
             )}
-            <Typography color={"white"} variant="body1">
+            <Typography color={'white'} variant='body1'>
               Email: {data.userData.email}
             </Typography>
             <NotificationProfile
@@ -122,10 +122,10 @@ const Profile = () => {
             />
             {editar ? (
               <>
-                <Button color="error" onClick={() => setEditar(!editar)}>
+                <Button color='error' onClick={() => setEditar(!editar)}>
                   Cancelar
                 </Button>
-                <Button color="success" onClick={upDateUser}>
+                <Button color='success' onClick={upDateUser}>
                   Guardar
                 </Button>
               </>
@@ -141,7 +141,7 @@ const Profile = () => {
           <InputFileUpload onFileSelect={handleFileSelect} />
         ) : (
           <Avatar
-            alt="Remy Sharp"
+            alt='Remy Sharp'
             src={`https://nekode-rqas.onrender.com/static/avatars/${data.userData.avatarUrl}`}
             sx={{ width: 150, height: 150 }}
           ></Avatar>
@@ -150,7 +150,7 @@ const Profile = () => {
 
       <Cards />
     </Container>
-  );
-};
+  )
+}
 
-export default Profile;
+export default Profile

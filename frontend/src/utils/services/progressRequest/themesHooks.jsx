@@ -40,10 +40,10 @@ export const useGetThemesById = () => {
 }
 
 export const useGetProgressThemes = (progressStackId) => {
-  const [token, setToken] = useState("")
+  const [token, setToken] = useState('')
   useEffect(() => {
-       setToken(localStorage.getItem("idKey"));
-  }, []);
+    setToken(localStorage.getItem('idKey'))
+  }, [])
 
   const [progressThemes, setProgressThemes] = useState([])
 
@@ -67,10 +67,10 @@ export const useGetProgressThemes = (progressStackId) => {
 }
 
 export const AddThemeProgress = (themeId, progressStackId) => {
-  const [token, setToken] = useState("")
+  const [token, setToken] = useState('')
   useEffect(() => {
-    setToken(localStorage.getItem("idKey"));
-  }, []);
+    setToken(localStorage.getItem('idKey'))
+  }, [])
   return axios.post(
     `${process.env.NEXT_PUBLIC_API_URL}/progress-themes`,
     {
