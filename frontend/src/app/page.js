@@ -20,12 +20,14 @@ import { useGetProgressThemes } from '@/utils/services/progressRequest/themesHoo
 export default function Home() {
   const { stacks } = useGetStacks()
   const { progressStacks } = useGetProgressStack()
-  const [selectedLanguageId, setSelectedLanguageId] = useState(null)
+  const [selectedLanguageId, setSelectedLanguageId] = useState(
+    progressStacks[0]?.id
+  )
+
   const [stackProgressId, setStackProgressId] = useState(progressStacks[0]?.id)
   const stackProgressIdJs = progressStacks[0]?.id
 
   const { stackById } = useGetStacksById(selectedLanguageId)
-  const { progressStacksById } = useGetProgressStackById(stackProgressId)
   // Simulacion de la carga de datos en 3 segundos
   const [dataLoaded, setDataLoaded] = useState(false)
   useEffect(() => {
@@ -33,10 +35,13 @@ export default function Home() {
       setDataLoaded(true)
     }, 3000)
   }, [])
-
   const handleLanguageSelect = (languageId) => {
     setSelectedLanguageId(languageId)
   }
+
+  const { progressStacksById } = useGetProgressStackById(
+    stackProgressId ? stackProgressId : progressStacks[0]?.id
+  )
 
   return (
     //Provider agregado por vicky

@@ -73,31 +73,34 @@ export const useGetProgressStack = () => {
 
 export const useGetProgressStackById = (stackId) => {
   const [token, setToken] = useState('')
+  const [progressStacksById, setProgressStacksById] = useState([])
   useEffect(() => {
     setToken(localStorage.getItem('idKey'))
+    setProgressStacksById(progressStacksById)
   }, [])
-  const [progressStacksById, setProgressStacksById] = useState([])
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/progress-stacks/${stackId}`,
-          {
-            headers: { Authorization: `Bearer ${token}` }
-          }
-        )
-        //aca
-        console.log(response)
-        setProgressStacksById(response.data)
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
+  const fetchData = async (stackId) => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/progress-stacks/${stackId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      )
+      //aca
+      console.log(response)
+      setProgressStacksById(response.data)
+    } catch (error) {
+      console.error('Error fetching data:', error)
     }
-    if (token) {
-      fetchData()
-    }
-  }, [token])
+  }
+
+  !progressStacksById?.id || progressStacksById.id != stackId
+    ? token && stackId
+      ? fetchData(stackId)
+      : {}
+    : {}
+
   return { progressStacksById }
 }
 
