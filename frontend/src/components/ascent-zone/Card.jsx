@@ -41,7 +41,10 @@ export const Card = ({ data, dataLoaded }) => {
           <Skeleton variant="circular" width={65} height={65} />
         ) : (
           <div className="relative inline-block">
-            <Avatar src={data.avatarUrl} {...stringAvatar(data.username)} />
+            <Avatar
+              src={`https://nekode-rqas.onrender.com/static/avatars/${data.avatarUrl}`}
+              {...stringAvatar(data.username)}
+            />
             <span className="absolute top-2 right-0 inline-flex items-center justify-center w-7 h-7 p-2 transform translate-x-1/2 -translate-y-1/2 bg-white border shadow-md rounded-t-full rounded-r-full">
               💻
             </span>
