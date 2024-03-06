@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import Link from 'next/link'
+
 import axios from 'axios'
 import {
   Box,
@@ -12,49 +12,31 @@ import {
   Container,
   TextField
 } from '@mui/material'
+
 import { useSelector } from 'react-redux'
 import { useState, useEffect } from 'react'
+
 import NotificationProfile from './NotificationProfile'
 import EditNoteIcon from '@mui/icons-material/EditNote'
-import { Cards } from './Cards'
 import InputFileUpload from './InputFileUpload'
+import { Cards } from './Cards'
+import { useGetUserData } from '../../utils/services/hookProfileUser'
 
 const Profile = () => {
-  const [selectedFile, setSelectedFile] = useState('')
-  const [userData, setUserData] = useState('')
   const [editar, setEditar] = useState(false)
   const [updateName, setUpdateName] = useState('')
+  const [selectedFile, setSelectedFile] = useState(null)
 
-  const avt = useSelector((state) => state.auth.avatar)
-  useEffect(() => {
-    let userId = localStorage.getItem('idUser')
-    let token = localStorage.getItem('idKey')
-    getUserData(token, userId)
-  }, [])
-
-  const getUserData = async (token, userId) => {
-    try {
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
-      )
-      setUserData(res.data)
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
-  console.log(userData)
+  const data = useGetUserData()
 
   const handleFileSelect = (file) => {
     setSelectedFile(file)
   }
 
-  const upDateUser = async (userId) => {
+  const upDateUser = async () => {
+    let token = localStorage.getItem('idKey')
+    let userId = localStorage.getItem('idUser')
+
     try {
       const formData = new FormData()
       if (selectedFile) {
@@ -75,15 +57,16 @@ const Profile = () => {
         }
       )
 
-      setUserData(res.data)
-      setSelectedFile(null) // Limpiar el archivo seleccionado después de la carga
-      setEditar(false) // Opcional: cerrar el modo de edición
+      data.setUserData(res.data)
+      setSelectedFile(null)
+      setEditar(false)
     } catch (err) {
       console.error(err)
     } finally {
-      getUserData(userId) // Actualizar los datos del usuario después de la carga
+      window.location.reload()
     }
   }
+  console.log(data.userData)
 
   return (
     <Container
@@ -121,30 +104,30 @@ const Profile = () => {
                 id='standard-basic'
                 variant='standard'
                 label='Cambia tu nombre de usuario'
-                defaultValue={userData.username}
+                defaultValue={data.userData.username}
                 name='updateName'
                 onChange={(e) => setUpdateName(e.target.value)}
               />
             ) : (
               <Typography color={'white'} variant='body1'>
-                User Name: {userData.username}
+                User Name: {data.userData.username}
               </Typography>
             )}
             <Typography color={'white'} variant='body1'>
-              Email: {userData.email}
+              Email: {data.userData.email}
             </Typography>
             <NotificationProfile
-              notification={userData.notification}
-              userData={userData}
-              setUserData={setUserData}
+              notification={data.userData.notification}
+              setUserData={data.setUserData}
             />
-
             {editar ? (
               <>
                 <Button color='error' onClick={() => setEditar(!editar)}>
                   Cancelar
                 </Button>
-                <Button onClick={upDateUser(userId)}>Actualizar</Button>
+                <Button color='success' onClick={upDateUser}>
+                  Guardar
+                </Button>
               </>
             ) : (
               <Button onClick={() => setEditar(!editar)}>
@@ -159,7 +142,7 @@ const Profile = () => {
         ) : (
           <Avatar
             alt='Remy Sharp'
-            src={`https://nekode-rqas.onrender.com/static/avatars/${userData.avatarUrl}`}
+            src={`https://nekode-rqas.onrender.com/static/avatars/${data.userData.avatarUrl}`}
             sx={{ width: 150, height: 150 }}
           ></Avatar>
         )}

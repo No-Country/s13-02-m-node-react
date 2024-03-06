@@ -7,7 +7,7 @@ const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
   height: 1,
-  // overflow: 'hidden',
+  overflow: 'hidden',
   position: 'absolute',
   bottom: 0,
   left: 0,
@@ -22,7 +22,6 @@ export default function InputFileUpload({ onFileSelect }) {
       onFileSelect(file)
     }
   }
-  console.log('InputFileUpload')
 
   return (
     <Button
