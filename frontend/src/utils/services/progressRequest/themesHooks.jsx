@@ -40,8 +40,10 @@ export const useGetThemesById = () => {
 }
 
 export const useGetProgressThemes = (progressStackId) => {
-  // const userId=localStorage.getItem("idUser")
-  const token = localStorage.getItem('idKey')
+  const [token, setToken] = useState('')
+  useEffect(() => {
+    setToken(localStorage.getItem('idKey'))
+  }, [])
 
   const [progressThemes, setProgressThemes] = useState([])
 
@@ -65,7 +67,10 @@ export const useGetProgressThemes = (progressStackId) => {
 }
 
 export const AddThemeProgress = (themeId, progressStackId) => {
-  const token = localStorage.getItem('idKey')
+  const [token, setToken] = useState('')
+  useEffect(() => {
+    setToken(localStorage.getItem('idKey'))
+  }, [])
   return axios.post(
     `${process.env.NEXT_PUBLIC_API_URL}/progress-themes`,
     {

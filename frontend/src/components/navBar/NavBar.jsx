@@ -27,13 +27,15 @@ function NavBar() {
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
-    // console.log("menu abierto");
   }
 
   useEffect(() => {
-    setAvatarLetter(avt)
-  }, [])
+    setAvatarLetter(localStorage.getItem('avatar'))
+  }, [avatarLetter])
 
+  // const handlePetClick = () => {
+  //   window.location.href = '/' // Redirige a la página de inicio cuando se hace clic en Pet
+  // }
   return (
     <AppBar position='static' className='flex bg-[#10151D]'>
       <Container maxWidth='xl' className='bg-[#10151D] h-20'>
@@ -43,11 +45,9 @@ function NavBar() {
         >
           <div className='flex w-74 h-14 sm:w-1/6 '>
             {isMobileView ? (
-              <Link href={'/'}>
-                <Pet className='ml-0' />
-              </Link>
+              <Pet />
             ) : (
-              <Link href={'/'}>
+              <Link href={'/'} passHref>
                 <Logo size='text-2xl w-10 h-12 p-2' space='space-x-2' />
               </Link>
             )}
@@ -68,7 +68,14 @@ function NavBar() {
                 sx={{ p: 0 }}
                 className='hidden md:flex' /* Solo visible en dispositivos de tamaño medio y grande */
               >
-                <Avatar src={avt} className='h-12 w-12'></Avatar>
+                {avatarLetter ? (
+                  <Avatar
+                    src={`https://nekode-rqas.onrender.com/static/avatars/${avatarLetter}`}
+                    className='h-12 w-12'
+                  ></Avatar>
+                ) : (
+                  <></>
+                )}
               </IconButton>
             </Link>
           )}

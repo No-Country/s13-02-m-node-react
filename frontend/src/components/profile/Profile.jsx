@@ -12,38 +12,28 @@ import {
   Container,
   TextField
 } from '@mui/material'
-import { errorAuthManagement } from '../../utils/services/hooksAuth'
-import { useRouter } from 'next/router'
-import ProgressBar from '../progressBar/ProgressBar'
-import Image from 'next/image'
-import fire from '/public/fire.svg'
 import { useSelector } from 'react-redux'
 import { useState, useEffect } from 'react'
-import { jwtDecode } from 'jwt-decode'
-import { ConnectingAirportsOutlined } from '@mui/icons-material'
-import { data } from 'autoprefixer'
-import UpdateProfile from './UpdateProfile'
 import NotificationProfile from './NotificationProfile'
 import EditNoteIcon from '@mui/icons-material/EditNote'
+import { Cards } from './Cards'
+import InputFileUpload from './InputFileUpload'
 
 const Profile = () => {
-  const [avatarLetter, setAvatarLetter] = useState('')
+  const [selectedFile, setSelectedFile] = useState('')
   const [userData, setUserData] = useState('')
   const [editar, setEditar] = useState(false)
   const [updateName, setUpdateName] = useState('')
 
   const avt = useSelector((state) => state.auth.avatar)
-  let token = localStorage.getItem('idKey')
+  useEffect(() => {
+    let userId = localStorage.getItem('idUser')
+    let token = localStorage.getItem('idKey')
+    getUserData(token, userId)
+  }, [])
 
-  const decodedToken = jwtDecode(token)
-
-  // hacer un get a la api para obtener los datos del usuario pasando el token
-
-  // Asumiendo que ahora pasas el userId como argumento a la función.
-  const getUserData = async (userId) => {
+  const getUserData = async (token, userId) => {
     try {
-      // Asegúrate de que el token está correctamente definido aquí.
-
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}`,
         {
@@ -53,82 +43,45 @@ const Profile = () => {
         }
       )
       setUserData(res.data)
-      res.data.avatarUrl
-        ? localStorage.setItem(
-            'avatar',
-            `https://nekode-rqas.onrender.com/static/avatars/${res.data.avatarUrl}`
-          )
-        : {}
     } catch (err) {
       console.error(err)
     }
   }
 
-  // Ejemplo de cómo llamar a getUserData con un userId específico.
-  const userId = decodedToken.user.id
-  useEffect(() => {
-    getUserData(userId)
-  }, [])
+  console.log(userData)
 
-  const dataCardPrimary = [
-    {
-      firts: '0',
-      data: 'Dias de racha'
-    },
-    {
-      firts: 'ORO',
-      data: 'Rango actual'
-    },
-    {
-      firts: '2',
-      data: 'Veces en el top 10'
-    },
-    {
-      firts: 'EXP',
-      data: 'Experiencia totales'
-    }
-  ]
-  const dataSecondary = [
-    {
-      title: 'En llamas',
-      data: '30/75'
-    },
-    {
-      title: 'Filosofo',
-      data: '750/1500'
-    },
-    {
-      title: 'Leyenda',
-      data: '0/100'
-    },
-    {
-      title: 'Inteligente',
-      data: '2/10'
-    }
-  ]
-  useEffect(() => {
-    setAvatarLetter(avt)
-  }, [])
+  const handleFileSelect = (file) => {
+    setSelectedFile(file)
+  }
 
-  const upDateUser = async () => {
+  const upDateUser = async (userId) => {
     try {
-      // Asegúrate de que el token está correctamente definido aquí.
+      const formData = new FormData()
+      if (selectedFile) {
+        formData.append('avatar', selectedFile)
+      }
+      if (updateName) {
+        formData.append('username', updateName)
+      }
+
       const res = await axios.patch(
         `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}`,
-        {
-          username: updateName
-        },
+        formData,
         {
           headers: {
+            'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`
           }
         }
       )
+
       setUserData(res.data)
+      setSelectedFile(null) // Limpiar el archivo seleccionado después de la carga
+      setEditar(false) // Opcional: cerrar el modo de edición
     } catch (err) {
       console.error(err)
     } finally {
-      setEditar(!editar)
+      getUserData(userId) // Actualizar los datos del usuario después de la carga
     }
   }
 
@@ -191,7 +144,7 @@ const Profile = () => {
                 <Button color='error' onClick={() => setEditar(!editar)}>
                   Cancelar
                 </Button>
-                <Button onClick={upDateUser}>Actualizar</Button>
+                <Button onClick={upDateUser(userId)}>Actualizar</Button>
               </>
             ) : (
               <Button onClick={() => setEditar(!editar)}>
@@ -202,100 +155,17 @@ const Profile = () => {
         </Grid>
 
         {editar ? (
-          <>
-            {/*  crear subir imagen de perfil   */}
-            sunir imagen
-          </>
+          <InputFileUpload onFileSelect={handleFileSelect} />
         ) : (
           <Avatar
             alt='Remy Sharp'
-            src={
-              userData.avatarUrl
-                ? `https://nekode-rqas.onrender.com/static/avatars/${userData.avatarUrl}`
-                : avt
-            }
+            src={`https://nekode-rqas.onrender.com/static/avatars/${userData.avatarUrl}`}
             sx={{ width: 150, height: 150 }}
-          >
-            {avt}
-          </Avatar>
+          ></Avatar>
         )}
       </Grid>
 
-      <Grid spacing={2} container>
-        {dataCardPrimary.map((item, index) => {
-          return (
-            <Grid item xs={12} md={6} key={index}>
-              <Paper
-                sx={{
-                  backgroundColor: '#333333',
-                  boxShadow: '0 8px 32px 0 rgba( 31, 38, 135, 0.37 )',
-                  backdropFilter: 'blur(4px)',
-                  WebkitBackdropFilter: 'blur(4px)',
-                  border: '1px solid rgba( 255, 255, 255, 0.18 )',
-                  borderRadius: '10px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  padding: '10px',
-                  paddingLeft: '20px'
-                }}
-              >
-                <Typography
-                  sx={{ display: 'flex', gap: '10px' }}
-                  color={'white'}
-                  variant='h6'
-                >
-                  {' '}
-                  <Image src={fire} alt='oro' width={20} height={20} />{' '}
-                  {item.firts}
-                </Typography>
-                <Typography color={'white'} variant='body1'>
-                  {item.data}
-                </Typography>
-              </Paper>
-            </Grid>
-          )
-        })}
-      </Grid>
-      <Grid container>
-        <Typography marginBottom={'20px'} color={'white'} variant='h6'>
-          Logros
-        </Typography>
-        <Grid item xs={12}>
-          {dataSecondary.map((item, index) => {
-            return (
-              <Paper
-                key={index}
-                sx={{
-                  backgroundColor: '#333333',
-                  boxShadow: '0 8px 32px 0 rgba( 31, 38, 135, 0.37 )',
-                  backdropFilter: 'blur(4px)',
-                  WebkitBackdropFilter: 'blur(4px)',
-                  border: '1px solid rgba( 255, 255, 255, 0.18 )',
-                  borderRadius: '10px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  padding: '10px',
-                  paddingLeft: '20px',
-                  marginBottom: '20px'
-                }}
-              >
-                <Typography color={'white'} variant='h6'>
-                  {item.title}
-                </Typography>
-                <ProgressBar
-                  value={
-                    (item.data.split('/')[0] * 100) / item.data.split('/')[1]
-                  }
-                  data={item.data}
-                />
-                <Typography color={'white'} variant='body1'>
-                  {item.data}
-                </Typography>
-              </Paper>
-            )
-          })}
-        </Grid>
-      </Grid>
+      <Cards />
     </Container>
   )
 }

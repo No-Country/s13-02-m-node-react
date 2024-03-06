@@ -26,7 +26,6 @@ export default function Home() {
 
   const { stackById } = useGetStacksById(selectedLanguageId)
   const { progressStacksById } = useGetProgressStackById(stackProgressId)
-
   // Simulacion de la carga de datos en 3 segundos
   const [dataLoaded, setDataLoaded] = useState(false)
   useEffect(() => {

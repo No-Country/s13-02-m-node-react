@@ -6,7 +6,6 @@ const challengeResponsePost = async (data, token, setFeedback) => {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then(function (res) {
-      console.log(res.data)
       setFeedback(res.data)
     })
     .catch(function (err) {

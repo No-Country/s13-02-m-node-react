@@ -42,9 +42,12 @@ export const useGetStacksById = (stackId) => {
 }
 
 export const useGetProgressStack = () => {
-  const userId = localStorage.getItem('idUser')
-  const token = localStorage.getItem('idKey')
-
+  const [userId, setUserId] = useState('')
+  const [token, setToken] = useState('')
+  useEffect(() => {
+    setUserId(localStorage.getItem('idUser'))
+    setToken(localStorage.getItem('idKey'))
+  }, [])
   const [progressStacks, setProgressStacks] = useState([])
 
   useEffect(() => {
@@ -61,15 +64,18 @@ export const useGetProgressStack = () => {
         console.error('Error fetching data:', error)
       }
     }
-    fetchData()
-  }, [])
+    if (userId && token) {
+      fetchData()
+    }
+  }, [userId, token])
   return { progressStacks }
 }
 
 export const useGetProgressStackById = (stackId) => {
-  const userId = localStorage.getItem('idUser')
-  const token = localStorage.getItem('idKey')
-
+  const [token, setToken] = useState('')
+  useEffect(() => {
+    setToken(localStorage.getItem('idKey'))
+  }, [])
   const [progressStacksById, setProgressStacksById] = useState([])
 
   useEffect(() => {
@@ -81,13 +87,17 @@ export const useGetProgressStackById = (stackId) => {
             headers: { Authorization: `Bearer ${token}` }
           }
         )
+        //aca
+        console.log(response)
         setProgressStacksById(response.data)
       } catch (error) {
         console.error('Error fetching data:', error)
       }
     }
-    stackId ? fetchData() : {}
-  }, [stackId])
+    if (token) {
+      fetchData()
+    }
+  }, [token])
   return { progressStacksById }
 }
 
