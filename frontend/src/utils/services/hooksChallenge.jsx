@@ -31,7 +31,7 @@ export const useQuestionChallenge = () => {
       i < questionsDesafios?.questions?.length;
       i++
     ) {
-      setQuestionRender(questionsDesafios?.questions[i].title)
+      setQuestionRender(questionsDesafios?.questions[i].question)
       break
     }
   }, [questionNumber])

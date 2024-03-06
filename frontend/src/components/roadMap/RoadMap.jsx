@@ -11,10 +11,10 @@ import {
 } from '@/utils/services/progressRequest/themesHooks'
 
 const Roadmap = ({ selectedLanguageId, progressStackId }) => {
-  const [token, setToken] = useState("")
-    useEffect(() => {
-      setToken(localStorage.getItem("idKey"));
-    }, []);
+  const [token, setToken] = useState('')
+  useEffect(() => {
+    setToken(localStorage.getItem('idKey'))
+  }, [])
   const questionsHook = useQuestionChallenge()
 
   const { themes } = useGetThemes()
@@ -59,10 +59,7 @@ const Roadmap = ({ selectedLanguageId, progressStackId }) => {
     (item) => item.stackId === selectedLanguageId
   )
 
-
-
-   const AddThemeProgress = (themeId, progressStackId) => {
-    
+  const AddThemeProgress = (themeId, progressStackId) => {
     return axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/progress-themes`,
       {
@@ -74,13 +71,12 @@ const Roadmap = ({ selectedLanguageId, progressStackId }) => {
       }
     )
   }
-  
 
   const handleButtonClick = async (themeId, progressStackId, data) => {
     const questionData = {
       theme: data.name,
       level: data.level,
-      id_user: localStorage.getItem('idUser'),
+      id_user: '4cfc810c-d9bc-48dc-bab6-caac44f307cd',
       quest_number: 10
     }
     progressThemes
@@ -154,7 +150,13 @@ const Roadmap = ({ selectedLanguageId, progressStackId }) => {
                 w-[270px] 
                 h-[50px]
                 border-[4px]
-                ${data.level=="1"?"border-[#17B877]":data.level=="2"?"border-[#08744d]":"border-[#094b35]"}
+                ${
+                  data.level == '1'
+                    ? 'border-[#17B877]'
+                    : data.level == '2'
+                    ? 'border-[#08744d]'
+                    : 'border-[#094b35]'
+                }
                 rounded-[19px]
                 hover:bg-[#A87FFA]
                 capitalize
