@@ -10,7 +10,9 @@ const challengeRequestPost = async (questionData, token, router, dispatch) => {
     .then(function (res) {
       console.log(res.data)
       dispatch(setQuestions(res.data))
-      router.push('/challenges')
+      res?.data[0]?.question
+        ? router.push('/challenges')
+        : alert(res.data.last_error.code)
     })
     .catch(function (err) {
       console.log(err)

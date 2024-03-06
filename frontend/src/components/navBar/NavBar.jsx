@@ -31,7 +31,7 @@ function NavBar() {
 
   useEffect(() => {
     setAvatarLetter(localStorage.getItem('avatar'))
-  }, [avatarLetter])
+  }, [])
 
   // const handlePetClick = () => {
   //   window.location.href = '/' // Redirige a la página de inicio cuando se hace clic en Pet
@@ -70,7 +70,9 @@ function NavBar() {
               >
                 {avatarLetter ? (
                   <Avatar
-                    src={`https://nekode-rqas.onrender.com/static/avatars/${avatarLetter}`}
+                    src={`https://nekode-rqas.onrender.com/static/avatars/${localStorage.getItem(
+                      'avatar'
+                    )}`}
                     className='h-12 w-12'
                   ></Avatar>
                 ) : (

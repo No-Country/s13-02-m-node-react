@@ -70,7 +70,7 @@ export default function Home() {
                         ? `${progressStacksById.progress / 10}%`
                         : '0%'
                     }
-                    title={'Tu progreso de hoy'}
+                    title={'Tu progreso'}
                   />
                   <div className='absolute right-0 hidden lg:block'>
                     <HeartCounter lives={2} dataLoaded={dataLoaded} />

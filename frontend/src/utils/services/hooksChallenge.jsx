@@ -58,6 +58,7 @@ export const useQuestionChallenge = () => {
   const handlerResponseChallengePost = (e) => {
     e.preventDefault()
     const data = Object.fromEntries(new FormData(e.currentTarget))
+    // console.log(localStorage.getItem('themeId'))
     challengeResponsePost(
       {
         ...data,

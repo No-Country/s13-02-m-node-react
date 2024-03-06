@@ -80,7 +80,8 @@ const Roadmap = ({ selectedLanguageId, progressStackId }) => {
       quest_number: 10
     }
     progressThemes
-      ? questionsHook.handlerQuestionChallengePost(questionData)
+      ? (localStorage.setItem('themeId', themeId),
+        questionsHook.handlerQuestionChallengePost(questionData))
       : {}
     try {
       if (
